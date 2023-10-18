@@ -2,8 +2,14 @@ import React from "react";
 import Input from "@/app/components/Input";
 import Button from "@/app/components/Button";
 import Link from "next/link";
+import useObjectState from "@/app/hooks/useObjectState";
 
 function Page() {
+  const [formData, setFormData] = useObjectState({
+    username: "",
+    password: "",
+    confirmPassword: "",
+  });
   return (
     <form
       className="w-full sm:w-3/4 sm:ml-auto sm:mr-auto px-6 py-10 rounded-md bg-white dark:bg-primary-dark

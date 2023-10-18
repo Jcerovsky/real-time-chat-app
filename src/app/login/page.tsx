@@ -13,7 +13,7 @@ function Page() {
         Welcome to your favourite chat app!
       </h1>
       <p className="mb-5 opacity-50 text-sm text-center">
-        Please log in or sign up below
+        Please log in with your username and password
       </p>
       <Input placeholder="Username" />
       <Input placeholder="Password " />
