@@ -1,6 +1,7 @@
 "use client";
 
-import React, { createContext, ReactNode, useState } from "react";
+import React, { createContext, ReactNode } from "react";
+import useObjectState from "@/app/hooks/useObjectState";
 
 interface ContextProps {
   theme: "light" | "dark";
@@ -10,7 +11,7 @@ interface ContextProps {
 export const Context = createContext<ContextProps | null>(null);
 
 function ContextProvider({ children }: { children: ReactNode }) {
-  const [state, setState] = useState<ContextProps>({
+  const [state, setState] = useObjectState<ContextProps>({
     theme: "light",
     setState: () => {},
   });
