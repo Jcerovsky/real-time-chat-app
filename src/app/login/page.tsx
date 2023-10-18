@@ -1,9 +1,17 @@
+"use client";
+
 import React from "react";
 import Input from "@/app/components/Input";
 import Button from "@/app/components/Button";
 import Link from "next/link";
+import useObjectState from "@/app/hooks/useObjectState";
 
 function Page() {
+  const [formData, setFormData] = useObjectState({
+    username: "",
+    password: "",
+  });
+
   return (
     <form
       className="w-full sm:w-3/4 sm:ml-auto sm:mr-auto px-6 py-10 rounded-md bg-white dark:bg-primary-dark
@@ -15,8 +23,18 @@ function Page() {
       <p className="mb-5 opacity-50 text-sm text-center">
         Please log in with your username and password
       </p>
-      <Input placeholder="Username" />
-      <Input placeholder="Password " />
+      <Input
+        placeholder="Username"
+        value={formData.username}
+        name="username"
+        setFormData={setFormData}
+      />
+      <Input
+        placeholder="Password "
+        value={formData.password}
+        name="password"
+        setFormData={setFormData}
+      />
       <Button style="mt-5">Log in</Button>
       <div className=" mt-5 flex ">
         <p className="opacity-40">{"Don't have an account?"}</p>
