@@ -19,7 +19,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <ContextProvider>
-        <body className={roboto.className}>{children}</body>
+        <body className={`${roboto.className} bg-zinc-50`}>{children}</body>
       </ContextProvider>
     </html>
   );

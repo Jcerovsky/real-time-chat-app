@@ -1,3 +1,5 @@
+import Input from "@/app/components/Input";
+
 export default function Home() {
-  return <h1>test</h1>;
+  return <Input placeholder={"Username"} />;
 }
