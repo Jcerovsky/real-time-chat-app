@@ -1,11 +1,11 @@
 import React from "react";
+import Input from "@/app/components/Input";
 
 function LoginPage() {
   return (
     <div>
-      <label>
-        <input type="text" placeholder={"USERN"} />
-      </label>
+      <Input placeholder="Username" style="mb-2" />
+      <Input placeholder="Password " />
     </div>
   );
 }
