@@ -5,9 +5,10 @@ import Input from "@/app/components/Input";
 import Button from "@/app/components/Button";
 import Link from "next/link";
 import useObjectState from "@/app/hooks/useObjectState";
+import { FormProps } from "@/app/signup/page";
 
 function Page() {
-  const [formData, setFormData] = useObjectState({
+  const [formData, setFormData] = useObjectState<FormProps>({
     username: "",
     password: "",
   });
