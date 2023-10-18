@@ -3,16 +3,20 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev:frontend": "next dev",
+    "dev:backend": "ts node backend/index.ts",
+    "dev": "concurrently \"npm run dev:frontend\" \"npm run dev:backend\"",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
+    "concurrently": "^8.2.1",
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "mongo": "^0.1.0",
     "next": "13.5.5",
+    "node": "^21.0.0",
     "react": "^18",
     "react-dom": "^18"
   },
@@ -23,6 +27,7 @@
     "autoprefixer": "^10",
     "eslint": "^8",
     "eslint-config-next": "13.5.5",
+    "nodemon": "^3.0.1",
     "postcss": "^8",
     "prettier": "^3.0.3",
     "tailwindcss": "^3",
