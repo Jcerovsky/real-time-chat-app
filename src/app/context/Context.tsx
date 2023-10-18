@@ -10,7 +10,7 @@ interface ContextProps {
 export const Context = createContext<ContextProps | null>(null);
 
 function ContextProvider({ children }: { children: ReactNode }) {
-  const [state, setState] = useState({
+  const [state, setState] = useState<ContextProps>({
     theme: "light",
     setState: () => {},
   });
