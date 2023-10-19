@@ -3,7 +3,9 @@ import { FormProps } from "@/app/signup/page";
 import { NextRequest, NextResponse } from "next/server";
 import { NextApiRequest } from "next";
 
-async function handler(req: NextRequest) {
+async function handler(req: NextApiRequest) {
+  const referer = req.headers.referer;
+  console.log("referer:", referer);
   const client = await connectDb();
 
   if (!client) {
@@ -15,7 +17,7 @@ async function handler(req: NextRequest) {
 
   const db = client.db("chatApp");
   const usersCollection = db.collection("Users");
-  const userData: FormProps = await req.json();
+  const userData: FormProps = req.body;
 
   if (req.method === "GET") {
     try {
@@ -31,7 +33,7 @@ async function handler(req: NextRequest) {
   } else if (req.method === "POST") {
     try {
       await usersCollection.insertOne({
-        name: userData.username,
+        username: userData.username,
         password: userData.password,
       });
       NextResponse.json(

@@ -13,10 +13,23 @@ function Page() {
     password: "",
   });
 
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const res = await fetch("../api/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData),
+    });
+    if (res.ok) {
+      console.log("user logged in");
+    }
+  };
+
   return (
     <form
       className="w-full sm:w-3/4 sm:ml-auto sm:mr-auto px-6 py-10 rounded-md bg-white dark:bg-primary-dark
     max-w-[38rem]"
+      onSubmit={handleSubmit}
     >
       <h1 className="text-2xl text-center">
         Welcome to your favourite chat app!
