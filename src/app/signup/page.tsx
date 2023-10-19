@@ -21,14 +21,14 @@ function Page() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const res = await fetch("../api/chat", {
+    const res = await fetch("../pages/api/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData),
     });
 
-    if (res.ok) {
-      console.log("submitted");
+    if (res.statusText === "resource already exists") {
+      console.log("user already exists");
     }
   };
 
