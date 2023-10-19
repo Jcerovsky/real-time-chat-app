@@ -16,7 +16,6 @@ interface InputProps {
 function Input({ placeholder, value, name, setFormData }: InputProps) {
   const handleInputChange = (dataToBeChanged: string, value: string) => {
     setFormData!({ [dataToBeChanged]: value });
-    console.log(dataToBeChanged, value);
   };
 
   return (

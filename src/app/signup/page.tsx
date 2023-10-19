@@ -29,6 +29,9 @@ function Page() {
 
     if (res.status === 409) {
       console.log("user already exists");
+    } else {
+      setFormData({ username: "", password: "", confirmPassword: "" });
+      console.log("user signed up");
     }
   };
 

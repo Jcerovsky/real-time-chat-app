@@ -3,9 +3,9 @@ import { FormProps } from "@/app/signup/page";
 import { NextRequest, NextResponse } from "next/server";
 import { NextApiRequest } from "next";
 
-async function handler(req: NextApiRequest) {
-  const referer = req.headers.referer;
-  console.log("referer:", referer);
+async function handler(req: NextRequest) {
+  // const referer = req.headers.referer;
+  // console.log("referer:", referer);
   const client = await connectDb();
 
   if (!client) {
@@ -17,7 +17,8 @@ async function handler(req: NextApiRequest) {
 
   const db = client.db("chatApp");
   const usersCollection = db.collection("Users");
-  const userData: FormProps = req.body;
+  const userData: FormProps = await req.json();
+  console.log("userData", userData);
 
   if (req.method === "GET") {
     try {
@@ -25,7 +26,7 @@ async function handler(req: NextApiRequest) {
       console.log("success");
       return NextResponse.json(data);
     } catch (error) {
-      NextResponse.json(
+      return NextResponse.json(
         { error: "An error occurred while getting messages" },
         { status: 500 },
       );
@@ -36,7 +37,7 @@ async function handler(req: NextApiRequest) {
         username: userData.username,
         password: userData.password,
       });
-      NextResponse.json(
+      return NextResponse.json(
         { message: "Created user successfully" },
         { status: 201 },
       );
