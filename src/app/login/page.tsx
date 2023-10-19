@@ -6,6 +6,7 @@ import Button from "@/app/components/Button";
 import Link from "next/link";
 import useObjectState from "@/app/hooks/useObjectState";
 import { FormProps } from "@/app/signup/page";
+import { usePathname } from "next/navigation";
 
 function Page() {
   const [formData, setFormData] = useObjectState<FormProps>({
@@ -13,11 +14,13 @@ function Page() {
     password: "",
   });
 
+  const path = usePathname();
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const res = await fetch("../api/chat", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", "X-Custom-Referer": path },
       body: JSON.stringify(formData),
     });
     if (res.ok) {

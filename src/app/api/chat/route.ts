@@ -1,12 +1,10 @@
 import { connectDb } from "@/app/lib/mongodb";
 import { FormProps } from "@/app/signup/page";
 import { NextRequest, NextResponse } from "next/server";
-import { NextApiRequest } from "next";
 
 async function handler(req: NextRequest) {
-  // const referer = req.headers.referer;
-  // console.log("referer:", referer);
   const client = await connectDb();
+  const incomingUrl = req.headers.get("X-Custom-Referer");
 
   if (!client) {
     return NextResponse.json(
@@ -18,12 +16,10 @@ async function handler(req: NextRequest) {
   const db = client.db("chatApp");
   const usersCollection = db.collection("Users");
   const userData: FormProps = await req.json();
-  console.log("userData", userData);
 
   if (req.method === "GET") {
     try {
       const data = await usersCollection.find({ name: "test" }).toArray();
-      console.log("success");
       return NextResponse.json(data);
     } catch (error) {
       return NextResponse.json(
@@ -33,6 +29,19 @@ async function handler(req: NextRequest) {
     }
   } else if (req.method === "POST") {
     try {
+      if (incomingUrl === "/login") {
+        const existingUser = usersCollection.findOne({
+          username: userData.username,
+        });
+        if (existingUser !== undefined) {
+          return NextResponse.json({ message: "Successfully logged in" });
+        } else {
+          return NextResponse.json(
+            { error: "User does not exist" },
+            { status: 404 },
+          );
+        }
+      }
       await usersCollection.insertOne({
         username: userData.username,
         password: userData.password,
