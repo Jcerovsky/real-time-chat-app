@@ -30,11 +30,18 @@ async function handler(req: NextRequest) {
   } else if (req.method === "POST") {
     try {
       if (incomingUrl === "/login") {
-        const existingUser = usersCollection.findOne({
+        const existingUser = await usersCollection.findOne({
           username: userData.username,
         });
-        if (existingUser !== undefined) {
-          return NextResponse.json({ message: "Successfully logged in" });
+        if (existingUser !== null) {
+          if (userData.password === existingUser.password) {
+            return NextResponse.json({ message: "Successfully logged in" });
+          } else {
+            return NextResponse.json(
+              { error: "Invalid password" },
+              { status: 401 },
+            );
+          }
         } else {
           return NextResponse.json(
             { error: "User does not exist" },
