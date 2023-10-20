@@ -6,7 +6,6 @@ import Button from "@/app/components/Button";
 import Link from "next/link";
 import useObjectState from "@/app/hooks/useObjectState";
 import { usePathname } from "next/navigation";
-import bcrypt from "bcrypt";
 
 export interface FormProps {
   username: string;
