@@ -6,6 +6,7 @@ import Button from "@/app/components/Button";
 import Link from "next/link";
 import useObjectState from "@/app/hooks/useObjectState";
 import { usePathname } from "next/navigation";
+import bcrypt from "bcrypt";
 
 export interface FormProps {
   username: string;
@@ -24,6 +25,10 @@ function Page() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const updatedFormData = {
+      ...formData,
+      username: formData.username.toLowerCase(),
+    };
     const res = await fetch("../api/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json", "X-Custom-Referer": path },
