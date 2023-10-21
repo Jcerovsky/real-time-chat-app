@@ -5,7 +5,7 @@ import Input from "@/app/components/Input";
 import Button from "@/app/components/Button";
 import Link from "next/link";
 import useObjectState from "@/app/hooks/useObjectState";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { encryptPassword } from "@/app/utils/encryptPassword";
 import { Context } from "@/app/context/Context";
 import ErrorMessage from "@/app/components/ErrorMessage";
@@ -25,6 +25,7 @@ function Page() {
   });
 
   const path = usePathname();
+  const router = useRouter();
   const { setState } = useContext(Context)!;
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -53,6 +54,7 @@ function Page() {
       if (res.status === 409) {
         setState({ errorMessage: responseBody.error });
       } else {
+        router.push("/");
         setFormData({ username: "", password: "", confirmPassword: "" });
       }
     } else {
