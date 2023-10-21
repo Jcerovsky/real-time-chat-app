@@ -54,9 +54,10 @@ async function handler(req: NextRequest) {
           );
         }
       }
+      const hashedPassword = await bcrypt.hash(userData.password, 10);
       await usersCollection.insertOne({
         username: userData.username,
-        password: bcrypt.hash(userData.password, 10),
+        password: hashedPassword,
       });
       return NextResponse.json(
         { message: "Created user successfully" },

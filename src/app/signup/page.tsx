@@ -73,9 +73,7 @@ function Page() {
       onSubmit={handleSubmit}
     >
       <h1 className="text-2xl text-center mb-5">Create Account</h1>
-      <div>
-        <ErrorMessage />
-      </div>
+      <ErrorMessage />
       <Input
         placeholder="Username"
         value={formData.username}

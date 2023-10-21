@@ -1,12 +1,14 @@
 "use client";
 
-import React from "react";
+import React, { useContext } from "react";
 import Input from "@/app/components/Input";
 import Button from "@/app/components/Button";
 import Link from "next/link";
 import useObjectState from "@/app/hooks/useObjectState";
 import { FormProps } from "@/app/signup/page";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import ErrorMessage from "@/app/components/ErrorMessage";
+import { Context } from "@/app/context/Context";
 
 function Page() {
   const [formData, setFormData] = useObjectState<FormProps>({
@@ -15,6 +17,9 @@ function Page() {
   });
 
   const path = usePathname();
+  const router = useRouter();
+
+  const { setState } = useContext(Context)!;
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -23,8 +28,12 @@ function Page() {
       headers: { "Content-Type": "application/json", "X-Custom-Referer": path },
       body: JSON.stringify(formData),
     });
-    if (res.ok) {
-      console.log("user logged in");
+    if (!res.ok) {
+      const responseBody = await res.json();
+      setState({ errorMessage: responseBody.error });
+    } else {
+      router.push("/");
+      setState({ errorMessage: "" });
     }
   };
 
@@ -37,6 +46,9 @@ function Page() {
       <h1 className="text-2xl text-center">
         Welcome to your favourite chat app!
       </h1>
+      <div className="my-4">
+        <ErrorMessage />
+      </div>
       <p className="mb-5 opacity-50 text-sm text-center">
         Please log in with your username and password
       </p>
