@@ -2,6 +2,7 @@ import { connectDb } from "@/app/lib/mongodb";
 import bcrypt from "bcryptjs";
 import { FormProps } from "@/app/signup/page";
 import { NextRequest, NextResponse } from "next/server";
+import jwt from "jsonwebtoken";
 
 async function handler(req: NextRequest) {
   const client = await connectDb();
@@ -40,7 +41,15 @@ async function handler(req: NextRequest) {
             existingUser.password,
           );
           if (match) {
-            return NextResponse.json({ message: "Successfully logged in" });
+            const token = jwt.sign(
+              { username: existingUser.username },
+              process.env.JWT_SECRET!,
+              { expiresIn: "1h" },
+            );
+            return NextResponse.json({
+              message: "Successfully logged in",
+              token,
+            });
           } else {
             return NextResponse.json(
               { error: "Invalid password" },
