@@ -1,4 +1,5 @@
 import { connectDb } from "@/app/lib/mongodb";
+import bcrypt from "bcryptjs";
 import { FormProps } from "@/app/signup/page";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -34,7 +35,11 @@ async function handler(req: NextRequest) {
           username: userData.username,
         });
         if (existingUser !== null) {
-          if (userData.password === existingUser.password) {
+          const match = await bcrypt.compare(
+            userData.password,
+            existingUser.password,
+          );
+          if (match) {
             return NextResponse.json({ message: "Successfully logged in" });
           } else {
             return NextResponse.json(
@@ -51,7 +56,7 @@ async function handler(req: NextRequest) {
       }
       await usersCollection.insertOne({
         username: userData.username,
-        password: userData.password,
+        password: bcrypt.hash(userData.password, 10),
       });
       return NextResponse.json(
         { message: "Created user successfully" },

@@ -6,7 +6,6 @@ import Button from "@/app/components/Button";
 import Link from "next/link";
 import useObjectState from "@/app/hooks/useObjectState";
 import { usePathname, useRouter } from "next/navigation";
-import { encryptPassword } from "@/app/utils/encryptPassword";
 import { Context } from "@/app/context/Context";
 import ErrorMessage from "@/app/components/ErrorMessage";
 import { comparePassword } from "@/app/utils/comparePassword";
@@ -38,7 +37,7 @@ function Page() {
       const updatedFormData = {
         ...formData,
         username: formData.username.toLowerCase(),
-        password: await encryptPassword(formData.password),
+        password: formData.password,
       };
 
       const res = await fetch("../api/chat", {
