@@ -1,11 +1,14 @@
 "use client";
 
-import React from "react";
+import React, { useContext } from "react";
 import Input from "@/app/components/Input";
 import Button from "@/app/components/Button";
 import Link from "next/link";
 import useObjectState from "@/app/hooks/useObjectState";
 import { usePathname } from "next/navigation";
+import { encryptPassword } from "@/app/utils/encryptPassword";
+import { Context } from "@/app/context/Context";
+import ErrorMessage from "@/app/components/ErrorMessage";
 
 export interface FormProps {
   username: string;
@@ -21,21 +24,25 @@ function Page() {
   });
 
   const path = usePathname();
+  const { setState } = useContext(Context)!;
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const updatedFormData = {
       ...formData,
       username: formData.username.toLowerCase(),
+      password: await encryptPassword(formData.password),
     };
+
     const res = await fetch("../api/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json", "X-Custom-Referer": path },
-      body: JSON.stringify(formData),
+      body: JSON.stringify(updatedFormData),
     });
 
+    const responseBody = await res.json();
     if (res.status === 409) {
-      console.log("user already exists");
+      setState({ errorMessage: responseBody.error });
     } else {
       setFormData({ username: "", password: "", confirmPassword: "" });
       console.log("user signed up");
@@ -49,6 +56,9 @@ function Page() {
       onSubmit={handleSubmit}
     >
       <h1 className="text-2xl text-center mb-5">Create Account</h1>
+      <div>
+        <ErrorMessage />
+      </div>
       <Input
         placeholder="Username"
         value={formData.username}
