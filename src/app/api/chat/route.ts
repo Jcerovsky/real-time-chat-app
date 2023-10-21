@@ -73,6 +73,7 @@ async function handler(req: NextRequest, res: NextResponse) {
         username: userData.username,
         password: hashedPassword,
       });
+
       return NextResponse.json(
         { message: "Created user successfully" },
         { status: 201 },

@@ -8,6 +8,7 @@ interface ContextProps {
   theme: "light" | "dark";
   errorMessage: string;
   isAuthenticated: boolean;
+  successMessage: string;
   setState: (state: Partial<ContextProps>) => void;
 }
 
@@ -17,6 +18,7 @@ function ContextProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useObjectState<ContextProps>({
     theme: getThemeFromLocalStorage("theme"),
     errorMessage: "",
+    successMessage: "",
     isAuthenticated: false,
     setState: () => {},
   });
@@ -26,6 +28,7 @@ function ContextProvider({ children }: { children: ReactNode }) {
         theme: state.theme,
         setState,
         errorMessage: state.errorMessage,
+        successMessage: state.successMessage,
         isAuthenticated: state.isAuthenticated,
       }}
     >

@@ -9,6 +9,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { Context } from "@/app/context/Context";
 import ErrorMessage from "@/app/components/ErrorMessage";
 import { comparePassword } from "@/app/utils/comparePassword";
+import Success from "@/app/components/Success";
 
 export interface FormProps {
   username: string;
@@ -53,6 +54,12 @@ function Page() {
       if (res.status === 409) {
         setState({ errorMessage: responseBody.error });
       } else {
+        setState({
+          successMessage:
+            "Sign up successful, please log in with your username and password",
+        });
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+        setState({ successMessage: "" });
         router.push("/");
         setFormData({ username: "", password: "", confirmPassword: "" });
       }
@@ -74,6 +81,7 @@ function Page() {
     >
       <h1 className="text-2xl text-center mb-5">Create Account</h1>
       <ErrorMessage />
+      <Success />
       <Input
         placeholder="Username"
         value={formData.username}
