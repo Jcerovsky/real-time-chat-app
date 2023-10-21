@@ -4,7 +4,7 @@ import { FormProps } from "@/app/signup/page";
 import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 
-async function handler(req: NextRequest) {
+async function handler(req: NextRequest, res: NextResponse) {
   const client = await connectDb();
   const incomingUrl = req.headers.get("X-Custom-Referer");
 
@@ -46,9 +46,14 @@ async function handler(req: NextRequest) {
               process.env.JWT_SECRET!,
               { expiresIn: "1h" },
             );
-            return NextResponse.json({
-              message: "Successfully logged in",
-              token,
+            return new Response("Successfully logged in", {
+              status: 200,
+              headers: {
+                "Set-Cookie": `token=${token}; HttpOnly; ${
+                  process.env.NODE_ENV !== "development" ? "Secure" : ""
+                }SameSite=Strict `,
+                "Content-Type": "text/plain",
+              },
             });
           } else {
             return NextResponse.json(

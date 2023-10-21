@@ -33,7 +33,7 @@ function Page() {
       setState({ errorMessage: responseBody.error });
     } else {
       router.push("/");
-      setState({ errorMessage: "" });
+      setState({ errorMessage: "", isAuthenticated: true });
     }
   };
 

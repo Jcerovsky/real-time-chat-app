@@ -7,6 +7,7 @@ import getThemeFromLocalStorage from "@/app/utils/getThemeFromLocalStorage";
 interface ContextProps {
   theme: "light" | "dark";
   errorMessage: string;
+  isAuthenticated: boolean;
   setState: (state: Partial<ContextProps>) => void;
 }
 
@@ -16,11 +17,17 @@ function ContextProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useObjectState<ContextProps>({
     theme: getThemeFromLocalStorage("theme"),
     errorMessage: "",
+    isAuthenticated: false,
     setState: () => {},
   });
   return (
     <Context.Provider
-      value={{ theme: state.theme, setState, errorMessage: state.errorMessage }}
+      value={{
+        theme: state.theme,
+        setState,
+        errorMessage: state.errorMessage,
+        isAuthenticated: state.isAuthenticated,
+      }}
     >
       {children}
     </Context.Provider>
