@@ -29,6 +29,7 @@ function Input({ placeholder, value, name, setFormData }: InputProps) {
           w-full hover:bg-gray-200 dark:hover:bg-neutral-500 duration-300"
           value={value}
           onChange={(e) => handleInputChange(e.target.name, e.target.value)}
+          required={true}
         />
       </label>
     </div>

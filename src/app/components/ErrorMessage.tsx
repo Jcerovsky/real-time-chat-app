@@ -13,10 +13,10 @@ function ErrorMessage() {
       }`}
     >
       <h2 className="text-center text-xl mb-2">Oh no!</h2>
-      <p>{errorMessage}</p>
+      <p className="tracking-widest text-sm opacity-70">{errorMessage}</p>
       <span
         className="absolute top-1 right-2 cursor-pointer hover:bg-neutral-700 hover:text-white rounded-full h-6 w-6
-        text-center duration-300 tracking-widest"
+        text-center duration-300"
         onClick={() => setState({ errorMessage: "" })}
       >
         X

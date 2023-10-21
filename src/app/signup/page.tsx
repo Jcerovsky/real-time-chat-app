@@ -9,6 +9,7 @@ import { usePathname } from "next/navigation";
 import { encryptPassword } from "@/app/utils/encryptPassword";
 import { Context } from "@/app/context/Context";
 import ErrorMessage from "@/app/components/ErrorMessage";
+import { comparePassword } from "@/app/utils/comparePassword";
 
 export interface FormProps {
   username: string;
@@ -28,24 +29,39 @@ function Page() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const updatedFormData = {
-      ...formData,
-      username: formData.username.toLowerCase(),
-      password: await encryptPassword(formData.password),
-    };
+    if (
+      comparePassword(formData.password, formData.confirmPassword!) ===
+      "Success"
+    ) {
+      setState({ errorMessage: "" });
+      const updatedFormData = {
+        ...formData,
+        username: formData.username.toLowerCase(),
+        password: await encryptPassword(formData.password),
+      };
 
-    const res = await fetch("../api/chat", {
-      method: "POST",
-      headers: { "Content-Type": "application/json", "X-Custom-Referer": path },
-      body: JSON.stringify(updatedFormData),
-    });
+      const res = await fetch("../api/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Custom-Referer": path,
+        },
+        body: JSON.stringify(updatedFormData),
+      });
 
-    const responseBody = await res.json();
-    if (res.status === 409) {
-      setState({ errorMessage: responseBody.error });
+      const responseBody = await res.json();
+      if (res.status === 409) {
+        setState({ errorMessage: responseBody.error });
+      } else {
+        setFormData({ username: "", password: "", confirmPassword: "" });
+      }
     } else {
-      setFormData({ username: "", password: "", confirmPassword: "" });
-      console.log("user signed up");
+      setState({
+        errorMessage: comparePassword(
+          formData.password,
+          formData.confirmPassword!,
+        ),
+      });
     }
   };
 
