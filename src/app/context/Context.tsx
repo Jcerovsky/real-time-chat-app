@@ -5,7 +5,7 @@ import useObjectState from "@/app/hooks/useObjectState";
 import getThemeFromLocalStorage from "@/app/utils/getThemeFromLocalStorage";
 
 interface ContextProps {
-  theme: "light" | "dark";
+  theme: string;
   errorMessage: string;
   isAuthenticated: boolean;
   successMessage: string;

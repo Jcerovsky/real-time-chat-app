@@ -63,6 +63,7 @@ function Page() {
         value={formData.password}
         name="password"
         setFormData={setFormData}
+        type={"password"}
       />
       <Button style="mt-5">Log in</Button>
       <div className=" mt-5 flex ">

@@ -76,7 +76,7 @@ function Page() {
   return (
     <form
       className="w-full sm:w-3/4 sm:ml-auto sm:mr-auto px-6 py-10 rounded-md bg-white dark:bg-primary-dark
-    max-w-[38rem] sm:mt-10"
+    max-w-[38rem] sm:mt-10 dark:bg-red-200"
       onSubmit={handleSubmit}
     >
       <h1 className="text-2xl text-center mb-5">Create Account</h1>
@@ -93,12 +93,14 @@ function Page() {
         value={formData.password}
         setFormData={setFormData}
         name="password"
+        type={"password"}
       />
       <Input
         placeholder="Confirm your password"
         name="confirmPassword"
         value={formData.confirmPassword!}
         setFormData={setFormData}
+        type={"password"}
       />
       <Button style="mt-5">Sign up</Button>
       <div className=" mt-5 flex ">

@@ -1,11 +1,22 @@
 "use client";
 
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Context } from "@/app/context/Context";
 
 function Toggle() {
   const { theme, setState } = useContext(Context)!;
-  console.log("theme", theme);
+
+  useEffect(() => {
+    // if (theme === "light") {
+    //   document.documentElement.classList.remove("dark");
+    // } else {
+    //   document.documentElement.classList.add("dark");
+    // }
+
+    if (typeof window !== "undefined") {
+      localStorage.setItem("theme", theme);
+    }
+  }, [theme]);
 
   return (
     <label className="relative inline-flex items-center cursor-pointer">

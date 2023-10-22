@@ -9,8 +9,9 @@ const getThemeFromLocalStorage = (key: string) => {
       localStorage.setItem("theme", preferredTheme);
       return preferredTheme;
     }
-    return JSON.parse(item);
+    return item;
   }
+  return key;
 };
 
 export default getThemeFromLocalStorage;

@@ -4,6 +4,8 @@ interface InputProps {
   placeholder: string;
   value: string;
   name: string;
+  type?: string;
+
   setFormData?: (
     newState: Partial<{
       username: string;
@@ -13,7 +15,13 @@ interface InputProps {
   ) => void;
 }
 
-function Input({ placeholder, value, name, setFormData }: InputProps) {
+function Input({
+  placeholder,
+  value,
+  name,
+  setFormData,
+  type = "text",
+}: InputProps) {
   const handleInputChange = (dataToBeChanged: string, value: string) => {
     setFormData!({ [dataToBeChanged]: value });
   };
@@ -22,7 +30,7 @@ function Input({ placeholder, value, name, setFormData }: InputProps) {
     <div className={`border-b border-gray mb-2`}>
       <label>
         <input
-          type="text"
+          type={type}
           placeholder={placeholder}
           name={name}
           className="py-3 px-4  rounded-t-md placeholder:ml-2 placeholder:font-light dark:bg-primary-dark dark:text-zinc-50
