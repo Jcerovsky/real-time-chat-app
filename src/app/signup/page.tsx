@@ -76,7 +76,7 @@ function Page() {
   return (
     <form
       className="w-full sm:w-3/4 sm:ml-auto sm:mr-auto px-6 py-10 rounded-md bg-white dark:bg-primary-dark
-    max-w-[38rem] sm:mt-10 dark:bg-red-200"
+    max-w-[38rem] sm:mt-10 dark:bg-primary-dark dark:text-zinc-50 shadow-[rgba(0,_0,_0,_0.4)_0px_30px_90px]"
       onSubmit={handleSubmit}
     >
       <h1 className="text-2xl text-center mb-5">Create Account</h1>
@@ -105,7 +105,7 @@ function Page() {
       <Button style="mt-5">Sign up</Button>
       <div className=" mt-5 flex ">
         <p className="opacity-40">{"Already have an account?"}</p>
-        <span className="ml-1 hover:text-blue-800 hover:underline ">
+        <span className="ml-1 hover:text-blue-800 dark:hover:text-blue-300 hover:underline ">
           <Link href={"/login"}>Log in</Link>
         </span>
       </div>
