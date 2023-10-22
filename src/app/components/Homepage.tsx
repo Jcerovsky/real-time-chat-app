@@ -22,7 +22,7 @@ function Homepage() {
   if (isLoading) return <Loading />;
 
   return (
-    <div className="bg-zinc-100 dark:bg-primary-dark">
+    <div className="bg-zinc-100">
       <h1>authenticated!</h1>
     </div>
   );

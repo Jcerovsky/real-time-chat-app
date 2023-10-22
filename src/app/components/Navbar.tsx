@@ -26,7 +26,7 @@ function Navbar() {
         />
       </div>
       {isAuthenticated && (
-        <p className="cursor-pointer " onClick={handleSignOut}>
+        <p className="cursor-pointer ml-auto mr-4" onClick={handleSignOut}>
           Sign out
         </p>
       )}
