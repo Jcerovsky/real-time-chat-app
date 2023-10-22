@@ -16,7 +16,7 @@ function Navbar() {
   };
 
   return (
-    <nav className="px-4 py-6 bg-blue-400 flex justify-between items-center">
+    <nav className="px-4 py-6 bg-blue-400 dark:bg-blue-500 flex justify-between items-center">
       <div className="flex items-center">
         <h2 className="text-xl mr-2">ChitChat</h2>
         <img
