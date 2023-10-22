@@ -24,13 +24,9 @@ function Navbar() {
           className="w-10"
         />
       </div>
-      {isAuthenticated ? (
+      {isAuthenticated && (
         <p className="cursor-pointer " onClick={handleSignOut}>
           Sign out
-        </p>
-      ) : (
-        <p className="cursor-pointer " onClick={() => router.push("/login")}>
-          Log in
         </p>
       )}
     </nav>
