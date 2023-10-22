@@ -3,6 +3,7 @@
 import React, { useContext } from "react";
 import { Context } from "@/app/context/Context";
 import { useRouter } from "next/navigation";
+import Toggle from "@/app/components/Toggle";
 
 function Navbar() {
   const router = useRouter();
@@ -16,8 +17,8 @@ function Navbar() {
 
   return (
     <nav className="px-4 py-6 bg-blue-400 flex justify-between items-center">
-      <div className="flex items-center gap-2">
-        <h2 className="text-xl">ChitChat</h2>
+      <div className="flex items-center">
+        <h2 className="text-xl mr-2">ChitChat</h2>
         <img
           src="/assets/chat-bubble.png"
           alt="chat-bubble-img"
@@ -29,6 +30,7 @@ function Navbar() {
           Sign out
         </p>
       )}
+      <Toggle />
     </nav>
   );
 }
