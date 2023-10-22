@@ -40,7 +40,7 @@ function Page() {
   return (
     <form
       className="w-full sm:w-3/4 sm:ml-auto sm:mr-auto px-6 py-10 rounded-md bg-white dark:bg-primary-dark
-    max-w-[38rem] sm:mt-10"
+    max-w-[38rem] sm:mt-10 dark:text-zinc-50"
       onSubmit={handleSubmit}
     >
       <h1 className="text-2xl text-center">
@@ -68,7 +68,7 @@ function Page() {
       <Button style="mt-5">Log in</Button>
       <div className=" mt-5 flex ">
         <p className="opacity-40">{"Don't have an account?"}</p>
-        <span className="ml-1 hover:text-blue-800 hover:underline ">
+        <span className="ml-1 hover:text-blue-800 dark:hover:text-blue-300 hover:underline ">
           <Link href={"/signup"}>Sign up</Link>
         </span>
       </div>

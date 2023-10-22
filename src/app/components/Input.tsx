@@ -27,7 +27,7 @@ function Input({
   };
 
   return (
-    <div className={`border-b border-gray mb-2`}>
+    <div className="border-b border-gray mb-2">
       <label>
         <input
           type={type}
