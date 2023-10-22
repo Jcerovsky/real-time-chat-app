@@ -22,7 +22,7 @@ function Navbar() {
         <img
           src="/assets/chat-bubble.png"
           alt="chat-bubble-img"
-          className="w-10"
+          className="w-10 hover:rotate-12"
         />
       </div>
       {isAuthenticated && (
