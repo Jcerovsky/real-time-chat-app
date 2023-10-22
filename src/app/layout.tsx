@@ -3,6 +3,7 @@ import { Roboto } from "next/font/google";
 import "./globals.css";
 import React from "react";
 import ContextProvider from "@/app/context/Context";
+import Navbar from "@/app/components/Navbar";
 
 const roboto = Roboto({ weight: ["300", "500", "900"], subsets: ["latin"] });
 
@@ -19,7 +20,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <ContextProvider>
-        <body className={`${roboto.className} bg-zinc-50`}>{children}</body>
+        <body className={`${roboto.className} bg-zinc-50`}>
+          <Navbar />
+          {children}
+        </body>
       </ContextProvider>
     </html>
   );

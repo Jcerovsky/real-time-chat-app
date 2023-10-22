@@ -4,6 +4,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Context } from "@/app/context/Context";
 import { useRouter } from "next/navigation";
 import Loading from "@/app/loading";
+import Navbar from "@/app/components/Navbar";
 
 function Homepage() {
   const router = useRouter();
@@ -21,7 +22,7 @@ function Homepage() {
   if (isLoading) return <Loading />;
 
   return (
-    <div>
+    <div className="bg-zinc-100 dark:bg-primary-dark">
       <h1>authenticated!</h1>
     </div>
   );
