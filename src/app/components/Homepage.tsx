@@ -10,7 +10,7 @@ import { io } from "socket.io-client";
 function Homepage() {
   const socket = io();
   const router = useRouter();
-  let ws;
+  let ws: WebSocket | null = null;
 
   const { isAuthenticated } = useContext(Context)!;
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -23,7 +23,7 @@ function Homepage() {
     ws = new WebSocket("http://localhost:3000/");
 
     ws.addEventListener("open", (event) => {
-      ws.send("Hello server");
+      ws?.send("Hello server");
     });
 
     ws.addEventListener("message", (event) => {
@@ -33,7 +33,7 @@ function Homepage() {
 
   const sendMessage = () => {
     if (ws) {
-      ws.send("Client message");
+      ws?.send("Client message");
     }
   };
 
@@ -48,7 +48,9 @@ function Homepage() {
           w-full hover:bg-gray-200 dark:hover:bg-neutral-500 duration-300"
           placeholder="Type your message..."
         />
-        <Button style="w-16 ml-auto rounded-l-none">Send</Button>
+        <Button style="w-16 ml-auto rounded-l-none" onClick={sendMessage}>
+          Send
+        </Button>
       </div>
     </div>
   );
