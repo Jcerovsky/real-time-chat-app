@@ -1,5 +1,7 @@
 import express from "express";
 import next from "next";
+import { Server } from "socket.io";
+
 
 const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
@@ -17,3 +19,30 @@ app.prepare().then(() => {
     console.log(`> Ready on http://localhost:${PORT}`);
   });
 });
+
+
+const io = new Server({
+  noServer: true,
+  path: "/socket.io",
+  cors: { origin: "*" },
+});
+
+io.on("connection", (socket) => {
+  console.log("client connected");
+
+  socket.on("message", (message) => {
+    console.log(`Received message: ${message}`);
+    socket.send("Hello! You sent:" + message);
+  });
+});
+
+export default (req, res) => {
+  if (req.method === "GET") {
+    io.attach(req.socket.server);
+    res.end();
+    return;
+  }
+
+  return res.status(405).end();
+};
+
