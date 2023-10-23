@@ -1,15 +1,19 @@
-import { WebSocketServer } from "ws";
+import { Server } from "socket.io";
 import { NextApiRequest, NextApiResponse } from "next";
 
-const wss = new WebSocketServer({ noServer: true });
+const io = new Server({
+  noServer: true,
+  path: "/socket.io",
+  cors: { origin: "*" },
+});
 
-wss.on("connection", (ws) => {
-  ws.on("message", (message) => {
-    console.log(`Received message => ${message}`);
-    ws.send(`Hello! You sent -> ${message}`);
+io.on("connection", (socket) => {
+  console.log("client connected");
+
+  socket.on("message", (message) => {
+    console.log(`Received message: ${message}`);
+    socket.send("Hello! You sent:" + message);
   });
-
-  ws.send("Hi there, I am a WebSocket server");
 });
 
 export const config = {
@@ -19,22 +23,12 @@ export const config = {
   },
 };
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
-  if (req.method !== "GET") {
-    return res.status(405).end();
+export default (req: NextApiRequest, res: NextApiResponse) => {
+  if (req.method === "GET") {
+    io.attach(req.socket.server);
+    res.end();
+    return;
   }
 
-  if (
-    !req.headers.upgrade ||
-    req.headers.upgrade.toLowerCase() !== "websocket"
-  ) {
-    return res.status(426).end();
-  }
-
-  return new Promise<void>((resolve, reject) => {
-    wss.handleUpgrade(req, req.socket, Buffer.alloc(0), (ws) => {
-      ws.on("error", (err) => reject(err));
-      resolve();
-    });
-  });
+  return res.status(405).end();
 };

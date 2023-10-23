@@ -8,33 +8,23 @@ import Button from "@/app/components/Button";
 import { io } from "socket.io-client";
 
 function Homepage() {
-  const socket = io();
+  const socket = io("http://localhost:3000");
   const router = useRouter();
-  let ws: WebSocket | null = null;
 
   const { isAuthenticated } = useContext(Context)!;
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [message, setMessage] = useState<string>("");
 
   useEffect(() => {
     if (!isAuthenticated) {
       router.push("/login");
     }
     setIsLoading(false);
-    ws = new WebSocket("http://localhost:3000/");
-
-    ws.addEventListener("open", (event) => {
-      ws?.send("Hello server");
-    });
-
-    ws.addEventListener("message", (event) => {
-      console.log("Received", event.data);
-    });
   }, [isAuthenticated]);
 
   const sendMessage = () => {
-    if (ws) {
-      ws?.send("Client message");
-    }
+    socket.emit("message", message);
+    console.log(message);
   };
 
   if (isLoading) return <Loading />;
@@ -47,6 +37,8 @@ function Homepage() {
           className="py-3 px-4 rounded-md placeholder:ml-2 placeholder:font-light dark:bg-primary-dark dark:text-zinc-50
           w-full hover:bg-gray-200 dark:hover:bg-neutral-500 duration-300"
           placeholder="Type your message..."
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
         />
         <Button style="w-16 ml-auto rounded-l-none" onClick={sendMessage}>
           Send
