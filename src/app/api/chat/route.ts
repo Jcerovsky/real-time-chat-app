@@ -1,27 +1,18 @@
-import { connectDb } from "@/app/lib/mongodb";
+import connectDb from "@/app/lib/mongoose";
 import bcrypt from "bcryptjs";
 import { FormProps } from "@/app/signup/page";
 import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 
 async function handler(req: NextRequest, res: NextResponse) {
-  const client = await connectDb();
+  await connectDb();
   const incomingUrl = req.headers.get("X-Custom-Referer");
 
-  if (!client) {
-    return NextResponse.json(
-      { error: "Could not connect to database" },
-      { status: 500 },
-    );
-  }
-
-  const db = client.db("chatApp");
-  const usersCollection = db.collection("Users");
   const userData: FormProps = await req.json();
 
   if (req.method === "GET") {
     try {
-      const data = await usersCollection.find({ name: "test" }).toArray();
+      const data = await User.find({ name: "test" });
       return NextResponse.json(data);
     } catch (error) {
       return NextResponse.json(

@@ -1,8 +1,15 @@
-import mongoose from "mongoose";
+import mongoose, { mongo } from "mongoose";
 
-mongoose
-  .connect(process.env.MONGODB_URI!)
-  .then(() => {
-    console.log("connected to MongoDB via Mongoose");
-  })
-  .catch((error) => console.log("Connection error:", error));
+const connectDb = async () => {
+  if (mongoose.connections[0].readyState) {
+    return;
+  }
+  try {
+    await mongoose.connect(process.env.MONGODB_URI!);
+    console.log("Connected to database");
+  } catch (error) {
+    console.log("Could not connect to database:", error);
+  }
+};
+
+export default connectDb;
