@@ -26,6 +26,7 @@ function Homepage() {
   const sendMessage = () => {
     socket.emit("message", message);
     console.log(message);
+    awa;
   };
 
   if (isLoading) return <Loading />;
