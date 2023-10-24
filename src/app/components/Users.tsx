@@ -1,4 +1,5 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useContext } from "react";
+import { Context } from "@/app/context/Context";
 
 interface UserProps {
   username: string;
@@ -9,6 +10,7 @@ function Users() {
   const [userList, setUserList] = useState<UserProps[]>([]);
   const [searchedUser, setSearchedUser] = useState<string>("");
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const { currentUser } = useContext(Context)!;
 
   const fetchUsers = async () => {
     const API_URL = process.env.API_URL || "http://localhost:3000";
@@ -38,8 +40,10 @@ function Users() {
     };
   }, []);
 
-  const userToShow = userList.filter((user) =>
-    user.username.toLowerCase().includes(searchedUser.toLowerCase()),
+  const userToShow = userList.filter(
+    (user) =>
+      user.username.toLowerCase().includes(searchedUser.toLowerCase()) &&
+      user.username !== currentUser,
   );
 
   return (
