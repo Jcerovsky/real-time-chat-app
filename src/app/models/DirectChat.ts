@@ -16,4 +16,4 @@ const chatSchema = new mongoose.Schema({
   ],
 });
 
-const DirectChat = mongoose.model("Chat", chatSchema, "Chat");
+const DirectChat = mongoose.model("Chat", chatSchema, "Chats");

@@ -15,4 +15,4 @@ const messageSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now },
 });
 
-const Message = mongoose.model("Message", messageSchema, "Message");
+const Message = mongoose.model("Message", messageSchema, "Messages");
