@@ -3,3 +3,5 @@ const createUserInitials = (username: string) => {
   const firstTwoLetters = username.slice(0, 2);
   return firstTwoLetters.toUpperCase();
 };
+
+export default createUserInitials;

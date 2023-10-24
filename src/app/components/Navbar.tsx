@@ -4,6 +4,7 @@ import React, { useContext } from "react";
 import { Context } from "@/app/context/Context";
 import { useRouter } from "next/navigation";
 import Toggle from "@/app/components/Toggle";
+import UserLogo from "@/app/components/UserLogo";
 
 function Navbar() {
   const router = useRouter();
@@ -26,11 +27,14 @@ function Navbar() {
         />
       </div>
       {isAuthenticated && (
-        <p className="cursor-pointer ml-auto mr-4" onClick={handleSignOut}>
-          Sign out
-        </p>
+        <>
+          <p className="cursor-pointer ml-auto mr-4" onClick={handleSignOut}>
+            Sign out
+          </p>
+        </>
       )}
       <Toggle />
+      <UserLogo />
     </nav>
   );
 }
