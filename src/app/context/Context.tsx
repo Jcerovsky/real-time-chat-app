@@ -9,6 +9,7 @@ interface ContextProps {
   errorMessage: string;
   isAuthenticated: boolean;
   successMessage: string;
+  currentUser: string;
   setState: (state: Partial<ContextProps>) => void;
 }
 
@@ -19,6 +20,7 @@ function ContextProvider({ children }: { children: ReactNode }) {
     theme: getThemeFromLocalStorage("theme"),
     errorMessage: "",
     successMessage: "",
+    currentUser: "",
     isAuthenticated: false,
     setState: () => {},
   });
@@ -30,6 +32,7 @@ function ContextProvider({ children }: { children: ReactNode }) {
         errorMessage: state.errorMessage,
         successMessage: state.successMessage,
         isAuthenticated: state.isAuthenticated,
+        currentUser: state.currentUser,
       }}
     >
       {children}

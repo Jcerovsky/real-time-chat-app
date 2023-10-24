@@ -35,7 +35,11 @@ function Page() {
       setState({ errorMessage: responseBody.error });
     } else {
       router.push("/");
-      setState({ errorMessage: "", isAuthenticated: true });
+      setState({
+        errorMessage: "",
+        isAuthenticated: true,
+        currentUser: formData.username,
+      });
     }
   };
 
