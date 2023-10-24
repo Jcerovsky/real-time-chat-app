@@ -7,8 +7,9 @@ import Loading from "@/app/loading";
 import Button from "@/app/components/Button";
 import { io } from "socket.io-client";
 
+const socket = io("http://localhost:3000", { path: "/socket.io" });
+
 function Homepage() {
-  const socket = io("http://localhost:3000");
   const router = useRouter();
 
   const { isAuthenticated } = useContext(Context)!;
