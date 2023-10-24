@@ -11,7 +11,7 @@ async function handler(req: NextRequest, res: NextResponse) {
 
   if (req.method === "GET") {
     try {
-      const data = await User.find({ username: "jakub" });
+      const data = await User.find();
       return NextResponse.json(data);
     } catch (error) {
       return NextResponse.json(
