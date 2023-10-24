@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import Loading from "@/app/loading";
 import Button from "@/app/components/Button";
 import { io } from "socket.io-client";
+import Users from "@/app/components/Users";
 
 const socket = io("http://localhost:3000", { path: "/socket.io" });
 
@@ -25,8 +26,6 @@ function Homepage() {
 
   const sendMessage = () => {
     socket.emit("message", message);
-    console.log(message);
-    awa;
   };
 
   if (isLoading) return <Loading />;
@@ -46,6 +45,7 @@ function Homepage() {
           Send
         </Button>
       </div>
+      <Users />
     </div>
   );
 }

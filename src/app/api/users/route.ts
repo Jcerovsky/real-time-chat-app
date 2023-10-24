@@ -10,7 +10,6 @@ async function handler(req: NextRequest, res: NextResponse) {
   const incomingUrl = req.headers.get("X-Custom-Referer");
 
   if (req.method === "GET") {
-    console.log("trying to fetch data");
     try {
       const data = await User.find({ username: "jakub" });
       return NextResponse.json(data);
