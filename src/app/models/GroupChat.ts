@@ -11,6 +11,6 @@ const groupChatSchema = new mongoose.Schema({
   // ... any other properties you need ...
 });
 
-const GroupChat = mongoose.model("GroupChat", groupChatSchema, "GroupChats");
+const GroupChat = mongoose.model("GroupChat", groupChatSchema);
 
 export default GroupChat;

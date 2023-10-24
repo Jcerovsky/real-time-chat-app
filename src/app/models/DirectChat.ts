@@ -16,5 +16,6 @@ const chatSchema = new mongoose.Schema({
   ],
 });
 
-const DirectChat = mongoose.model("Chat", chatSchema, "Chats");
-export default DirecChat;
+const DirectChat = mongoose.model("DirectChat", chatSchema);
+
+export default DirectChat;
