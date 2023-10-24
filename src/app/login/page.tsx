@@ -23,7 +23,7 @@ function Page() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const res = await fetch("../api/chat", {
+    const res = await fetch("../api/users", {
       method: "POST",
       headers: { "Content-Type": "application/json", "X-Custom-Referer": path },
       body: JSON.stringify(formData),

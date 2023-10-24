@@ -41,7 +41,7 @@ function Page() {
         password: formData.password,
       };
 
-      const res = await fetch("../api/chat", {
+      const res = await fetch("../api/users", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

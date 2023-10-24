@@ -3,6 +3,7 @@ import bcrypt from "bcryptjs";
 import { FormProps } from "@/app/signup/page";
 import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
+import User from "@/app/models/User";
 
 async function handler(req: NextRequest, res: NextResponse) {
   await connectDb();
@@ -23,7 +24,7 @@ async function handler(req: NextRequest, res: NextResponse) {
   } else if (req.method === "POST") {
     try {
       if (incomingUrl === "/login") {
-        const existingUser = await usersCollection.findOne({
+        const existingUser = await User.findOne({
           username: userData.username,
         });
         if (existingUser !== null) {
@@ -60,7 +61,7 @@ async function handler(req: NextRequest, res: NextResponse) {
         }
       }
       const hashedPassword = await bcrypt.hash(userData.password, 10);
-      await usersCollection.insertOne({
+      await User.insertOne({
         username: userData.username,
         password: hashedPassword,
       });
