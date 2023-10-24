@@ -9,11 +9,10 @@ async function handler(req: NextRequest, res: NextResponse) {
   await connectDb();
   const incomingUrl = req.headers.get("X-Custom-Referer");
 
-  const userData: FormProps = await req.json();
-
   if (req.method === "GET") {
+    console.log("trying to fetch data");
     try {
-      const data = await User.find({ name: "test" });
+      const data = await User.find({ username: "jakub" });
       return NextResponse.json(data);
     } catch (error) {
       return NextResponse.json(
@@ -22,6 +21,7 @@ async function handler(req: NextRequest, res: NextResponse) {
       );
     }
   } else if (req.method === "POST") {
+    const userData: FormProps = await req.json();
     try {
       if (incomingUrl === "/login") {
         const existingUser = await User.findOne({
@@ -61,10 +61,11 @@ async function handler(req: NextRequest, res: NextResponse) {
         }
       }
       const hashedPassword = await bcrypt.hash(userData.password, 10);
-      await User.insertOne({
+      const user = new User({
         username: userData.username,
         password: hashedPassword,
       });
+      await user.save();
 
       return NextResponse.json(
         { message: "Created user successfully" },

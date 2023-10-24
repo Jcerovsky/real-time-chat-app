@@ -23,7 +23,9 @@ function Page() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const res = await fetch("../api/users", {
+    const API_URL = process.env.API_URL || "http://localhost:3000";
+
+    const res = await fetch(`${API_URL}/api/users`, {
       method: "POST",
       headers: { "Content-Type": "application/json", "X-Custom-Referer": path },
       body: JSON.stringify(formData),

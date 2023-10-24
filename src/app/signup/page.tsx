@@ -41,7 +41,9 @@ function Page() {
         password: formData.password,
       };
 
-      const res = await fetch("../api/users", {
+      const API_URL = process.env.API_URL || "http://localhost:3000";
+
+      const res = await fetch(`${API_URL}/api/users`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
