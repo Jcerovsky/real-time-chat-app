@@ -7,6 +7,15 @@ import Loading from "@/app/loading";
 import Button from "@/app/components/Button";
 import { io } from "socket.io-client";
 import Users from "@/app/components/Users";
+import useObjectState from "@/app/hooks/useObjectState";
+
+interface I {
+  isLoading: boolean;
+  sentMessage: string;
+  messages: Array<{ sender: string; content: string }>;
+  isSmallScreen: boolean;
+  currentChatUsers: string[];
+}
 
 const socket = io("http://localhost:3000", { path: "/socket.io" });
 
@@ -14,20 +23,21 @@ function Homepage() {
   const router = useRouter();
 
   const { isAuthenticated } = useContext(Context)!;
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [sentMessage, setSentMessage] = useState<string>("");
-  const [receivedMessage, setReceivedMessage] = useState<string>("");
-  const [isSmallScreen, setIsSmallScreen] = useState<boolean>(
-    window.innerWidth < 400,
-  );
+  const [state, setState] = useObjectState<I>({
+    isLoading: false,
+    sentMessage: "",
+    messages: [],
+    isSmallScreen: false,
+    currentChatUsers: [],
+  });
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       const handleResize = () => {
         if (window.innerWidth < 400) {
-          setIsSmallScreen(true);
+          setState({ isSmallScreen: true });
         } else {
-          setIsSmallScreen(false);
+          setState({ isSmallScreen: false });
         }
       };
 
@@ -45,20 +55,21 @@ function Homepage() {
     if (!isAuthenticated) {
       router.push("/login");
     }
-    setIsLoading(false);
+    setState({ isLoading: false });
   }, [isAuthenticated]);
 
   useEffect(() => {
     socket.on("receive_message", (msg) => {
-      setReceivedMessage(msg);
+      const newMessage = { sender: "them", content: msg };
+      setState({ messages: {...state.messages, ...newMessage} });
     });
   }, [socket]);
 
   const sendMessage = () => {
-    socket.emit("message", sentMessage);
+    socket.emit("message", state.sentMessage);
   };
 
-  if (isLoading) return <Loading />;
+  if (state.isLoading) return <Loading />;
 
   return (
     <div
@@ -67,19 +78,21 @@ function Homepage() {
     >
       <div
         className={`${
-          isSmallScreen ? "w-full" : "w-1/3 max-w-[13rem]"
+          state.isSmallScreen ? "w-full" : "w-1/3 max-w-[13rem]"
         } p-4 flex flex-col`}
       >
         <Users />
       </div>
 
-      {!isSmallScreen && (
+      {!state.isSmallScreen && (
         <div className="w-2/3 h-full p-4 flex flex-col border-l dark:border-gray-600 ">
           <div
             className="flex-1 overflow-y-auto bg-gray-50 p-4 rounded-md dark:bg-gray-700 dark:text-zinc-50
         shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px]"
           >
-            {receivedMessage}
+            {state.messages.map((msg, i) => (
+                <div key={i}>{msg.content}</div>
+            ))}
           </div>
           <div className="flex mt-4">
             <input
@@ -87,13 +100,13 @@ function Homepage() {
               className="py-2 px-4 w-3/4 flex-grow rounded-md placeholder:ml-2 placeholder:font-light bg-gray-100 truncate
             hover:bg-gray-200 duration-300 dark:bg-gray-700 dark:text-zinc-50 shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px]"
               placeholder="Type your message..."
-              value={sentMessage}
-              onChange={(e) => setSentMessage(e.target.value)}
+              value={state.sentMessage}
+              onChange={(e) => setState({sentMessage: e.target.value})}
             />
             <Button
               style="w-1/4 text-xs sm:text-sm text-center ml-2 rounded-lg flex justify-center whitespace-nowrap"
               onClick={sendMessage}
-              isDisabled={!sentMessage}
+              isDisabled={!state.sentMessage}
             >
               Send
             </Button>
