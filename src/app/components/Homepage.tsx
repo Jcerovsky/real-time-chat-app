@@ -18,6 +18,7 @@ export interface UserProps {
 interface Message {
   sender: string;
   content: string;
+  to: string;
 }
 
 interface I {
@@ -87,7 +88,11 @@ function Homepage() {
 
   useEffect(() => {
     socket.on("receive_message", (msg) => {
-      const newMessage = { sender: "them", content: msg };
+      const newMessage = {
+        sender: "them",
+        content: msg,
+        to: state.selectedUser!.username,
+      };
       setState({
         messages: [...(state.messages as Array<Message>), newMessage],
       });
@@ -95,8 +100,14 @@ function Homepage() {
   }, [socket]);
 
   const sendMessage = () => {
-    socket.emit("message", state.sentMessage);
-    const sentMessage = { content: state.sentMessage, sender: "me" };
+    const payload = { content: state.sentMessage, to: state.selectedUser?._id };
+    socket.emit("message", payload);
+
+    const sentMessage = {
+      content: state.sentMessage,
+      sender: "me",
+      to: state.selectedUser!.username,
+    };
     setState({
       messages: [...(state.messages as Array<Message>), sentMessage],
       sentMessage: "",
@@ -128,13 +139,25 @@ function Homepage() {
             className="flex-1 overflow-y-auto bg-gray-50 p-4 rounded-md dark:bg-gray-700 dark:text-zinc-50
         shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px]"
           >
-            <div className="border-b dark:border-gray-600 p-3">
+            <div className="border-b dark:border-gray-600 p-2 flex justify-between">
               {state.selectedUser && (
                 <>
-                  <p>{state.selectedUser.username}</p>
                   <UserLogo user={state.selectedUser.username} />{" "}
+                  <p>{state.selectedUser.username}</p>
                 </>
               )}
+              {state.messages
+                .filter((msg) => msg.to === state.selectedUser?.username)
+                .map((message, i) => (
+                  <div
+                    key={i}
+                    className={`${
+                      message.sender === "me" ? "ml-auto" : "mr-auto"
+                    } max-w-2/3`}
+                  >
+                    <p>{message.content}</p>
+                  </div>
+                ))}
             </div>
             {state.messages.map((msg, i) => (
               <div key={i}>{msg.content}</div>
