@@ -36,7 +36,7 @@ const socket = io("http://localhost:3000", { path: "/socket.io" });
 function Homepage() {
   const router = useRouter();
 
-  const { isAuthenticated } = useContext(Context)!;
+  const { isAuthenticated, currentUser } = useContext(Context)!;
   const [state, setState] = useObjectState<I>({
     isLoading: false,
     sentMessage: "",
@@ -83,6 +83,7 @@ function Homepage() {
     if (!isAuthenticated) {
       router.push("/login");
     }
+    socket.emit("register", currentUserId);
     setState({ isLoading: false });
   }, [isAuthenticated]);
 
@@ -90,14 +91,18 @@ function Homepage() {
     socket.on("receive_message", (msg) => {
       const newMessage = {
         sender: "them",
-        content: msg,
-        to: state.selectedUser!.username,
+        content: msg.content,
+        to: msg.to,
       };
       setState({
         messages: [...(state.messages as Array<Message>), newMessage],
       });
     });
   }, [socket]);
+
+  const currentUserId = state.userList.find(
+    (user) => user.username === currentUser,
+  );
 
   const sendMessage = () => {
     const payload = { content: state.sentMessage, to: state.selectedUser?._id };

@@ -34,7 +34,6 @@ app.prepare().then(() => {
         content: content
       })
       try {
-
       await newMessage.save()
       } catch (err) {
         console.log('Could not save message to database:', err)
@@ -42,7 +41,7 @@ app.prepare().then(() => {
 
       const recipientSocketId = userToSocketMap.get(to)
       if (recipientSocketId) {
-        io.to(recipientSocketId).emit('receive_message', content)
+        io.to(recipientSocketId).emit('receive_message', newMessage)
       }
     });
   });
