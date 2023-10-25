@@ -6,25 +6,12 @@ interface UserProps {
   _id: string;
 }
 
-function Users() {
-  const [userList, setUserList] = useState<UserProps[]>([]);
+function Users({ userList }: { userList: UserProps[] }) {
   const [searchedUser, setSearchedUser] = useState<string>("");
   const dropdownRef = useRef<HTMLDivElement>(null);
   const { currentUser } = useContext(Context)!;
 
-  const fetchUsers = async () => {
-    const API_URL = process.env.API_URL || "http://localhost:3000";
-    const res = await fetch(`${API_URL}/api/users`);
-
-    if (res.ok) {
-      const data = await res.json();
-      setUserList(data);
-    }
-  };
-
   useEffect(() => {
-    fetchUsers();
-
     const handleClickOutside = (event: MouseEvent) => {
       if (
         dropdownRef.current &&

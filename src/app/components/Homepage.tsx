@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { Context } from "@/app/context/Context";
 import { useRouter } from "next/navigation";
 import Loading from "@/app/loading";
@@ -9,12 +9,23 @@ import { io } from "socket.io-client";
 import Users from "@/app/components/Users";
 import useObjectState from "@/app/hooks/useObjectState";
 
+interface UserProps {
+  username: string;
+  _id: string;
+}
+
+interface Message {
+  sender: string;
+  content: string;
+}
+
 interface I {
   isLoading: boolean;
   sentMessage: string;
-  messages: Array<{ sender: string; content: string }>;
+  messages: Array<Message>;
   isSmallScreen: boolean;
   currentChatUsers: string[];
+  userList: UserProps[];
 }
 
 const socket = io("http://localhost:3000", { path: "/socket.io" });
@@ -29,7 +40,22 @@ function Homepage() {
     messages: [],
     isSmallScreen: false,
     currentChatUsers: [],
+    userList: [],
   });
+
+  const fetchUsers = async () => {
+    const API_URL = process.env.API_URL || "http://localhost:3000";
+    const res = await fetch(`${API_URL}/api/users`);
+
+    if (res.ok) {
+      const data = await res.json();
+      setState({ userList: data });
+    }
+  };
+
+  useEffect(() => {
+    fetchUsers();
+  }, []);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -42,9 +68,7 @@ function Homepage() {
       };
 
       handleResize();
-
       window.addEventListener("resize", handleResize);
-
       return () => {
         window.removeEventListener("resize", handleResize);
       };
@@ -61,19 +85,22 @@ function Homepage() {
   useEffect(() => {
     socket.on("receive_message", (msg) => {
       const newMessage = { sender: "them", content: msg };
-      setState({ messages: [{ ...state.messages, ...newMessage }] });
+      setState({
+        messages: [...(state.messages as Array<Message>), newMessage],
+      });
     });
   }, [socket]);
 
   const sendMessage = () => {
     socket.emit("message", state.sentMessage);
     const sentMessage = { content: state.sentMessage, sender: "me" };
-    setState({ messages: [{ ...state.messages, ...sentMessage }] });
+    setState({
+      messages: [...(state.messages as Array<Message>), sentMessage],
+      sentMessage: "",
+    });
   };
 
   if (state.isLoading) return <Loading />;
-
-  console.log("messages", state.messages);
 
   return (
     <div
@@ -85,7 +112,7 @@ function Homepage() {
           state.isSmallScreen ? "w-full" : "w-1/3 max-w-[13rem]"
         } p-4 flex flex-col`}
       >
-        <Users />
+        <Users userList={state.userList} />
       </div>
 
       {!state.isSmallScreen && (
