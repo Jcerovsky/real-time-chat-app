@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { Context } from "@/app/context/Context";
 import createUserInitials from "@/app/utils/createUserInitials";
 
-function UserLogo() {
+function UserLogo({ user }: { user: string }) {
   const { currentUser } = useContext(Context)!;
 
   return (
@@ -11,7 +11,7 @@ function UserLogo() {
         bg-gradient-to-br from-blue-400 to-purple-500 shadow-lg 
         text-white font-semibold ${!currentUser && "hidden"}`}
     >
-      {createUserInitials(currentUser)}
+      {createUserInitials(user)}
     </div>
   );
 }

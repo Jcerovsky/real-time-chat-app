@@ -8,8 +8,9 @@ import Button from "@/app/components/Button";
 import { io } from "socket.io-client";
 import Users from "@/app/components/Users";
 import useObjectState from "@/app/hooks/useObjectState";
+import UserLogo from "@/app/components/UserLogo";
 
-interface UserProps {
+export interface UserProps {
   username: string;
   _id: string;
 }
@@ -25,6 +26,7 @@ interface I {
   messages: Array<Message>;
   isSmallScreen: boolean;
   currentChatUsers: string[];
+  selectedUser: UserProps | null;
   userList: UserProps[];
 }
 
@@ -38,6 +40,7 @@ function Homepage() {
     isLoading: false,
     sentMessage: "",
     messages: [],
+    selectedUser: null,
     isSmallScreen: false,
     currentChatUsers: [],
     userList: [],
@@ -100,6 +103,10 @@ function Homepage() {
     });
   };
 
+  const handleSelectUser = (user: UserProps) => {
+    setState({ selectedUser: user });
+  };
+
   if (state.isLoading) return <Loading />;
 
   return (
@@ -112,7 +119,7 @@ function Homepage() {
           state.isSmallScreen ? "w-full" : "w-1/3 max-w-[13rem]"
         } p-4 flex flex-col`}
       >
-        <Users userList={state.userList} />
+        <Users userList={state.userList} handleSelectUser={handleSelectUser} />
       </div>
 
       {!state.isSmallScreen && (
@@ -121,6 +128,14 @@ function Homepage() {
             className="flex-1 overflow-y-auto bg-gray-50 p-4 rounded-md dark:bg-gray-700 dark:text-zinc-50
         shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px]"
           >
+            <div className="border-b dark:border-gray-600 p-3">
+              {state.selectedUser && (
+                <>
+                  <p>{state.selectedUser.username}</p>
+                  <UserLogo user={state.selectedUser.username} />{" "}
+                </>
+              )}
+            </div>
             {state.messages.map((msg, i) => (
               <div key={i}>{msg.content}</div>
             ))}

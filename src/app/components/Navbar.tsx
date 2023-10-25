@@ -8,7 +8,7 @@ import UserLogo from "@/app/components/UserLogo";
 
 function Navbar() {
   const router = useRouter();
-  const { isAuthenticated, setState } = useContext(Context)!;
+  const { isAuthenticated, setState, currentUser } = useContext(Context)!;
 
   const handleSignOut = async () => {
     await fetch("../api/chat/signout", { method: "POST" });
@@ -37,7 +37,7 @@ function Navbar() {
         </p>
       )}
       <Toggle />
-      <UserLogo />
+      <UserLogo user={currentUser} />
     </nav>
   );
 }

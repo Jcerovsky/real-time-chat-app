@@ -1,12 +1,13 @@
 import React, { useEffect, useState, useRef, useContext } from "react";
 import { Context } from "@/app/context/Context";
+import { UserProps } from "@/app/components/Homepage";
 
-interface UserProps {
-  username: string;
-  _id: string;
+interface I {
+  userList: UserProps[];
+  handleSelectUser: (user: UserProps) => void;
 }
 
-function Users({ userList }: { userList: UserProps[] }) {
+function Users({ userList, handleSelectUser }: I) {
   const [searchedUser, setSearchedUser] = useState<string>("");
   const dropdownRef = useRef<HTMLDivElement>(null);
   const { currentUser } = useContext(Context)!;
@@ -51,6 +52,7 @@ function Users({ userList }: { userList: UserProps[] }) {
           {userToShow.map((user, i) => (
             <div
               key={user.username}
+              onClick={() => handleSelectUser(user)}
               className={`
                 p-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 ${
                   i !== 0 && "border-t"
