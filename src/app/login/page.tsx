@@ -23,7 +23,6 @@ function Page() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsSubmitted(true);
     const API_URL = process.env.API_URL || "http://localhost:3000";
 
     const res = await fetch(`${API_URL}/api/users`, {
@@ -35,6 +34,7 @@ function Page() {
       const responseBody = await res.json();
       setState({ errorMessage: responseBody.error });
     } else {
+      setIsSubmitted(true);
       router.push("/");
       setState({
         errorMessage: "",

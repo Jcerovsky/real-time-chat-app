@@ -47,24 +47,30 @@ function Users() {
   );
 
   return (
-    <div>
-      <div ref={dropdownRef}>
-        <input
-          type="text"
-          placeholder="Search for a user..."
-          value={searchedUser}
-          onChange={(e) => setSearchedUser(e.target.value)}
-        />
-        {searchedUser && userToShow.length > 0 && (
-          <div className="border border-black max-h-[40] overflow-y-auto">
-            {userToShow.map((user) => (
-              <div key={user.username} className="p-3 cursor-pointer">
-                {user.username}
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
+    <div ref={dropdownRef} className="relative">
+      <input
+        type="text"
+        className="py-2 px-4 mb-4 bg-gray-100 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-indigo-600
+        dark:bg-gray-700 dark:text-zinc-50 shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px]"
+        placeholder="Search..."
+        value={searchedUser}
+        onChange={(e) => setSearchedUser(e.target.value)}
+      />
+      {searchedUser && userToShow.length > 0 && (
+        <div
+          className="absolute left-0 w-full z-10 mt-1 bg-white dark:bg-gray-700 border dark:border-gray-800
+        dark:text-zinc-50 rounded-md shadow-lg max-h-40 overflow-y-auto shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] "
+        >
+          {userToShow.map((user) => (
+            <div
+              key={user.username}
+              className="p-3 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600"
+            >
+              {user.username}
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
