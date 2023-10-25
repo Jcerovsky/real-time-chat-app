@@ -20,7 +20,7 @@ app.prepare().then(() => {
 
     socket.on("message", (message) => {
       console.log('broadcasted:', message)
-      socket.broadcast.emit('receive_message', message)
+      socket.emit('receive_message', message)
     });
   });
 

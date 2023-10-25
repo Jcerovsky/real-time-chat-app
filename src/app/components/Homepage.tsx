@@ -61,15 +61,19 @@ function Homepage() {
   useEffect(() => {
     socket.on("receive_message", (msg) => {
       const newMessage = { sender: "them", content: msg };
-      setState({ messages: {...state.messages, ...newMessage} });
+      setState({ messages: [{ ...state.messages, ...newMessage }] });
     });
   }, [socket]);
 
   const sendMessage = () => {
     socket.emit("message", state.sentMessage);
+    const sentMessage = { content: state.sentMessage, sender: "me" };
+    setState({ messages: [{ ...state.messages, ...sentMessage }] });
   };
 
   if (state.isLoading) return <Loading />;
+
+  console.log("messages", state.messages);
 
   return (
     <div
@@ -91,7 +95,7 @@ function Homepage() {
         shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px]"
           >
             {state.messages.map((msg, i) => (
-                <div key={i}>{msg.content}</div>
+              <div key={i}>{msg.content}</div>
             ))}
           </div>
           <div className="flex mt-4">
@@ -101,7 +105,7 @@ function Homepage() {
             hover:bg-gray-200 duration-300 dark:bg-gray-700 dark:text-zinc-50 shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px]"
               placeholder="Type your message..."
               value={state.sentMessage}
-              onChange={(e) => setState({sentMessage: e.target.value})}
+              onChange={(e) => setState({ sentMessage: e.target.value })}
             />
             <Button
               style="w-1/4 text-xs sm:text-sm text-center ml-2 rounded-lg flex justify-center whitespace-nowrap"
