@@ -15,7 +15,8 @@ function Homepage() {
 
   const { isAuthenticated } = useContext(Context)!;
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [message, setMessage] = useState<string>("");
+  const [sentMessage, setSentMessage] = useState<string>("");
+  const [receivedMessage, setReceivedMessage] = useState<string>("");
   const [isSmallScreen, setIsSmallScreen] = useState<boolean>(
     window.innerWidth < 400,
   );
@@ -47,8 +48,14 @@ function Homepage() {
     setIsLoading(false);
   }, [isAuthenticated]);
 
+  useEffect(() => {
+    socket.on("receive_message", (msg) => {
+      setReceivedMessage(msg);
+    });
+  }, [socket]);
+
   const sendMessage = () => {
-    socket.emit("message", message);
+    socket.emit("message", sentMessage);
   };
 
   if (isLoading) return <Loading />;
@@ -71,20 +78,22 @@ function Homepage() {
           <div
             className="flex-1 overflow-y-auto bg-gray-50 p-4 rounded-md dark:bg-gray-700 dark:text-zinc-50
         shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px]"
-          ></div>
+          >
+            {receivedMessage}
+          </div>
           <div className="flex mt-4">
             <input
               type="text"
               className="py-2 px-4 w-3/4 flex-grow rounded-md placeholder:ml-2 placeholder:font-light bg-gray-100 truncate
             hover:bg-gray-200 duration-300 dark:bg-gray-700 dark:text-zinc-50 shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px]"
               placeholder="Type your message..."
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
+              value={sentMessage}
+              onChange={(e) => setSentMessage(e.target.value)}
             />
             <Button
               style="w-1/4 text-xs sm:text-sm text-center ml-2 rounded-lg flex justify-center whitespace-nowrap"
               onClick={sendMessage}
-              isDisabled={!message}
+              isDisabled={!sentMessage}
             >
               Send
             </Button>

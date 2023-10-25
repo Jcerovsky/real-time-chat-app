@@ -17,11 +17,10 @@ app.prepare().then(() => {
   });
 
   io.on("connection", (socket) => {
-    console.log("client connected");
 
     socket.on("message", (message) => {
-      console.log(`Received message: ${message}`);
-      socket.send("Hello! You sent:" + message);
+      console.log('broadcasted:', message)
+      socket.broadcast.emit('receive_message', message)
     });
   });
 
