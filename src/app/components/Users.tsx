@@ -51,7 +51,7 @@ function Users() {
       <input
         type="text"
         className="py-2 px-4 mb-4 bg-gray-100 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-indigo-600
-        dark:bg-gray-700 dark:text-zinc-50 shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px]"
+        dark:bg-gray-700 dark:text-zinc-50 shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] w-full"
         placeholder="Search..."
         value={searchedUser}
         onChange={(e) => setSearchedUser(e.target.value)}
@@ -61,10 +61,14 @@ function Users() {
           className="absolute left-0 w-full z-10 mt-12 sm:mt-0 bg-white dark:bg-gray-700 border dark:border-gray-800
         dark:text-zinc-50 rounded-md shadow-lg max-h-40 overflow-y-auto shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] "
         >
-          {userToShow.map((user) => (
+          {userToShow.map((user, i) => (
             <div
               key={user.username}
-              className="p-3 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600"
+              className={`
+                p-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 ${
+                  i !== 0 && "border-t"
+                } dark:border-gray-600 text-sm
+              `}
             >
               {user.username}
             </div>
