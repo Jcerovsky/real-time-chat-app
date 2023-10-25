@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import Input from "@/app/components/Input";
 import Button from "@/app/components/Button";
 import Link from "next/link";
@@ -10,6 +10,7 @@ import { Context } from "@/app/context/Context";
 import ErrorMessage from "@/app/components/ErrorMessage";
 import { comparePassword } from "@/app/utils/comparePassword";
 import Success from "@/app/components/Success";
+import { set } from "mongoose";
 
 export interface FormProps {
   username: string;
@@ -27,9 +28,11 @@ function Page() {
   const path = usePathname();
   const router = useRouter();
   const { setState } = useContext(Context)!;
+  const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsSubmitted(true);
     if (
       comparePassword(formData.password, formData.confirmPassword!) ===
       "Success"
@@ -104,7 +107,9 @@ function Page() {
         setFormData={setFormData}
         type={"password"}
       />
-      <Button style="mt-5">Sign up</Button>
+      <Button style="mt-5" isDisabled={isSubmitted}>
+        Sign up
+      </Button>
       <div className=" mt-5 flex ">
         <p className="opacity-40">{"Already have an account?"}</p>
         <span className="ml-1 hover:text-blue-800 dark:hover:text-blue-300 hover:underline ">

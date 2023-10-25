@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import Input from "@/app/components/Input";
 import Button from "@/app/components/Button";
 import Link from "next/link";
@@ -9,12 +9,12 @@ import { FormProps } from "@/app/signup/page";
 import { usePathname, useRouter } from "next/navigation";
 import ErrorMessage from "@/app/components/ErrorMessage";
 import { Context } from "@/app/context/Context";
-
 function Page() {
   const [formData, setFormData] = useObjectState<FormProps>({
     username: "",
     password: "",
   });
+  const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
 
   const path = usePathname();
   const router = useRouter();
@@ -23,6 +23,7 @@ function Page() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsSubmitted(true);
     const API_URL = process.env.API_URL || "http://localhost:3000";
 
     const res = await fetch(`${API_URL}/api/users`, {
@@ -71,7 +72,9 @@ function Page() {
         setFormData={setFormData}
         type={"password"}
       />
-      <Button style="mt-5">Log in</Button>
+      <Button style="mt-5" isDisabled={isSubmitted}>
+        Log in
+      </Button>
       <div className=" mt-5 flex ">
         <p className="opacity-40">{"Don't have an account?"}</p>
         <span className="ml-1 hover:text-blue-800 dark:hover:text-blue-300 hover:underline ">
