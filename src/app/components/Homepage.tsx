@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Context } from "@/app/context/Context";
 import { useRouter } from "next/navigation";
 import Loading from "@/app/loading";
@@ -24,7 +24,6 @@ interface Message {
 interface I {
   isLoading: boolean;
   sentMessage: string;
-  messages: Array<Message>;
   isSmallScreen: boolean;
   currentChatUsers: string[];
   selectedUser: UserProps | null;
@@ -40,12 +39,13 @@ function Homepage() {
   const [state, setState] = useObjectState<I>({
     isLoading: false,
     sentMessage: "",
-    messages: [],
     selectedUser: null,
     isSmallScreen: false,
     currentChatUsers: [],
     userList: [],
   });
+
+  const [messages, setMessages] = useState<Message[]>([]);
 
   const fetchUsers = async () => {
     const API_URL = process.env.API_URL || "http://localhost:3000";
@@ -94,9 +94,7 @@ function Homepage() {
         content: msg.content,
         to: msg.to,
       };
-      setState({
-        messages: [...(state.messages as Array<Message>), newMessage],
-      });
+      setMessages((prevState) => [...prevState, newMessage]);
     });
   }, [socket]);
 
@@ -113,10 +111,8 @@ function Homepage() {
       sender: "me",
       to: state.selectedUser!.username,
     };
-    setState({
-      messages: [...(state.messages as Array<Message>), sentMessage],
-      sentMessage: "",
-    });
+    setState({ sentMessage: "" });
+    setMessages((prevState) => [...prevState, sentMessage]);
   };
 
   const handleSelectUser = (user: UserProps) => {
@@ -144,29 +140,32 @@ function Homepage() {
             className="flex-1 overflow-y-auto bg-gray-50 p-4 rounded-md dark:bg-gray-700 dark:text-zinc-50
         shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px]"
           >
-            <div className="border-b dark:border-gray-600 p-2 flex justify-between">
+            <div>
               {state.selectedUser && (
-                <>
+                <div className="border-b dark:border-gray-600 p-2 flex justify-between mb-2">
                   <UserLogo user={state.selectedUser.username} />{" "}
                   <p>{state.selectedUser.username}</p>
-                </>
+                </div>
               )}
-              {state.messages
+              {messages
                 .filter((msg) => msg.to === state.selectedUser?.username)
                 .map((message, i) => (
                   <div
                     key={i}
-                    className={`${
-                      message.sender === "me" ? "ml-auto" : "mr-auto"
-                    } max-w-2/3`}
+                    className={`flex mb-2 font-normal ${
+                      message.sender === "me" ? "justify-end" : "justify-start"
+                    }`}
                   >
-                    <p>{message.content}</p>
+                    <p
+                      className={`rounded-md py-1 px-2 ${
+                        message.sender === "me" ? "bg-blue-400" : "bg-gray-300"
+                      }`}
+                    >
+                      {message.content}
+                    </p>
                   </div>
                 ))}
             </div>
-            {state.messages.map((msg, i) => (
-              <div key={i}>{msg.content}</div>
-            ))}
           </div>
           <div className="flex mt-4">
             <input
