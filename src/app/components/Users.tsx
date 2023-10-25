@@ -47,7 +47,7 @@ function Users() {
   );
 
   return (
-    <div ref={dropdownRef} className="relative">
+    <div ref={dropdownRef} className="relative max-sm:flex">
       <input
         type="text"
         className="py-2 px-4 mb-4 bg-gray-100 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-indigo-600
@@ -58,7 +58,7 @@ function Users() {
       />
       {searchedUser && userToShow.length > 0 && (
         <div
-          className="absolute left-0 w-full z-10 mt-1 bg-white dark:bg-gray-700 border dark:border-gray-800
+          className="absolute left-0 w-full z-10 mt-12 sm:mt-0 bg-white dark:bg-gray-700 border dark:border-gray-800
         dark:text-zinc-50 rounded-md shadow-lg max-h-40 overflow-y-auto shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] "
         >
           {userToShow.map((user) => (

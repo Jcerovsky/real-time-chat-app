@@ -32,14 +32,14 @@ function Homepage() {
 
   return (
     <div
-      className="bg-white w-3/4 h-[30rem] overflow-y-scroll mt-5 ml-auto mr-auto shadow-md rounded-md flex dark:bg-gray-800
+      className="bg-white w-full h-[30rem] overflow-y-scroll mt-5 shadow-md rounded-md flex dark:bg-gray-800
     shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px]"
     >
       <div className="w-1/3 p-4 flex flex-col">
         <Users />
       </div>
 
-      <div className="w-2/3 h-full p-4 flex flex-col">
+      <div className="w-2/3 h-full p-4 flex flex-col border-l dark:border-gray-600 ">
         <div className="flex-1 overflow-y-auto bg-gray-50 p-4 rounded-md"></div>
         <div className="flex mt-4">
           <input
