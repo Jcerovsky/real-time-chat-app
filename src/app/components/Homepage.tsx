@@ -152,7 +152,7 @@ function Homepage() {
                 .map((message, i) => (
                   <div
                     key={i}
-                    className={`flex mb-2 font-normal ${
+                    className={`flex mb-2 font-medium ${
                       message.sender === "me" ? "justify-end" : "justify-start"
                     }`}
                   >
