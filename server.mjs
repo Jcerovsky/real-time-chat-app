@@ -2,8 +2,6 @@ import express from "express";
 import next from "next";
 import { createServer } from "http";
 import { Server } from "socket.io";
-import Message from "./src/app/models/Message";
-import connectDb from "./src/app/lib/mongoose";
 
 const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });

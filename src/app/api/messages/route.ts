@@ -1,22 +1,41 @@
 import connectDb from "@/app/lib/mongoose";
 import Message from "@/app/models/Message";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+import { NextApiResponse } from "next";
 
-const handler = async () => {
+interface IMessage {
+  sender: string;
+  content: string;
+  to: string;
+}
+
+const handler = async (req: NextRequest, res: NextApiResponse) => {
   try {
     await connectDb();
   } catch (err) {
-    return NextResponse.json({ status: 500 });
+    return NextResponse.json(
+      { error: "Could not connect to database" },
+      { status: 500 },
+    );
   }
 
-  const newMessage = new Message({
-    fromUserID: from,
-    toUserID: to,
-    content: content,
-  });
-  try {
-    await newMessage.save();
-  } catch (err) {
-    console.log("Could not save message to database:", err);
+  if (req.method === "POST") {
+    try {
+      const data: IMessage = await req.json();
+
+      const newMessage = new Message({
+        fromUserID: data.sender,
+        toUserID: data.to,
+        content: data.content,
+      });
+      await newMessage.save();
+    } catch (err) {
+      return NextResponse.json(
+        { error: "Could not save message to database:", err },
+        { status: 500 },
+      );
+    }
   }
 };
+
+export { handler as POST };

@@ -47,6 +47,23 @@ function Homepage() {
 
   const [messages, setMessages] = useState<Message[]>([]);
 
+  const saveMessageToDatabase = async (messageData: Message) => {
+    const API_URL = process.env.API_URL || "http://localhost:3000";
+    const res = await fetch(`${API_URL}/api/messages`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(messageData),
+    });
+    if (res.ok) {
+      const data = await res.json();
+      return data;
+    } else {
+      throw new Error("Could not save to database");
+    }
+  };
+
   const fetchUsers = async () => {
     const API_URL = process.env.API_URL || "http://localhost:3000";
     const res = await fetch(`${API_URL}/api/users`);
@@ -102,9 +119,20 @@ function Homepage() {
     (user) => user.username === currentUser,
   );
 
-  const sendMessage = () => {
-    const payload = { content: state.sentMessage, to: state.selectedUser?._id };
-    socket.emit("message", payload);
+  const sendMessage = async () => {
+    if (currentUserId && state.selectedUser?._id) {
+      const payload = {
+        content: state.sentMessage,
+        to: state.selectedUser._id,
+        sender: currentUserId._id,
+      };
+      try {
+        await saveMessageToDatabase(payload);
+      } catch (err) {
+        console.log("Could not save to database:", err);
+      }
+      socket.emit("message", payload);
+    }
 
     const sentMessage = {
       content: state.sentMessage,
