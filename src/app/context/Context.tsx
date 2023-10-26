@@ -24,6 +24,7 @@ function ContextProvider({ children }: { children: ReactNode }) {
     isAuthenticated: false,
     setState: () => {},
   });
+
   return (
     <Context.Provider
       value={{

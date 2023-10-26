@@ -37,6 +37,17 @@ const handler = async (req: NextRequest, res: NextApiResponse) => {
       );
     }
   }
+  if (req.method === "GET") {
+    try {
+      const messageData = await Message.find();
+      return NextResponse.json(messageData);
+    } catch (err) {
+      return NextResponse.json(
+        { error: "Could not fetch messages" },
+        { status: 500 },
+      );
+    }
+  }
 };
 
-export { handler as POST };
+export { handler as POST, handler as GET };

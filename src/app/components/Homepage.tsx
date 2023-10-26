@@ -57,9 +57,7 @@ function Homepage() {
       body: JSON.stringify(messageData),
     });
     if (res.ok) {
-      const data = await res.json();
-      console.log("worked");
-      return data;
+      return await res.json();
     } else {
       throw new Error("Could not save to database");
     }
@@ -71,10 +69,28 @@ function Homepage() {
 
     if (res.ok) {
       const data = await res.json();
-      console.log("worked");
       setState({ userList: data });
     }
   };
+
+  const fetchMessages = async () => {
+    const API_URL = process.env.API_URL || "http://localhost:3000";
+    const res = await fetch(`${API_URL}/api/messages`);
+
+    if (res.ok) {
+      const data = await res.json();
+      const modifiedMessageResponse = data.map((msg: any) => {
+        return {
+          sender: msg.fromUserID,
+          content: msg.content,
+          to: msg.toUserId,
+        };
+      });
+      setMessages(modifiedMessageResponse);
+    }
+  };
+
+  console.log("messages", messages);
 
   useEffect(() => {
     fetchUsers();
@@ -147,6 +163,7 @@ function Homepage() {
 
   const handleSelectUser = (user: UserProps) => {
     setState({ selectedUser: user });
+    fetchMessages();
   };
 
   if (state.isLoading) return <Loading />;
