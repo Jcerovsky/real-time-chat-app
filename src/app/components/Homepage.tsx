@@ -58,6 +58,7 @@ function Homepage() {
     });
     if (res.ok) {
       const data = await res.json();
+      console.log("worked");
       return data;
     } else {
       throw new Error("Could not save to database");
@@ -70,6 +71,7 @@ function Homepage() {
 
     if (res.ok) {
       const data = await res.json();
+      console.log("worked");
       setState({ userList: data });
     }
   };

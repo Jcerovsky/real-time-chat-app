@@ -29,6 +29,7 @@ const handler = async (req: NextRequest, res: NextApiResponse) => {
         content: data.content,
       });
       await newMessage.save();
+      return NextResponse.json(data);
     } catch (err) {
       return NextResponse.json(
         { error: "Could not save message to database:", err },
