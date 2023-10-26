@@ -79,14 +79,8 @@ function Homepage() {
 
     if (res.ok) {
       const data = await res.json();
-      const modifiedMessageResponse = data.map((msg: any) => {
-        return {
-          sender: msg.fromUserID,
-          content: msg.content,
-          to: msg.toUserId,
-        };
-      });
-      setMessages(modifiedMessageResponse);
+      setMessages(data);
+      console.log("data", data);
     }
   };
 
@@ -94,6 +88,7 @@ function Homepage() {
 
   useEffect(() => {
     fetchUsers();
+    fetchMessages();
   }, []);
 
   useEffect(() => {
@@ -138,11 +133,11 @@ function Homepage() {
   );
 
   const sendMessage = async () => {
-    if (currentUserId && state.selectedUser?._id) {
+    if (currentUserId && state.selectedUser?.username) {
       const payload = {
         content: state.sentMessage,
-        to: state.selectedUser._id,
-        sender: currentUserId._id,
+        to: state.selectedUser.username,
+        sender: currentUserId.username,
       };
       try {
         await saveMessageToDatabase(payload);

@@ -24,8 +24,8 @@ const handler = async (req: NextRequest, res: NextApiResponse) => {
       const data: IMessage = await req.json();
 
       const newMessage = new Message({
-        fromUserID: data.sender,
-        toUserID: data.to,
+        sender: data.sender,
+        to: data.to,
         content: data.content,
       });
       await newMessage.save();
