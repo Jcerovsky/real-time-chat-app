@@ -47,7 +47,7 @@ function Page() {
   return (
     <form
       className="w-full sm:w-3/4 sm:ml-auto sm:mr-auto px-6 py-10 rounded-md bg-white dark:bg-primary-dark
-    max-w-[38rem] sm:mt-10 dark:text-zinc-50 shadow-[rgba(0,_0,_0,_0.4)_0px_30px_90px]"
+    max-w-[38rem] sm:mt-10 dark:text-zinc-50 shadow-large"
       onSubmit={handleSubmit}
     >
       <h1 className="text-2xl text-center">
