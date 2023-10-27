@@ -22,13 +22,16 @@ app.prepare().then(() => {
 
     socket.on('register', (userId) => {
       userToSocketMap.set(userId, socket.id)
+      console.log('user ID from register', userId)
     })
 
     socket.on("message", async (message) => {
-
+      console.log('message,', message)
       const recipientSocketId = userToSocketMap.get(message.to)
       if (recipientSocketId) {
         io.to(recipientSocketId).emit('receive_message', message)
+        console.log('emitted,', message)
+        console.log('recipientSocketID', recipientSocketId)
       }
     });
   });

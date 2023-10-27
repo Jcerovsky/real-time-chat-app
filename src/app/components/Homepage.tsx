@@ -47,6 +47,10 @@ function Homepage() {
 
   const [messages, setMessages] = useState<Message[]>([]);
 
+  const currentUserId = state.userList.find(
+    (user) => user.username === currentUser,
+  );
+
   const saveMessageToDatabase = async (messageData: Message) => {
     const API_URL = process.env.API_URL || "http://localhost:3000";
     const res = await fetch(`${API_URL}/api/messages`, {
@@ -110,14 +114,14 @@ function Homepage() {
     if (!isAuthenticated) {
       router.push("/login");
     }
-    socket.emit("register", currentUserId);
+    socket.emit("register", currentUserId?.username);
     setState({ isLoading: false });
-  }, [isAuthenticated]);
+  }, [isAuthenticated, currentUserId]);
 
   useEffect(() => {
     socket.on("receive_message", (msg) => {
       const newMessage = {
-        sender: currentUserId!.username,
+        sender: msg.sender,
         content: msg.content,
         to: msg.to,
       };
@@ -126,10 +130,6 @@ function Homepage() {
       setMessages((prevState) => [...prevState, newMessage]);
     });
   }, [socket]);
-
-  const currentUserId = state.userList.find(
-    (user) => user.username === currentUser,
-  );
 
   const sendMessage = async () => {
     if (currentUserId && state.selectedUser?.username) {
@@ -140,7 +140,6 @@ function Homepage() {
       };
       try {
         await saveMessageToDatabase(payload);
-        console.log("payload", payload);
 
         setState({ sentMessage: "" });
         setMessages((prevState) => [...prevState, payload]);
@@ -151,8 +150,6 @@ function Homepage() {
       }
     }
   };
-
-  console.log("messages", messages);
 
   const handleSelectUser = (user: UserProps) => {
     setState({ selectedUser: user });
@@ -188,8 +185,13 @@ function Homepage() {
                 </div>
               )}
               {messages
-                .filter((msg) => msg.to === state.selectedUser?.username)
-                .filter((msg) => msg.sender === currentUserId?.username)
+                .filter(
+                  (msg) =>
+                    (msg.to === state.selectedUser?.username &&
+                      msg.sender === currentUserId?.username) ||
+                    (msg.sender === state.selectedUser?.username &&
+                      msg.to === currentUserId?.username),
+                )
                 .map((message, i) => (
                   <div
                     key={i}
