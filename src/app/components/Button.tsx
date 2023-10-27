@@ -5,9 +5,10 @@ interface ButtonProps {
   style?: string;
   isDisabled: boolean;
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  text?: string;
 }
 
-function Button({ children, style, onClick, isDisabled }: ButtonProps) {
+function Button({ children, style, onClick, isDisabled, text }: ButtonProps) {
   return (
     <button
       className={`py-3 px-4  rounded-md placeholder:ml-2 font-medium bg-[#1F485B] bg-primary-dark dark:text-zinc-50
@@ -15,7 +16,11 @@ function Button({ children, style, onClick, isDisabled }: ButtonProps) {
       onClick={onClick}
       disabled={isDisabled}
     >
-      {isDisabled ? "Loading..." : children}
+      {isDisabled && !text
+        ? "Loading..."
+        : isDisabled && text
+        ? text
+        : children}
     </button>
   );
 }

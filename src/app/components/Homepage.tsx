@@ -80,11 +80,8 @@ function Homepage() {
     if (res.ok) {
       const data = await res.json();
       setMessages(data);
-      console.log("data", data);
     }
   };
-
-  console.log("messages", messages);
 
   useEffect(() => {
     fetchUsers();
@@ -120,10 +117,12 @@ function Homepage() {
   useEffect(() => {
     socket.on("receive_message", (msg) => {
       const newMessage = {
-        sender: "them",
+        sender: currentUserId!.username,
         content: msg.content,
         to: msg.to,
       };
+      console.log("received msg", newMessage);
+
       setMessages((prevState) => [...prevState, newMessage]);
     });
   }, [socket]);
@@ -141,20 +140,19 @@ function Homepage() {
       };
       try {
         await saveMessageToDatabase(payload);
+        console.log("payload", payload);
+
+        setState({ sentMessage: "" });
+        setMessages((prevState) => [...prevState, payload]);
+
+        socket.emit("message", payload);
       } catch (err) {
         console.log("Could not save to database:", err);
       }
-      socket.emit("message", payload);
     }
-
-    const sentMessage = {
-      content: state.sentMessage,
-      sender: "me",
-      to: state.selectedUser!.username,
-    };
-    setState({ sentMessage: "" });
-    setMessages((prevState) => [...prevState, sentMessage]);
   };
+
+  console.log("messages", messages);
 
   const handleSelectUser = (user: UserProps) => {
     setState({ selectedUser: user });
@@ -185,22 +183,27 @@ function Homepage() {
             <div>
               {state.selectedUser && (
                 <div className="border-b dark:border-gray-600 p-2 flex justify-between mb-2">
-                  <UserLogo user={state.selectedUser.username} />{" "}
+                  <UserLogo user={state.selectedUser.username} />
                   <p>{state.selectedUser.username}</p>
                 </div>
               )}
               {messages
                 .filter((msg) => msg.to === state.selectedUser?.username)
+                .filter((msg) => msg.sender === currentUserId?.username)
                 .map((message, i) => (
                   <div
                     key={i}
                     className={`flex mb-2 font-medium ${
-                      message.sender === "me" ? "justify-end" : "justify-start"
+                      message.sender === currentUserId?.username
+                        ? "justify-end"
+                        : "justify-start"
                     }`}
                   >
                     <p
                       className={`rounded-md py-1 px-2 ${
-                        message.sender === "me" ? "bg-blue-400" : "bg-gray-300"
+                        message.sender === currentUserId?.username
+                          ? "bg-blue-400"
+                          : "bg-gray-300"
                       }`}
                     >
                       {message.content}
@@ -222,6 +225,7 @@ function Homepage() {
               style="w-1/4 text-xs sm:text-sm text-center ml-2 rounded-lg flex justify-center whitespace-nowrap"
               onClick={sendMessage}
               isDisabled={!state.sentMessage}
+              text={"Type your message..."}
             >
               Send
             </Button>
