@@ -15,6 +15,8 @@ import {
   MessageProps,
   UserProps,
 } from "@/app/interfaces/interfaces";
+import { saveMessageToDatabase } from "@/app/utils/saveMessageToDatabase";
+import { fetchFromDatabase } from "@/app/utils/fetchFromDatabase";
 
 const socket = io("http://localhost:3000", { path: "/socket.io" });
 
@@ -37,22 +39,6 @@ function Homepage() {
     (user) => user.username === currentUser,
   );
 
-  const saveMessageToDatabase = async (messageData: MessageProps) => {
-    const API_URL = process.env.API_URL || "http://localhost:3000";
-    const res = await fetch(`${API_URL}/api/messages`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(messageData),
-    });
-    if (res.ok) {
-      return await res.json();
-    } else {
-      throw new Error("Could not save to database");
-    }
-  };
-
   const fetchUsers = async () => {
     const API_URL = process.env.API_URL || "http://localhost:3000";
     const res = await fetch(`${API_URL}/api/users`);
@@ -63,19 +49,9 @@ function Homepage() {
     }
   };
 
-  const fetchMessages = async () => {
-    const API_URL = process.env.API_URL || "http://localhost:3000";
-    const res = await fetch(`${API_URL}/api/messages`);
-
-    if (res.ok) {
-      const data = await res.json();
-      setMessages(data);
-    }
-  };
-
   useEffect(() => {
     fetchUsers();
-    fetchMessages();
+    fetchFromDatabase("messages", setMessages);
   }, []);
 
   useEffect(() => {
