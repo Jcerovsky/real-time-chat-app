@@ -9,19 +9,20 @@ import { io } from "socket.io-client";
 import Users from "@/app/components/Users";
 import useObjectState from "@/app/hooks/useObjectState";
 import UserLogo from "@/app/components/UserLogo";
+import Message from "@/app/components/Message";
 
 export interface UserProps {
   username: string;
   _id: string;
 }
 
-interface Message {
+export interface MessageProps {
   sender: string;
   content: string;
   to: string;
 }
 
-interface I {
+export interface HomepageProps {
   isLoading: boolean;
   sentMessage: string;
   isSmallScreen: boolean;
@@ -36,7 +37,7 @@ function Homepage() {
   const router = useRouter();
 
   const { isAuthenticated, currentUser } = useContext(Context)!;
-  const [state, setState] = useObjectState<I>({
+  const [state, setState] = useObjectState<HomepageProps>({
     isLoading: false,
     sentMessage: "",
     selectedUser: null,
@@ -45,13 +46,13 @@ function Homepage() {
     userList: [],
   });
 
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [messages, setMessages] = useState<MessageProps[]>([]);
 
   const currentUserId = state.userList.find(
     (user) => user.username === currentUser,
   );
 
-  const saveMessageToDatabase = async (messageData: Message) => {
+  const saveMessageToDatabase = async (messageData: MessageProps) => {
     const API_URL = process.env.API_URL || "http://localhost:3000";
     const res = await fetch(`${API_URL}/api/messages`, {
       method: "POST",
@@ -125,10 +126,10 @@ function Homepage() {
         content: msg.content,
         to: msg.to,
       };
-      console.log("received msg", newMessage);
 
       setMessages((prevState) => [...prevState, newMessage]);
     });
+
     return () => socket.off("receive_message");
   }, [socket]);
 
@@ -186,34 +187,11 @@ function Homepage() {
                   <p>{state.selectedUser.username}</p>
                 </div>
               )}
-              {messages
-                .filter(
-                  (msg) =>
-                    (msg.to === state.selectedUser?.username &&
-                      msg.sender === currentUserId?.username) ||
-                    (msg.sender === state.selectedUser?.username &&
-                      msg.to === currentUserId?.username),
-                )
-                .map((message, i) => (
-                  <div
-                    key={i}
-                    className={`flex mb-2 font-medium ${
-                      message.sender === currentUserId?.username
-                        ? "justify-end"
-                        : "justify-start"
-                    }`}
-                  >
-                    <p
-                      className={`rounded-md py-1 px-2 ${
-                        message.sender === currentUserId?.username
-                          ? "bg-blue-400"
-                          : "bg-gray-300"
-                      }`}
-                    >
-                      {message.content}
-                    </p>
-                  </div>
-                ))}
+              <Message
+                currentUserId={currentUserId}
+                messages={messages}
+                state={state}
+              />
             </div>
           </div>
           <form className="flex mt-4" onSubmit={sendMessage}>
