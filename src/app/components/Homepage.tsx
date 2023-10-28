@@ -4,33 +4,17 @@ import React, { useContext, useEffect, useState } from "react";
 import { Context } from "@/app/context/Context";
 import { useRouter } from "next/navigation";
 import Loading from "@/app/loading";
-import Button from "@/app/components/Button";
 import { io } from "socket.io-client";
 import Users from "@/app/components/Users";
 import useObjectState from "@/app/hooks/useObjectState";
 import UserLogo from "@/app/components/UserLogo";
 import Message from "@/app/components/Message";
 import MessageInput from "@/app/components/MessageInput";
-
-export interface UserProps {
-  username: string;
-  _id: string;
-}
-
-export interface MessageProps {
-  sender: string;
-  content: string;
-  to: string;
-}
-
-export interface HomepageProps {
-  isLoading: boolean;
-  sentMessage: string;
-  isSmallScreen: boolean;
-  currentChatUsers: string[];
-  selectedUser: UserProps | null;
-  userList: UserProps[];
-}
+import {
+  HomepageProps,
+  MessageProps,
+  UserProps,
+} from "@/app/interfaces/interfaces";
 
 const socket = io("http://localhost:3000", { path: "/socket.io" });
 
@@ -183,7 +167,7 @@ function Homepage() {
           >
             <div>
               {state.selectedUser && (
-                <div className="border-b dark:border-gray-600 p-2 flex justify-between mb-2">
+                <div className="border-b dark:border-gray-600 p-2 flex justify-start mb-2">
                   <UserLogo user={state.selectedUser.username} />
                   <p>{state.selectedUser.username}</p>
                 </div>
