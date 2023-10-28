@@ -132,7 +132,8 @@ function Homepage() {
     return () => socket.off("receive_message");
   }, [socket]);
 
-  const sendMessage = async () => {
+  const sendMessage = async (e: React.FormEvent) => {
+    e.preventDefault();
     if (currentUserId && state.selectedUser?.username) {
       const payload = {
         content: state.sentMessage,
@@ -215,10 +216,10 @@ function Homepage() {
                 ))}
             </div>
           </div>
-          <div className="flex mt-4">
+          <form className="flex mt-4" onSubmit={sendMessage}>
             <input
               type="text"
-              className="py-2 px-4 w-3/4 flex-grow rounded-md placeholder:ml-2 placeholder:font-light bg-gray-100 truncate
+              className="py-2 px-4 w-full flex-grow rounded-md placeholder:ml-2 placeholder:font-light bg-gray-100 truncate
             hover:bg-gray-200 duration-300 dark:bg-gray-700 dark:text-zinc-50 shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px]"
               placeholder="Type your message..."
               value={state.sentMessage}
@@ -226,13 +227,12 @@ function Homepage() {
             />
             <Button
               style="w-1/4 text-xs sm:text-sm text-center ml-2 rounded-lg flex justify-center whitespace-nowrap"
-              onClick={sendMessage}
               isDisabled={!state.sentMessage}
               text={"Type your message..."}
             >
               Send
             </Button>
-          </div>
+          </form>
         </div>
       )}
     </div>
