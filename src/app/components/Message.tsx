@@ -3,7 +3,7 @@ import {
   HomepageProps,
   MessageProps,
   UserProps,
-} from "@/app/components/Homepage";
+} from "@/app/interfaces/interfaces";
 
 interface I {
   messages: MessageProps[];

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef, useContext } from "react";
 import { Context } from "@/app/context/Context";
-import { UserProps } from "@/app/components/Homepage";
+import { UserProps } from "@/app/interfaces/interfaces";
 
 interface I {
   userList: UserProps[];

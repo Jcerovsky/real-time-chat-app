@@ -1,6 +1,6 @@
 import React from "react";
 import Button from "@/app/components/Button";
-import { HomepageProps } from "@/app/components/Homepage";
+import { HomepageProps } from "@/app/interfaces/interfaces";
 
 interface I {
   sendMessage: (e: React.FormEvent) => void;

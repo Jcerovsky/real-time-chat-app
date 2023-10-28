@@ -39,18 +39,10 @@ function Homepage() {
     (user) => user.username === currentUser,
   );
 
-  const fetchUsers = async () => {
-    const API_URL = process.env.API_URL || "http://localhost:3000";
-    const res = await fetch(`${API_URL}/api/users`);
-
-    if (res.ok) {
-      const data = await res.json();
-      setState({ userList: data });
-    }
-  };
+  console.log("userlist", state.userList);
 
   useEffect(() => {
-    fetchUsers();
+    fetchFromDatabase("users", setState);
     fetchFromDatabase("messages", setMessages);
   }, []);
 
@@ -117,7 +109,7 @@ function Homepage() {
 
   const handleSelectUser = (user: UserProps) => {
     setState({ selectedUser: user });
-    fetchMessages();
+    fetchFromDatabase("messages", setMessages);
   };
 
   if (state.isLoading) return <Loading />;
