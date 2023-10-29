@@ -54,7 +54,7 @@ function Navbar() {
 
   return (
     <nav className="px-10 py-4 bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 flex justify-between items-center shadow-lg">
-      <div className="flex items-center space-x-4">
+      <div className="flex items-center space-x-4 relative">
         <h2 className="text-3xl text-white font-extrabold tracking-tight">
           ChitChat
         </h2>
@@ -65,9 +65,19 @@ function Navbar() {
         />
       </div>
       {isSmallerScreen ? (
-        <img src="/assets/menu-bar.png" alt="menu-bar" className="w-8" />
+        <img
+          src="/assets/menu-bar.png"
+          alt="menu-bar"
+          className="w-8"
+          onClick={() => setIsMenuShown((prevState) => !prevState)}
+        />
       ) : (
         <NavbarItems />
+      )}
+      {isMenuShown && (
+        <div className="flex flex-col absolute right-5 top-16 z-30 p-5 rounded-md bg-gray-200 w-24 shadow">
+          <NavbarItems />
+        </div>
       )}
     </nav>
   );
