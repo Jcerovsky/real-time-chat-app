@@ -30,7 +30,8 @@ function Toggle() {
           }
         />
         <div
-          className={`block w-10 h-6 rounded-full transition-colors duration-300 border border-neutral-700 ${
+          className={`block w-10 h-6 rounded-full transition-colors duration-300 border border-neutral-700
+          hover:bg-gray-500 dark:hover:bg-neutral-700 ${
             theme === "dark" ? "bg-neutral-600" : "bg-gray-400"
           }`}
         ></div>

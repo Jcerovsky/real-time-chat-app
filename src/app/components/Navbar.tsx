@@ -37,7 +37,11 @@ function Navbar() {
 
   const NavbarItems = () => {
     return (
-      <div className="flex items-center space-x-4 md:space-x-6">
+      <div
+        className={`${
+          !isMenuShown ? " items-center" : "flex-col-reverse gap-2 items-end"
+        } flex space-x-4 md:space-x-6 transition-all duration-500 ease-in-out`}
+      >
         {isAuthenticated && (
           <p
             className="cursor-pointer text-white hover:text-gray-300 transition-colors duration-300"
@@ -61,7 +65,7 @@ function Navbar() {
         <img
           src="/assets/chat-bubble.png"
           alt="chat-bubble-img"
-          className="w-12 transform transition-transform duration-300 hover:rotate-12"
+          className="w-12 duration-300 hover:rotate-12"
         />
       </div>
       {isSmallerScreen ? (
@@ -75,7 +79,7 @@ function Navbar() {
         <NavbarItems />
       )}
       {isMenuShown && (
-        <div className="flex flex-col absolute right-5 top-16 z-30 p-5 rounded-md bg-gray-200 w-24 shadow">
+        <div className=" absolute right-5 top-16 z-30 p-5 rounded-lg bg-zinc-100 dark:bg-gray-800 text-white w-32 shadow">
           <NavbarItems />
         </div>
       )}
