@@ -17,7 +17,6 @@ import {
 } from "@/app/interfaces/interfaces";
 import { saveMessageToDatabase } from "@/app/utils/saveMessageToDatabase";
 import { fetchFromDatabase } from "@/app/utils/fetchFromDatabase";
-import { set } from "mongoose";
 
 const socket = io("http://localhost:3000", { path: "/socket.io" });
 

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Context } from "@/app/context/Context";
 import { useRouter } from "next/navigation";
 import Toggle from "@/app/components/Toggle";
@@ -9,6 +9,25 @@ import UserLogo from "@/app/components/UserLogo";
 function Navbar() {
   const router = useRouter();
   const { isAuthenticated, setState, currentUser } = useContext(Context)!;
+  const [isSmallerScreen, setIsSmallerScreen] = useState<boolean>(false);
+  const [isMenuShown, setIsMenuShown] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const handleResize = () => {
+        if (window.innerWidth < 500) {
+          setIsSmallerScreen(true);
+        } else {
+          setIsSmallerScreen(false);
+        }
+      };
+      handleResize();
+
+      window.addEventListener("resize", handleResize);
+
+      return () => window.removeEventListener("resize", handleResize);
+    }
+  }, []);
 
   const handleSignOut = async () => {
     await fetch("../api/chat/signout", { method: "POST" });
@@ -16,28 +35,40 @@ function Navbar() {
     router.push("/login");
   };
 
+  const NavbarItems = () => {
+    return (
+      <div className="flex items-center space-x-4 md:space-x-6">
+        {isAuthenticated && (
+          <p
+            className="cursor-pointer text-white hover:text-gray-300 transition-colors duration-300"
+            onClick={handleSignOut}
+          >
+            Sign out
+          </p>
+        )}
+        <Toggle />
+        <UserLogo user={currentUser} />
+      </div>
+    );
+  };
+
   return (
-    <nav className="px-8 py-4 bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 flex justify-between items-center shadow-md">
-      <div className="flex items-center">
-        <h2 className="text-2xl text-white font-bold tracking-wider mr-4">
+    <nav className="px-10 py-4 bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 flex justify-between items-center shadow-lg">
+      <div className="flex items-center space-x-4">
+        <h2 className="text-3xl text-white font-extrabold tracking-tight">
           ChitChat
         </h2>
         <img
           src="/assets/chat-bubble.png"
           alt="chat-bubble-img"
-          className="w-10 transform transition-transform duration-300 hover:rotate-12"
+          className="w-12 transform transition-transform duration-300 hover:rotate-12"
         />
       </div>
-      {isAuthenticated && (
-        <p
-          className="cursor-pointer text-white hover:text-gray-300 transition-colors duration-300 ml-auto mr-4"
-          onClick={handleSignOut}
-        >
-          Sign out
-        </p>
+      {isSmallerScreen ? (
+        <img src="/assets/menu-bar.png" alt="menu-bar" className="w-8" />
+      ) : (
+        <NavbarItems />
       )}
-      <Toggle />
-      <UserLogo user={currentUser} />
     </nav>
   );
 }
