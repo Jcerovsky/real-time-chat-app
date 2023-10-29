@@ -63,7 +63,10 @@ function Users({ userList, handleSelectUser, recentChats }: I) {
           {userToShow.map((user, i) => (
             <div
               key={user.username}
-              onClick={() => handleSelectUser(user)}
+              onClick={() => {
+                handleSelectUser(user);
+                setSearchedUser("");
+              }}
               className={`
                 p-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 ${
                   i !== 0 && "border-t"

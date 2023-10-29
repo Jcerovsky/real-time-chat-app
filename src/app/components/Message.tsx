@@ -28,7 +28,7 @@ function Message({ messages, currentUserId, state }: I) {
   );
 
   return (
-    <div className="mt-5 p-4">
+    <div className="mt-5 p-4 text-xs sm:text-sm">
       {filteredMessages.map((message, i) => (
         <div
           key={i}
