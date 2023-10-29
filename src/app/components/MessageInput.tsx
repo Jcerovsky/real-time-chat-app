@@ -20,9 +20,9 @@ function MessageInput({ sendMessage, state, setState }: I) {
         onChange={(e) => setState({ sentMessage: e.target.value })}
       />
       <Button
-        style="w-1/4 text-xs sm:text-sm text-center ml-2 rounded-lg flex justify-center whitespace-nowrap"
+        style="w-1/4 text-xs sm:text-sm text-center ml-2 rounded-lg flex justify-center md:whitespace-nowrap"
         isDisabled={!state.sentMessage}
-        text={"Type your message..."}
+        text={"Start typing..."}
       >
         Send
       </Button>
