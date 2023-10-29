@@ -80,8 +80,6 @@ function Homepage() {
     }
   }, [recentChats]);
 
-  console.log("selected user", state.selectedUser);
-
   const fetchUsers = async () => {
     const API_URL = process.env.API_URL || "http://localhost:3000";
     const res = await fetch(`${API_URL}/api/users`);
@@ -177,7 +175,11 @@ function Homepage() {
           state.isSmallScreen ? "w-full" : "w-1/3 max-w-[13rem]"
         } p-4 flex flex-col`}
       >
-        <Users userList={state.userList} handleSelectUser={handleSelectUser} />
+        <Users
+          userList={state.userList}
+          handleSelectUser={handleSelectUser}
+          recentChats={recentChats}
+        />
       </div>
 
       {!state.isSmallScreen && (

@@ -1,13 +1,15 @@
 import React, { useEffect, useState, useRef, useContext } from "react";
 import { Context } from "@/app/context/Context";
-import { UserProps } from "@/app/interfaces/interfaces";
+import { MessageProps, UserProps } from "@/app/interfaces/interfaces";
+import UserLogo from "@/app/components/UserLogo";
 
 interface I {
   userList: UserProps[];
   handleSelectUser: (user: UserProps) => void;
+  recentChats: MessageProps[];
 }
 
-function Users({ userList, handleSelectUser }: I) {
+function Users({ userList, handleSelectUser, recentChats }: I) {
   const [searchedUser, setSearchedUser] = useState<string>("");
   const dropdownRef = useRef<HTMLDivElement>(null);
   const { currentUser } = useContext(Context)!;
@@ -33,6 +35,8 @@ function Users({ userList, handleSelectUser }: I) {
       user.username.toLowerCase().includes(searchedUser.toLowerCase()) &&
       user.username !== currentUser,
   );
+
+  console.log("recent chat", recentChats);
 
   return (
     <div ref={dropdownRef} className="relative max-sm:flex">
@@ -64,6 +68,20 @@ function Users({ userList, handleSelectUser }: I) {
           ))}
         </div>
       )}
+      <div>
+        {recentChats.map((chat) => (
+          <div
+            key={chat.to}
+            className="flex mb-2 items-center gap-2 p-1 dark:text-zinc-50"
+          >
+            <UserLogo user={chat.to} />
+            <div className="flex flex-col text-sm">
+              <span>{chat.to}</span>
+              <span className="truncate opacity-50">{chat.content}</span>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
