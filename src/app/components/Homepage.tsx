@@ -34,15 +34,52 @@ function Homepage() {
   });
 
   const [messages, setMessages] = useState<MessageProps[]>([]);
+  const [recentChats, setRecentChats] = useState<MessageProps[]>([]);
 
   const currentUserId = state.userList.find(
     (user) => user.username === currentUser,
   );
 
-  console.log("userlist", state.userList);
+  const createRecentConversations = () => {
+    let uniqueConversations: MessageProps[] = [];
+    let uniqueUser: { [key: string]: boolean } = {};
+    const sortedRecentMessages = messages
+      .filter(
+        (msg) =>
+          msg.sender === currentUserId?.username ||
+          msg.to === state.selectedUser?.username,
+      )
+      .reverse();
+
+    sortedRecentMessages.forEach((msg) => {
+      const otherUser =
+        msg.sender === currentUserId?.username ? msg.to : msg.sender;
+      if (!uniqueUser[otherUser]) {
+        uniqueConversations.push(msg);
+        uniqueUser[otherUser] = true;
+      }
+    });
+    return uniqueConversations;
+  };
+
+  console.log("recent chats", createRecentConversations());
 
   useEffect(() => {
-    fetchFromDatabase("users", setState);
+    createRecentConversations();
+  }, [messages]);
+
+  const fetchUsers = async () => {
+    const API_URL = process.env.API_URL || "http://localhost:3000";
+    const res = await fetch(`${API_URL}/api/users`);
+
+    if (res.ok) {
+      const data = await res.json();
+      setState({ userList: data });
+    }
+  };
+
+  useEffect(() => {
+    fetchUsers();
     fetchFromDatabase("messages", setMessages);
   }, []);
 
@@ -97,7 +134,10 @@ function Homepage() {
       try {
         await saveMessageToDatabase(payload);
 
-        setState({ sentMessage: "" });
+        setState({
+          sentMessage: "",
+          recentChats: { [currentUserId.username]: payload.content },
+        });
         setMessages((prevState) => [...prevState, payload]);
 
         socket.emit("message", payload);
@@ -111,6 +151,8 @@ function Homepage() {
     setState({ selectedUser: user });
     fetchFromDatabase("messages", setMessages);
   };
+
+  console.log("userlist", state.userList);
 
   if (state.isLoading) return <Loading />;
 
