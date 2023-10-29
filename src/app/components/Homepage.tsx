@@ -67,7 +67,7 @@ function Homepage() {
   }, [messages]);
 
   useEffect(() => {
-    if (recentChats.length > 0) {
+    if (recentChats.length > 0 && !state.selectedUser) {
       const mostRecentChat = recentChats[0];
       const mostRecentUsername =
         mostRecentChat.sender === currentUserId?.username
