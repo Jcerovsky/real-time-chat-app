@@ -59,14 +59,28 @@ function Homepage() {
         uniqueUser[otherUser] = true;
       }
     });
-    return uniqueConversations;
+    setRecentChats(uniqueConversations);
   };
-
-  console.log("recent chats", createRecentConversations());
 
   useEffect(() => {
     createRecentConversations();
   }, [messages]);
+
+  useEffect(() => {
+    if (recentChats.length > 0) {
+      const mostRecentChat = recentChats[0];
+      const mostRecentUsername =
+        mostRecentChat.sender === currentUserId?.username
+          ? mostRecentChat.to
+          : mostRecentChat.sender;
+      const chatUser = state.userList.find(
+        (user) => user.username === mostRecentUsername,
+      );
+      setState({ selectedUser: chatUser });
+    }
+  }, [recentChats]);
+
+  console.log("selected user", state.selectedUser);
 
   const fetchUsers = async () => {
     const API_URL = process.env.API_URL || "http://localhost:3000";
@@ -136,7 +150,6 @@ function Homepage() {
 
         setState({
           sentMessage: "",
-          recentChats: { [currentUserId.username]: payload.content },
         });
         setMessages((prevState) => [...prevState, payload]);
 
@@ -151,8 +164,6 @@ function Homepage() {
     setState({ selectedUser: user });
     fetchFromDatabase("messages", setMessages);
   };
-
-  console.log("userlist", state.userList);
 
   if (state.isLoading) return <Loading />;
 
@@ -177,7 +188,7 @@ function Homepage() {
           >
             <div>
               {state.selectedUser && (
-                <div className="border-b dark:border-gray-600 p-2 flex justify-start mb-2">
+                <div className="border-b dark:border-gray-600 p-2 flex justify-start mb-2 sticky">
                   <UserLogo user={state.selectedUser.username} />
                   <p>{state.selectedUser.username}</p>
                 </div>

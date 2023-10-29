@@ -4,6 +4,8 @@ import {
   MessageProps,
   UserProps,
 } from "@/app/interfaces/interfaces";
+import UserLogo from "@/app/components/UserLogo";
+import createUserInitials from "@/app/utils/createUserInitials";
 
 interface I {
   messages: MessageProps[];
@@ -25,7 +27,7 @@ function Message({ messages, currentUserId, state }: I) {
         .map((message, i) => (
           <div
             key={i}
-            className={`flex mb-2 font-medium ${
+            className={`flex mb-2 font-medium relative ${
               message.sender === currentUserId?.username
                 ? "justify-end"
                 : "justify-start"
