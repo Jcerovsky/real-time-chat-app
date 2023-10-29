@@ -19,6 +19,7 @@ function Navbar() {
           setIsSmallerScreen(true);
         } else {
           setIsSmallerScreen(false);
+          setIsMenuShown(false);
         }
       };
       handleResize();
@@ -78,7 +79,7 @@ function Navbar() {
       ) : (
         <NavbarItems />
       )}
-      {isMenuShown && (
+      {isMenuShown && isSmallerScreen && (
         <div className=" absolute right-5 top-16 z-30 p-5 rounded-lg bg-zinc-100 dark:bg-gray-800 text-white w-32 shadow">
           <NavbarItems />
         </div>
