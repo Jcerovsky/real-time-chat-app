@@ -28,7 +28,7 @@ function Message({ messages, currentUserId, state }: I) {
   );
 
   return (
-    <>
+    <div className="mt-5 p-4">
       {filteredMessages.map((message, i) => (
         <div
           key={i}
@@ -50,7 +50,7 @@ function Message({ messages, currentUserId, state }: I) {
           {i === filteredMessages.length - 1 && <div ref={lastMessageRef} />}
         </div>
       ))}
-    </>
+    </div>
   );
 }
 

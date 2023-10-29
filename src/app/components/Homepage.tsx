@@ -170,7 +170,7 @@ function Homepage() {
   return (
     <div
       className="bg-white w-full h-[30rem] overflow-y-scroll mt-5 rounded-md flex dark:bg-gray-800
-    shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px]"
+    shadow"
     >
       <div
         className={`${
@@ -183,12 +183,12 @@ function Homepage() {
       {!state.isSmallScreen && (
         <div className="w-2/3 h-full p-4 flex flex-col border-l dark:border-gray-600 ">
           <div
-            className="flex-1 overflow-y-auto bg-gray-50 p-4 rounded-md dark:bg-gray-700 dark:text-zinc-50
-        shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px]"
+            className="flex-1 overflow-y-auto bg-gray-50 rounded-md dark:bg-gray-700 dark:text-zinc-50
+        shadow"
           >
-            <div>
+            <div className="relative">
               {state.selectedUser && (
-                <div className="border-b dark:border-gray-600 p-2 flex justify-start mb-2 sticky">
+                <div className="p-2 flex items-center gap-2 justify-start mb-2 sticky top-0 z-10 bg-zinc-50 dark:bg-gray-800 shadow">
                   <UserLogo user={state.selectedUser.username} />
                   <p>{state.selectedUser.username}</p>
                 </div>
