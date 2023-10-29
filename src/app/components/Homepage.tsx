@@ -30,6 +30,7 @@ function Homepage() {
     selectedUser: null,
     isSmallScreen: false,
     currentChatUsers: [],
+    isChatShownOnSmallScreen: false,
     userList: [],
   });
 
@@ -101,7 +102,7 @@ function Homepage() {
         if (window.innerWidth < 400) {
           setState({ isSmallScreen: true });
         } else {
-          setState({ isSmallScreen: false });
+          setState({ isSmallScreen: false, isChatShownOnSmallScreen: false });
         }
       };
 
@@ -159,7 +160,12 @@ function Homepage() {
   };
 
   const handleSelectUser = (user: UserProps) => {
-    setState({ selectedUser: user });
+    setState({
+      selectedUser: user,
+      isChatShownOnSmallScreen: state.isSmallScreen
+        ? true
+        : state.isChatShownOnSmallScreen,
+    });
     fetchFromDatabase("messages", setMessages);
   };
 
@@ -170,20 +176,22 @@ function Homepage() {
       className="bg-white w-full h-[30rem] overflow-y-scroll mt-5 rounded-md flex dark:bg-gray-800
     shadow"
     >
-      <div
-        className={`${
-          state.isSmallScreen ? "w-full" : "w-1/3 max-w-[13rem]"
-        } p-4 flex flex-col`}
-      >
-        <Users
-          userList={state.userList}
-          handleSelectUser={handleSelectUser}
-          recentChats={recentChats}
-        />
-      </div>
+      {!state.isChatShownOnSmallScreen && (
+        <div
+          className={`${
+            state.isSmallScreen ? "w-full" : "w-1/3 max-w-[13rem]"
+          } p-4 flex flex-col`}
+        >
+          <Users
+            userList={state.userList}
+            handleSelectUser={handleSelectUser}
+            recentChats={recentChats}
+          />
+        </div>
+      )}
 
-      {!state.isSmallScreen && (
-        <div className="w-2/3 h-full p-4 flex flex-col border-l dark:border-gray-600 ">
+      {(!state.isSmallScreen || state.isChatShownOnSmallScreen) && (
+        <div className="w-full h-full p-4 flex flex-col border-l dark:border-gray-600 ">
           <div
             className="flex-1 overflow-y-auto bg-gray-50 rounded-md dark:bg-gray-700 dark:text-zinc-50
         shadow"

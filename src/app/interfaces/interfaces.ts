@@ -16,4 +16,5 @@ export interface HomepageProps {
   currentChatUsers: string[];
   selectedUser: UserProps | null;
   userList: UserProps[];
+  isChatShownOnSmallScreen: boolean;
 }
