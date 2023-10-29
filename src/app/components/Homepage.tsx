@@ -172,7 +172,7 @@ function Homepage() {
 
   const showGoBack = state.isSmallScreen && state.isChatShownOnSmallScreen && (
     <div onClick={() => setState({ isChatShownOnSmallScreen: false })}>
-      go back
+      <img src="/assets/arrow-back.png" alt="go-back-arrow" className="w-6" />
     </div>
   );
 
