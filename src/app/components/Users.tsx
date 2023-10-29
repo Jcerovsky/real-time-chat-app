@@ -46,11 +46,11 @@ function Users({ userList, handleSelectUser, recentChats }: I) {
   };
 
   return (
-    <div ref={dropdownRef} className="relative max-sm:flex">
+    <div ref={dropdownRef} className="relative">
       <input
         type="text"
         className="py-2 px-4 mb-4 bg-gray-100 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-indigo-600
-        dark:bg-gray-700 dark:text-zinc-50 shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] w-full"
+        dark:bg-gray-700 dark:text-zinc-50 shadow w-full"
         placeholder="Search..."
         value={searchedUser}
         onChange={(e) => setSearchedUser(e.target.value)}
@@ -58,7 +58,7 @@ function Users({ userList, handleSelectUser, recentChats }: I) {
       {searchedUser && userToShow.length > 0 && (
         <div
           className="absolute left-0 w-full z-10 mt-12 sm:mt-0 bg-white dark:bg-gray-700 border dark:border-gray-800
-        dark:text-zinc-50 rounded-md shadow-lg max-h-40 overflow-y-auto shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] "
+        dark:text-zinc-50 rounded-md shadow-lg max-h-40 overflow-y-auto shadow "
         >
           {userToShow.map((user, i) => (
             <div
@@ -83,11 +83,11 @@ function Users({ userList, handleSelectUser, recentChats }: I) {
           >
             <UserLogo user={chat.to} />
             <div
-              className="flex flex-col text-sm cursor-pointer"
+              className="flex flex-col text-sm cursor-pointer w-3/4"
               onClick={() => selectUser(chat.to)}
             >
-              <span>{chat.to}</span>
-              <span className="truncate opacity-50">{chat.content}</span>
+              <p>{chat.to}</p>
+              <p className="truncate opacity-50">{chat.content}</p>
             </div>
           </div>
         ))}
