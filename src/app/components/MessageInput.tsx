@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import Button from "@/app/components/Button";
 import { HomepageProps } from "@/app/interfaces/interfaces";
 
