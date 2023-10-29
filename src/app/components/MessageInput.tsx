@@ -14,7 +14,8 @@ function MessageInput({ sendMessage, state, setState }: I) {
       <input
         type="text"
         className="py-1 px-4 w-full rounded-md placeholder:ml-2 placeholder:font-light bg-gray-100 truncate
-            hover:bg-gray-200 duration-300 dark:bg-gray-700 dark:text-zinc-50 shadow text-sm sm:text-sm"
+            hover:bg-gray-100 dark:hover:bg-gray-600 duration-300 dark:bg-gray-700 dark:text-zinc-50 shadow text-sm sm:text-sm
+           "
         placeholder="Type your message..."
         value={state.sentMessage}
         onChange={(e) => setState({ sentMessage: e.target.value })}

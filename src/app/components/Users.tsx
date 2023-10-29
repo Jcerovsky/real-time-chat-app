@@ -50,7 +50,7 @@ function Users({ userList, handleSelectUser, recentChats }: I) {
       <input
         type="text"
         className="py-2 px-4 mb-4 bg-gray-100 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-indigo-600
-        dark:bg-gray-700 dark:text-zinc-50 shadow w-full text-sm sm:text-md hover:bg-gra-100 dark:hover:bg-gray-600"
+        dark:bg-gray-700 dark:text-zinc-50 shadow w-full text-sm sm:text-md hover:bg-gra-100 dark:hover:bg-gray-600 duration-300"
         placeholder="Search..."
         value={searchedUser}
         onChange={(e) => setSearchedUser(e.target.value)}
@@ -58,7 +58,7 @@ function Users({ userList, handleSelectUser, recentChats }: I) {
       {searchedUser && userToShow.length > 0 && (
         <div
           className="absolute left-0 w-full z-10 -mt-3 bg-white dark:bg-gray-700 border dark:border-gray-800
-        dark:text-zinc-50 rounded-md shadow-lg max-h-40 overflow-y-auto shadow duration-300 "
+        dark:text-zinc-50 rounded-md shadow-lg max-h-40 overflow-y-auto shadow  "
         >
           {userToShow.map((user, i) => (
             <div
