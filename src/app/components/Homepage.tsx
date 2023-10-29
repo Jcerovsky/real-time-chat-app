@@ -17,6 +17,7 @@ import {
 } from "@/app/interfaces/interfaces";
 import { saveMessageToDatabase } from "@/app/utils/saveMessageToDatabase";
 import { fetchFromDatabase } from "@/app/utils/fetchFromDatabase";
+import { set } from "mongoose";
 
 const socket = io("http://localhost:3000", { path: "/socket.io" });
 
@@ -169,6 +170,12 @@ function Homepage() {
     fetchFromDatabase("messages", setMessages);
   };
 
+  const showGoBack = state.isSmallScreen && state.isChatShownOnSmallScreen && (
+    <div onClick={() => setState({ isChatShownOnSmallScreen: false })}>
+      go back
+    </div>
+  );
+
   if (state.isLoading) return <Loading />;
 
   return (
@@ -198,8 +205,12 @@ function Homepage() {
           >
             <div className="relative">
               {state.selectedUser && (
-                <div className="p-2 flex items-center gap-2 justify-start mb-2 sticky top-0 z-10 bg-zinc-50 dark:bg-gray-800 shadow">
-                  <UserLogo user={state.selectedUser.username} />
+                <div className="p-2 flex items-center justify-start mb-2 sticky top-0 z-10 bg-zinc-50 dark:bg-gray-800 shadow">
+                  <div className="justify-self-start">{showGoBack}</div>
+                  <UserLogo
+                    user={state.selectedUser.username}
+                    style={`${showGoBack && "ml-auto"} mr-2`}
+                  />
                   <p>{state.selectedUser.username}</p>
                 </div>
               )}
