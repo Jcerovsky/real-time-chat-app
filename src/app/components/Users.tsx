@@ -36,7 +36,14 @@ function Users({ userList, handleSelectUser, recentChats }: I) {
       user.username !== currentUser,
   );
 
-  console.log("recent chat", recentChats);
+  const selectUser = (value: string) => {
+    const selectedUser = userList.find(
+      (user) => user.username.toLowerCase() === value,
+    );
+    if (selectedUser !== undefined) {
+      handleSelectUser(selectedUser);
+    }
+  };
 
   return (
     <div ref={dropdownRef} className="relative max-sm:flex">
@@ -72,10 +79,13 @@ function Users({ userList, handleSelectUser, recentChats }: I) {
         {recentChats.map((chat) => (
           <div
             key={chat.to}
-            className="flex mb-2 items-center gap-2 p-1 dark:text-zinc-50"
+            className="flex mb-2 items-center gap-2 dark:text-zinc-50"
           >
             <UserLogo user={chat.to} />
-            <div className="flex flex-col text-sm">
+            <div
+              className="flex flex-col text-sm cursor-pointer"
+              onClick={() => selectUser(chat.to)}
+            >
               <span>{chat.to}</span>
               <span className="truncate opacity-50">{chat.content}</span>
             </div>
