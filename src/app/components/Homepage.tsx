@@ -171,7 +171,10 @@ function Homepage() {
   };
 
   const showGoBack = state.isSmallScreen && state.isChatShownOnSmallScreen && (
-    <div onClick={() => setState({ isChatShownOnSmallScreen: false })}>
+    <div
+      onClick={() => setState({ isChatShownOnSmallScreen: false })}
+      className="cursor-pointer hover:scale-95 duration-300"
+    >
       <img src="/assets/arrow-back.png" alt="go-back-arrow" className="w-6" />
     </div>
   );
