@@ -47,15 +47,22 @@ function Users({ userList, handleSelectUser, recentChats }: I) {
 
   return (
     <div ref={dropdownRef} className="relative">
-      <input
-        type="text"
-        className="py-2 px-4 mb-4 bg-gray-100 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-indigo-600
+      <div className="relative">
+        <input
+          type="text"
+          className="py-2 px-4 mb-4 bg-gray-100 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-indigo-600
         dark:bg-gray-700 dark:text-zinc-50 shadow w-full text-xs sm:text-md hover:bg-gray-200 dark:hover:bg-gray-600
         duration-300 truncate"
-        placeholder="Search..."
-        value={searchedUser}
-        onChange={(e) => setSearchedUser(e.target.value)}
-      />
+          placeholder="Search..."
+          value={searchedUser}
+          onChange={(e) => setSearchedUser(e.target.value)}
+        />
+        <img
+          src="/assets/chat.png"
+          alt="users-chat-img"
+          className="absolute right-2 top-1 w-6"
+        />
+      </div>
       {searchedUser && userToShow.length > 0 && (
         <div
           className="absolute left-0 w-full z-10 -mt-3 bg-white dark:bg-gray-700 border dark:border-gray-800
