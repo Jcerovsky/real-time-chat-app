@@ -45,7 +45,11 @@ function Navbar() {
       >
         {isAuthenticated && (
           <p
-            className="cursor-pointer text-white hover:text-gray-300 transition-colors duration-300"
+            className={`
+              cursor-pointer  hover:text-gray-300 transition-colors duration-300 ${
+                isMenuShown ? "text-gray-800" : "text-white"
+              }
+            `}
             onClick={handleSignOut}
           >
             Sign out
@@ -80,7 +84,7 @@ function Navbar() {
         <NavbarItems />
       )}
       {isMenuShown && isSmallerScreen && (
-        <div className=" absolute right-5 top-16 z-30 p-5 rounded-lg bg-zinc-100 dark:bg-blue-300 text-white w-32 shadow">
+        <div className=" absolute right-5 top-16 z-30 p-5 rounded-lg bg-blue-100 dark:bg-blue-300 text-white w-32 shadow">
           <NavbarItems />
         </div>
       )}
