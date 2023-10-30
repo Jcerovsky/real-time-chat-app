@@ -12,7 +12,7 @@ interface I {
   state: HomepageProps;
 }
 
-function Message({ messages, currentUserId, state }: I) {
+function Messages({ messages, currentUserId, state }: I) {
   useEffect(() => {
     if (lastMessageRef.current) {
       lastMessageRef.current.scrollIntoView({ behavior: "smooth" });
@@ -33,9 +33,11 @@ function Message({ messages, currentUserId, state }: I) {
   );
 
   const handleSelectMessage = async (msg: MessageProps, i: number) => {
-    await setSelectedMsgIndex(i);
+    console.log("msgid", msg._id);
     setAreMenuActionsShown((prevState) => !prevState);
   };
+
+  console.log("messages", messages);
 
   return (
     <div className="mt-5 p-4 text-xs sm:text-sm">
@@ -68,4 +70,4 @@ function Message({ messages, currentUserId, state }: I) {
   );
 }
 
-export default Message;
+export default Messages;

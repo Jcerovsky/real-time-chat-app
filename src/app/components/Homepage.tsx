@@ -8,7 +8,7 @@ import { io } from "socket.io-client";
 import Users from "@/app/components/Users";
 import useObjectState from "@/app/hooks/useObjectState";
 import UserLogo from "@/app/components/UserLogo";
-import Message from "@/app/components/Message";
+import Messages from "@/app/components/Messages";
 import MessageInput from "@/app/components/MessageInput";
 import {
   HomepageProps,
@@ -37,6 +37,8 @@ function Homepage() {
 
   const [messages, setMessages] = useState<MessageProps[]>([]);
   const [recentChats, setRecentChats] = useState<MessageProps[]>([]);
+
+  console.log("messages", messages);
 
   const currentUserId = state.userList.find(
     (user) => user.username === currentUser,
@@ -239,7 +241,7 @@ function Homepage() {
                 </div>
               )}
               <NoRecentChats />
-              <Message
+              <Messages
                 currentUserId={currentUserId}
                 messages={messages}
                 state={state}

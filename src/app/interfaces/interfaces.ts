@@ -7,6 +7,7 @@ export interface MessageProps {
   sender: string;
   content: string;
   to: string;
+  _id?: string;
 }
 
 export interface HomepageProps {
