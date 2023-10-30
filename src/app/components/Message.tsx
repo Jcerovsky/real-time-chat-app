@@ -27,6 +27,10 @@ function Message({ messages, currentUserId, state }: I) {
         msg.to === currentUserId?.username),
   );
 
+  const handleSelectMessage = (msg: MessageProps) => {
+    console.log(msg);
+  };
+
   return (
     <div className="mt-5 p-4 text-xs sm:text-sm">
       {filteredMessages.map((message, i) => (
@@ -39,11 +43,12 @@ function Message({ messages, currentUserId, state }: I) {
           }`}
         >
           <p
-            className={`rounded-lg py-1 px-2 ${
+            className={`rounded-lg py-1 px-2 cursor-pointer ${
               message.sender === currentUserId?.username
                 ? "bg-blue-400"
                 : "bg-gray-300"
             }`}
+            onClick={() => handleSelectMessage(message)}
           >
             {message.content}
           </p>
