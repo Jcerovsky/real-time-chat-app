@@ -178,6 +178,13 @@ function Homepage() {
     </div>
   );
 
+  const NoRecentChats = () => {
+    if (recentChats.length === 0 && !state.selectedUser)
+      return (
+        <div>No recent chats. To continue find a user to message with.</div>
+      );
+  };
+
   if (state.isLoading) return <Loading />;
 
   return (
@@ -216,6 +223,7 @@ function Homepage() {
                   <p>{state.selectedUser.username}</p>
                 </div>
               )}
+              <NoRecentChats />
               <Message
                 currentUserId={currentUserId}
                 messages={messages}
@@ -227,6 +235,7 @@ function Homepage() {
             setState={setState}
             state={state}
             sendMessage={sendMessage}
+            recentChats={recentChats}
           />
         </div>
       )}

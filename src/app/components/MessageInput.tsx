@@ -1,14 +1,15 @@
 import React, { useRef } from "react";
 import Button from "@/app/components/Button";
-import { HomepageProps } from "@/app/interfaces/interfaces";
+import { HomepageProps, MessageProps } from "@/app/interfaces/interfaces";
 
 interface I {
   sendMessage: (e: React.FormEvent) => void;
   state: HomepageProps;
   setState: (newState: Partial<HomepageProps>) => void;
+  recentChats: MessageProps[];
 }
 
-function MessageInput({ sendMessage, state, setState }: I) {
+function MessageInput({ sendMessage, state, setState, recentChats }: I) {
   return (
     <form className="flex mt-4" onSubmit={sendMessage}>
       <input
@@ -22,7 +23,10 @@ function MessageInput({ sendMessage, state, setState }: I) {
       />
       <Button
         style="w-1/4 text-xs sm:text-sm text-left ml-2 rounded-lg flex justify-center md:whitespace-nowrap"
-        isDisabled={!state.sentMessage}
+        isDisabled={
+          !state.sentMessage ||
+          (recentChats.length === 0 && !state.selectedUser)
+        }
         text={"Start typing..."}
       >
         Send
