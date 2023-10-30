@@ -40,8 +40,8 @@ function Navbar() {
     return (
       <div
         className={`${
-          !isMenuShown ? " items-center" : "flex-col-reverse gap-2 items-end"
-        } flex space-x-4 md:space-x-6 transition-all duration-500 ease-in-out`}
+          !isMenuShown ? " items-center" : "flex-col-reverse gap-2 items-end "
+        } flex space-x-4 md:space-x-6 transition-all duration-500 ease-in-out `}
       >
         {isAuthenticated && (
           <p
@@ -73,14 +73,14 @@ function Navbar() {
         <img
           src="/assets/menu-bar.png"
           alt="menu-bar"
-          className="w-8"
+          className="w-8 cursor-pointer hover:scale-95"
           onClick={() => setIsMenuShown((prevState) => !prevState)}
         />
       ) : (
         <NavbarItems />
       )}
       {isMenuShown && isSmallerScreen && (
-        <div className=" absolute right-5 top-16 z-30 p-5 rounded-lg bg-zinc-100 dark:bg-gray-800 text-white w-32 shadow">
+        <div className=" absolute right-5 top-16 z-30 p-5 rounded-lg bg-zinc-100 dark:bg-blue-300 text-white w-32 shadow">
           <NavbarItems />
         </div>
       )}
