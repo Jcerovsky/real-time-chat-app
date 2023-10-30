@@ -181,10 +181,23 @@ function Homepage() {
   );
 
   const NoRecentChats = () => {
-    if (recentChats.length === 0 && !state.selectedUser)
+    if (recentChats.length === 0 && !state.selectedUser) {
       return (
-        <div>No recent chats. To continue find a user to message with.</div>
+        <div className="flex flex-col items-center justify-center h-full p-10 text-center">
+          <img
+            src="/assets/empty-chat-icon.png"
+            alt="No Chats"
+            className="w-24 h-24 mb-5"
+          />
+          <h2 className="text-2xl font-bold text-gray-700 dark:text-gray-300">
+            No Recent Chats
+          </h2>
+          <p className="text-lg text-gray-500">
+            To continue, find a user to message with.
+          </p>
+        </div>
       );
+    }
   };
 
   if (state.isLoading) return <Loading />;
