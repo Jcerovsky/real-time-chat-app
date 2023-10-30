@@ -72,7 +72,7 @@ function Page() {
         setFormData={setFormData}
         type={"password"}
       />
-      <Button style="mt-5 w-full" isDisabled={isSubmitted}>
+      <Button customStyle="mt-5 w-full py-3 px-4" isDisabled={isSubmitted}>
         Log in
       </Button>
       <div className=" mt-5 flex ">

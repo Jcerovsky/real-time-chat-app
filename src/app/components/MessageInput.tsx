@@ -11,7 +11,7 @@ interface I {
 
 function MessageInput({ sendMessage, state, setState, recentChats }: I) {
   return (
-    <form className="flex mt-4" onSubmit={sendMessage}>
+    <form className="flex mt-4 h-10" onSubmit={sendMessage}>
       <input
         type="text"
         className="py-1 px-4 w-full rounded-md placeholder:ml-2 placeholder:font-light bg-gray-100 truncate
@@ -22,7 +22,8 @@ function MessageInput({ sendMessage, state, setState, recentChats }: I) {
         onChange={(e) => setState({ sentMessage: e.target.value })}
       />
       <Button
-        style="w-1/4 text-xs sm:text-sm text-left ml-2 rounded-lg flex justify-center md:whitespace-nowrap"
+        customStyle="w-1/4 text-xs sm:text-sm text-left ml-2 mt-auto h-10 rounded-lg flex justify-center items-center
+        md:whitespace-nowrap"
         isDisabled={
           !state.sentMessage ||
           (recentChats.length === 0 && !state.selectedUser)
