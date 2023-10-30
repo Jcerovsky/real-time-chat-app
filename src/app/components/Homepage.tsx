@@ -30,6 +30,7 @@ function Homepage() {
     selectedUser: null,
     isSmallScreen: false,
     currentChatUsers: [],
+    isSending: false,
     isChatShownOnSmallScreen: false,
     userList: [],
   });
@@ -149,6 +150,7 @@ function Homepage() {
 
         setState({
           sentMessage: "",
+          isSending: false,
         });
         setMessages((prevState) => [...prevState, payload]);
 
@@ -236,6 +238,7 @@ function Homepage() {
             state={state}
             sendMessage={sendMessage}
             recentChats={recentChats}
+            isSending={state.isSending}
           />
         </div>
       )}

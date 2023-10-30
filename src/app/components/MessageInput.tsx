@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Button from "@/app/components/Button";
 import { HomepageProps, MessageProps } from "@/app/interfaces/interfaces";
 
@@ -7,11 +7,24 @@ interface I {
   state: HomepageProps;
   setState: (newState: Partial<HomepageProps>) => void;
   recentChats: MessageProps[];
+  isSending: boolean;
 }
 
-function MessageInput({ sendMessage, state, setState, recentChats }: I) {
+function MessageInput({
+  sendMessage,
+  state,
+  setState,
+  recentChats,
+  isSending,
+}: I) {
   return (
-    <form className="flex mt-4 h-10" onSubmit={sendMessage}>
+    <form
+      className="flex mt-4 h-10"
+      onSubmit={(e) => {
+        sendMessage(e);
+        setState({ isSending: true });
+      }}
+    >
       <input
         type="text"
         className="py-1 px-4 w-full rounded-md placeholder:ml-2 placeholder:font-light bg-gray-100 truncate
@@ -26,9 +39,10 @@ function MessageInput({ sendMessage, state, setState, recentChats }: I) {
         md:whitespace-nowrap"
         isDisabled={
           !state.sentMessage ||
+          isSending ||
           (recentChats.length === 0 && !state.selectedUser)
         }
-        text={"Start typing..."}
+        text={isSending ? "Sending..." : "Start typing..."}
       >
         Send
       </Button>
