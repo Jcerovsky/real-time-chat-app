@@ -42,7 +42,7 @@ function MessageInput({
           isSending ||
           (recentChats.length === 0 && !state.selectedUser)
         }
-        text={isSending ? "Sending..." : "Start typing..."}
+        text={isSending ? "Sending..." : "Send"}
       >
         Send
       </Button>
