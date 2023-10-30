@@ -39,7 +39,7 @@ function Message({ messages, currentUserId, state }: I) {
           }`}
         >
           <p
-            className={`rounded-md py-1 px-2 ${
+            className={`rounded-lg py-1 px-2 ${
               message.sender === currentUserId?.username
                 ? "bg-blue-400"
                 : "bg-gray-300"
