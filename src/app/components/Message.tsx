@@ -1,9 +1,10 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   HomepageProps,
   MessageProps,
   UserProps,
 } from "@/app/interfaces/interfaces";
+import MessageActions from "@/app/components/MessageActions";
 
 interface I {
   messages: MessageProps[];
@@ -18,6 +19,10 @@ function Message({ messages, currentUserId, state }: I) {
     }
   }, [messages]);
 
+  const [areMenuActionsShown, setAreMenuActionsShown] =
+    useState<boolean>(false);
+  const [selectedMsgIndex, setSelectedMsgIndex] = useState<number | null>(null);
+
   const lastMessageRef = useRef<HTMLDivElement>(null);
   const filteredMessages = messages.filter(
     (msg) =>
@@ -27,11 +32,10 @@ function Message({ messages, currentUserId, state }: I) {
         msg.to === currentUserId?.username),
   );
 
-  const handleSelectMessage = (msg: MessageProps) => {
-    console.log(msg);
+  const handleSelectMessage = async (msg: MessageProps, i: number) => {
+    await setSelectedMsgIndex(i);
+    setAreMenuActionsShown((prevState) => !prevState);
   };
-
-  //add message actions filter through messages to find that corresponding message. maybe _id?
 
   return (
     <div className="mt-5 p-4 text-xs sm:text-sm">
@@ -50,11 +54,14 @@ function Message({ messages, currentUserId, state }: I) {
                 ? "bg-blue-400"
                 : "bg-gray-300"
             }`}
-            onClick={() => handleSelectMessage(message)}
+            onClick={() => handleSelectMessage(message, i)}
           >
             {message.content}
           </p>
           {i === filteredMessages.length - 1 && <div ref={lastMessageRef} />}
+          {selectedMsgIndex === i && (
+            <MessageActions isVisible={areMenuActionsShown} />
+          )}
         </div>
       ))}
     </div>
