@@ -19,7 +19,8 @@ function Toggle() {
   }, [theme]);
 
   return (
-    <label className="flex items-center cursor-pointer">
+    <label className="flex items-center cursor-pointer gap-2">
+      <img src="/assets/theme-img.png" alt="sun/moon icon" className="w-6" />
       <div className="relative">
         <input
           type="checkbox"
