@@ -25,21 +25,9 @@ function MessageActions(props) {
         </li>
         <li
           className="cursor-pointer hover:bg-blue-700 p-1 rounded-md transition-colors duration-300"
-          onClick={onReply}
-        >
-          Reply
-        </li>
-        <li
-          className="cursor-pointer hover:bg-blue-700 p-1 rounded-md transition-colors duration-300"
           onClick={handleCopyText}
         >
           Copy Text
-        </li>
-        <li
-          className="cursor-pointer hover:bg-blue-700 p-1 rounded-md transition-colors duration-300"
-          onClick={onPin}
-        >
-          Pin
         </li>
       </ul>
     </div>

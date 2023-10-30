@@ -31,6 +31,8 @@ function Message({ messages, currentUserId, state }: I) {
     console.log(msg);
   };
 
+  //add message actions filter through messages to find that corresponding message. maybe _id?
+
   return (
     <div className="mt-5 p-4 text-xs sm:text-sm">
       {filteredMessages.map((message, i) => (
