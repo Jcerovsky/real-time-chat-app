@@ -22,7 +22,7 @@ function MessageInput({ sendMessage, state, setState, recentChats }: I) {
         onChange={(e) => setState({ sentMessage: e.target.value })}
       />
       <Button
-        customStyle="w-1/4 text-xs sm:text-sm text-left ml-2 mt-auto h-10 rounded-lg flex justify-center items-center
+        customStyle="w-1/4 text-xs text-left ml-2 mt-auto h-10 rounded-lg flex justify-center items-center
         md:whitespace-nowrap"
         isDisabled={
           !state.sentMessage ||
