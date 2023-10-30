@@ -136,7 +136,7 @@ function Homepage() {
       setMessages((prevState) => [...prevState, newMessage]);
     });
 
-    return () => socket.off("receive_message");
+    return () => void socket.off("receive_message");
   }, [socket]);
 
   const sendMessage = async (e: React.FormEvent) => {
