@@ -40,8 +40,8 @@ function Page() {
       setState({ errorMessage: "" });
       const updatedFormData = {
         ...formData,
-        username: formData.username.toLowerCase(),
-        password: formData.password,
+        username: formData.username.toLowerCase().trim(),
+        password: formData.password.trim(),
       };
 
       const API_URL = process.env.API_URL || "http://localhost:3000";

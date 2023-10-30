@@ -50,7 +50,8 @@ function Users({ userList, handleSelectUser, recentChats }: I) {
       <input
         type="text"
         className="py-2 px-4 mb-4 bg-gray-100 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-indigo-600
-        dark:bg-gray-700 dark:text-zinc-50 shadow w-full text-sm sm:text-md hover:bg-gra-100 dark:hover:bg-gray-600 duration-300"
+        dark:bg-gray-700 dark:text-zinc-50 shadow w-full text-xs sm:text-md hover:bg-gra-100 dark:hover:bg-gray-600
+        duration-300 truncate"
         placeholder="Search..."
         value={searchedUser}
         onChange={(e) => setSearchedUser(e.target.value)}

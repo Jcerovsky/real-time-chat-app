@@ -61,13 +61,13 @@ function Page() {
       </p>
       <Input
         placeholder="Username"
-        value={formData.username}
+        value={formData.username.trim()}
         name="username"
         setFormData={setFormData}
       />
       <Input
         placeholder="Password "
-        value={formData.password}
+        value={formData.password.trim()}
         name="password"
         setFormData={setFormData}
         type={"password"}

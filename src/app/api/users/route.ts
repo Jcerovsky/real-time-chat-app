@@ -24,11 +24,11 @@ async function handler(req: NextRequest, res: NextResponse) {
     try {
       if (incomingUrl === "/login") {
         const existingUser = await User.findOne({
-          username: userData.username,
+          username: userData.username.trim(),
         });
         if (existingUser !== null) {
           const match = await bcrypt.compare(
-            userData.password,
+            userData.password.trim(),
             existingUser.password,
           );
           if (match) {
