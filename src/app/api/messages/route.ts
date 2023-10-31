@@ -52,7 +52,7 @@ const handler = async (req: NextRequest, res: NextApiResponse) => {
   if (req.method === "DELETE") {
     try {
       const messageId: IMessage = await req.json();
-      await Message.delete({ _id: messageId });
+      await Message.deleteOne({ _id: messageId });
       return NextResponse.json(
         { message: "Successfully deleted" },
         { status: 202 },

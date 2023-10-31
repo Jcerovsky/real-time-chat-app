@@ -44,7 +44,7 @@ function Messages({ messages, currentUserId, state }: I) {
       headers: {
         "Content-Type": "application/json",
       },
-      body: selectedMsgId,
+      body: JSON.stringify(selectedMsgId),
     });
 
     if (res.status === 204) {
