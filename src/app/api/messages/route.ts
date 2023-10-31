@@ -51,8 +51,6 @@ const handler = async (req: NextRequest, res: NextResponse) => {
   if (req.method === "DELETE") {
     try {
       const messageId = await req.json();
-      console.log("msg id", messageId);
-      console.log("type of msg", typeof messageId);
       await Message.deleteOne({ _id: messageId });
       return NextResponse.json(
         { message: "Successfully deleted" },

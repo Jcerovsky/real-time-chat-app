@@ -50,7 +50,7 @@ function Messages({ messages, currentUserId, state, setMessages }: I) {
       body: JSON.stringify(menuState.id),
     });
 
-    if (res.status === 204) {
+    if (res.status === 200) {
       console.log("deleted");
       const updatedMessages = messages.filter(
         (msg) => msg._id !== menuState.id,
