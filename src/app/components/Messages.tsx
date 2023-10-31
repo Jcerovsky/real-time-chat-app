@@ -63,6 +63,11 @@ function Messages({ messages, currentUserId, state, setMessages }: I) {
     }
   };
 
+  const handleCopyText = (msg: string) => {
+    navigator.clipboard.writeText(msg);
+    setMenuState({ id: "", visible: false });
+  };
+
   return (
     <div className="mt-5 p-4 text-xs sm:text-sm">
       {filteredMessages.map((message, i) => (
@@ -87,7 +92,12 @@ function Messages({ messages, currentUserId, state, setMessages }: I) {
           {i === filteredMessages.length - 1 && <div ref={lastMessageRef} />}
           {message.sender === currentUserId?.username &&
             menuState.id === message._id &&
-            menuState.visible && <MessageActions handleDelete={handleDelete} />}
+            menuState.visible && (
+              <MessageActions
+                handleCopyText={() => handleCopyText(message.content)}
+                handleDelete={handleDelete}
+              />
+            )}
         </div>
       ))}
     </div>
