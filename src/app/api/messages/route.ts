@@ -7,6 +7,7 @@ interface IMessage {
   sender: string;
   content: string;
   to: string;
+  _id?: string;
 }
 
 const handler = async (req: NextRequest, res: NextApiResponse) => {
@@ -48,6 +49,21 @@ const handler = async (req: NextRequest, res: NextApiResponse) => {
       );
     }
   }
+  if (req.method === "DELETE") {
+    try {
+      const message: IMessage = await req.json();
+      await Message.delete({ _id: message._id });
+      return NextResponse.json(
+        { message: "Successfully deleted" },
+        { status: 202 },
+      );
+    } catch (err) {
+      return NextResponse.json(
+        { error: "Could not delete message:", err },
+        { status: 500 },
+      );
+    }
+  }
 };
 
-export { handler as POST, handler as GET };
+export { handler as POST, handler as GET, handler as DELETE };
