@@ -35,14 +35,11 @@ function Messages({ messages, currentUserId, state, setMessages }: I) {
   );
 
   const handleSelectMessage = (msg: MessageProps) => {
-    console.log("i ran");
     setMenuState((prevState) => ({
       id: msg._id!,
       visible: !prevState.visible,
     }));
-    console.log("msg", msg._id);
   };
-  console.log("changes", menuState);
 
   const handleDelete = async () => {
     const API_URL = process.env.API_URL || "http://localhost:3000";
