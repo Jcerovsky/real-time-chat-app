@@ -36,10 +36,13 @@ function Messages({ messages, currentUserId, state, setMessages }: I) {
 
   const handleSelectMessage = (msg: MessageProps) => {
     console.log("i ran");
-    setMenuState({ id: msg._id!, visible: !menuState.visible });
-    console.log("changes", menuState);
+    setMenuState((prevState) => ({
+      id: msg._id!,
+      visible: !prevState.visible,
+    }));
     console.log("msg", msg._id);
   };
+  console.log("changes", menuState);
 
   const handleDelete = async () => {
     const API_URL = process.env.API_URL || "http://localhost:3000";
@@ -83,12 +86,8 @@ function Messages({ messages, currentUserId, state, setMessages }: I) {
           </p>
           {i === filteredMessages.length - 1 && <div ref={lastMessageRef} />}
           {message.sender === currentUserId?.username &&
-            menuState.id === message._id && (
-              <MessageActions
-                isVisible={menuState.visible}
-                handleDelete={handleDelete}
-              />
-            )}
+            menuState.id === message._id &&
+            menuState.visible && <MessageActions handleDelete={handleDelete} />}
         </div>
       ))}
     </div>

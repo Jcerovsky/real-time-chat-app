@@ -1,7 +1,7 @@
 import React from "react";
 
 interface I {
-  isVisible: boolean;
+  isVisible?: boolean;
   handleDelete: () => void;
 }
 
