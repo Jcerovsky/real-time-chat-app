@@ -40,6 +40,8 @@ function Messages({ messages, currentUserId, state, setMessages }: I) {
     console.log("msg", msg._id);
   };
 
+  console.log("messages", messages);
+
   const handleDelete = async () => {
     const API_URL = process.env.API_URL || "http://localhost:3000";
     const res = await fetch(`${API_URL}/api/messages`, {
@@ -51,11 +53,11 @@ function Messages({ messages, currentUserId, state, setMessages }: I) {
     });
 
     if (res.status === 200) {
-      console.log("deleted");
       const updatedMessages = messages.filter(
         (msg) => msg._id !== menuState.id,
       );
       setMessages(updatedMessages);
+      setMenuState({ id: "", visible: false });
     }
   };
 

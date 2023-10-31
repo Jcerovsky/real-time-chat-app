@@ -155,8 +155,8 @@ function Homepage() {
           isSending: false,
         });
         setMessages((prevState) => [...prevState, payload]);
-
         socket.emit("message", payload);
+        await fetchFromDatabase("messages", setMessages);
       } catch (err) {
         console.log("Could not save to database:", err);
       }
