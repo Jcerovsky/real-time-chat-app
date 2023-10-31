@@ -34,13 +34,12 @@ function Messages({ messages, currentUserId, state, setMessages }: I) {
         msg.to === currentUserId?.username),
   );
 
-  const handleSelectMessage = async (msg: MessageProps) => {
+  const handleSelectMessage = (msg: MessageProps) => {
+    console.log("i ran");
     setMenuState({ id: msg._id!, visible: !menuState.visible });
     console.log("changes", menuState);
     console.log("msg", msg._id);
   };
-
-  console.log("messages", messages);
 
   const handleDelete = async () => {
     const API_URL = process.env.API_URL || "http://localhost:3000";
