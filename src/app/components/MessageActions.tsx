@@ -2,9 +2,10 @@ import React from "react";
 
 interface I {
   isVisible: boolean;
+  handleDelete: () => void;
 }
 
-function MessageActions({ isVisible }: I) {
+function MessageActions({ isVisible, handleDelete }: I) {
   const handleCopyText = () => {
     navigator.clipboard.writeText("copied");
   };
@@ -15,7 +16,10 @@ function MessageActions({ isVisible }: I) {
       text-white shadow-md ${isVisible && "hidden"}`}
     >
       <ul className="space-y-2">
-        <li className="cursor-pointer hover:bg-blue-700 p-1 rounded-md transition-colors duration-300">
+        <li
+          className="cursor-pointer hover:bg-blue-700 p-1 rounded-md transition-colors duration-300"
+          onClick={handleDelete}
+        >
           Delete
         </li>
         <li className="cursor-pointer hover:bg-blue-700 p-1 rounded-md transition-colors duration-300">

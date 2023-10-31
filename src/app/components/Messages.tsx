@@ -37,7 +37,20 @@ function Messages({ messages, currentUserId, state }: I) {
     setAreMenuActionsShown((prevState) => !prevState);
   };
 
-  console.log("messages", messages);
+  const handleDelete = async () => {
+    const API_URL = process.env.API_URL || "http://localhost:3000";
+    const res = await fetch(`${API_URL}/api/messages`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: selectedMsgId,
+    });
+
+    if (res.status === 204) {
+      console.log("successfully deleted message", selectedMsgId);
+    }
+  };
 
   return (
     <div className="mt-5 p-4 text-xs sm:text-sm">
@@ -62,7 +75,10 @@ function Messages({ messages, currentUserId, state }: I) {
           </p>
           {i === filteredMessages.length - 1 && <div ref={lastMessageRef} />}
           {selectedMsgId === message._id && (
-            <MessageActions isVisible={areMenuActionsShown} />
+            <MessageActions
+              isVisible={areMenuActionsShown}
+              handleDelete={handleDelete}
+            />
           )}
         </div>
       ))}
