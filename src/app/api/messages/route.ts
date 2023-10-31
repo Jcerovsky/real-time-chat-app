@@ -57,9 +57,27 @@ const handler = async (req: NextRequest, res: NextResponse) => {
         { status: 200 },
       );
     } catch (err) {
-      console.log("error", err);
       return NextResponse.json(
         { error: "Could not delete message:", err },
+        { status: 500 },
+      );
+    }
+  }
+
+  if (req.method === "PUT") {
+    try {
+      const message: IMessage = await res.json();
+      await Message.updateOne(
+        { _id: message._id },
+        { content: message.content },
+      );
+      return NextResponse.json(
+        { message: "Message updated successfully" },
+        { status: 200 },
+      );
+    } catch (err) {
+      return NextResponse.json(
+        { error: "Could not update message:", err },
         { status: 500 },
       );
     }
