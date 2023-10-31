@@ -21,7 +21,7 @@ function Messages({ messages, currentUserId, state }: I) {
 
   const [areMenuActionsShown, setAreMenuActionsShown] =
     useState<boolean>(false);
-  const [selectedMsgIndex, setSelectedMsgIndex] = useState<number | null>(null);
+  const [selectedMsgId, setSelectedMsgId] = useState<string>("");
 
   const lastMessageRef = useRef<HTMLDivElement>(null);
   const filteredMessages = messages.filter(
@@ -32,8 +32,8 @@ function Messages({ messages, currentUserId, state }: I) {
         msg.to === currentUserId?.username),
   );
 
-  const handleSelectMessage = async (msg: MessageProps, i: number) => {
-    console.log("msgid", msg._id);
+  const handleSelectMessage = async (msg: MessageProps) => {
+    setSelectedMsgId(msg._id!);
     setAreMenuActionsShown((prevState) => !prevState);
   };
 
@@ -56,12 +56,12 @@ function Messages({ messages, currentUserId, state }: I) {
                 ? "bg-blue-400"
                 : "bg-gray-300"
             }`}
-            onClick={() => handleSelectMessage(message, i)}
+            onClick={() => handleSelectMessage(message)}
           >
             {message.content}
           </p>
           {i === filteredMessages.length - 1 && <div ref={lastMessageRef} />}
-          {selectedMsgIndex === i && (
+          {selectedMsgId === message._id && (
             <MessageActions isVisible={areMenuActionsShown} />
           )}
         </div>
