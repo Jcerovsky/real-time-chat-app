@@ -10,9 +10,10 @@ interface I {
   messages: MessageProps[];
   currentUserId: UserProps | undefined;
   state: HomepageProps;
+  setMessages: React.Dispatch<React.SetStateAction<MessageProps[]>>;
 }
 
-function Messages({ messages, currentUserId, state }: I) {
+function Messages({ messages, currentUserId, state, setMessages }: I) {
   useEffect(() => {
     if (lastMessageRef.current) {
       lastMessageRef.current.scrollIntoView({ behavior: "smooth" });
@@ -48,7 +49,11 @@ function Messages({ messages, currentUserId, state }: I) {
     });
 
     if (res.status === 204) {
-      console.log("successfully deleted message", selectedMsgId);
+      console.log("deleted");
+      const updatedMessages = messages.filter(
+        (msg) => msg._id !== currentUserId,
+      );
+      setMessages(updatedMessages);
     }
   };
 

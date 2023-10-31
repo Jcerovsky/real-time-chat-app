@@ -55,7 +55,7 @@ const handler = async (req: NextRequest, res: NextApiResponse) => {
       await Message.deleteOne({ _id: messageId });
       return NextResponse.json(
         { message: "Successfully deleted" },
-        { status: 202 },
+        { status: 204 },
       );
     } catch (err) {
       return NextResponse.json(

@@ -245,6 +245,7 @@ function Homepage() {
                 currentUserId={currentUserId}
                 messages={messages}
                 state={state}
+                setMessages={setMessages}
               />
             </div>
           </div>
