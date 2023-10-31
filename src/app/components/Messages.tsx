@@ -53,7 +53,7 @@ function Messages({ messages, currentUserId, state, setMessages }: I) {
     if (res.status === 204) {
       console.log("deleted");
       const updatedMessages = messages.filter(
-        (msg) => msg._id !== currentUserId,
+        (msg) => msg._id !== menuState.id,
       );
       setMessages(updatedMessages);
     }

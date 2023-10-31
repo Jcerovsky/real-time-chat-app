@@ -1,7 +1,6 @@
 import connectDb from "@/app/lib/mongoose";
 import Message from "@/app/models/Message";
 import { NextRequest, NextResponse } from "next/server";
-import { NextApiResponse } from "next";
 
 interface IMessage {
   sender: string;
@@ -10,7 +9,7 @@ interface IMessage {
   _id?: string;
 }
 
-const handler = async (req: NextRequest, res: NextApiResponse) => {
+const handler = async (req: NextRequest, res: NextResponse) => {
   try {
     await connectDb();
   } catch (err) {
@@ -51,13 +50,16 @@ const handler = async (req: NextRequest, res: NextApiResponse) => {
   }
   if (req.method === "DELETE") {
     try {
-      const messageId: IMessage = await req.json();
+      const messageId = await req.json();
+      console.log("msg id", messageId);
+      console.log("type of msg", typeof messageId);
       await Message.deleteOne({ _id: messageId });
       return NextResponse.json(
         { message: "Successfully deleted" },
-        { status: 204 },
+        { status: 200 },
       );
     } catch (err) {
+      console.log("error", err);
       return NextResponse.json(
         { error: "Could not delete message:", err },
         { status: 500 },
