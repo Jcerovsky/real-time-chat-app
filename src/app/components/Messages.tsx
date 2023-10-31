@@ -20,9 +20,10 @@ function Messages({ messages, currentUserId, state, setMessages }: I) {
     }
   }, [messages]);
 
-  const [areMenuActionsShown, setAreMenuActionsShown] =
-    useState<boolean>(false);
-  const [selectedMsgId, setSelectedMsgId] = useState<string>("");
+  const [menuState, setMenuState] = useState<{ id: string; visible: boolean }>({
+    id: "",
+    visible: false,
+  });
 
   const lastMessageRef = useRef<HTMLDivElement>(null);
   const filteredMessages = messages.filter(
@@ -34,8 +35,9 @@ function Messages({ messages, currentUserId, state, setMessages }: I) {
   );
 
   const handleSelectMessage = async (msg: MessageProps) => {
-    setSelectedMsgId(msg._id!);
-    setAreMenuActionsShown((prevState) => !prevState);
+    setMenuState({ id: msg._id!, visible: !menuState.visible });
+    console.log("changes", menuState);
+    console.log("msg", msg._id);
   };
 
   const handleDelete = async () => {
@@ -45,7 +47,7 @@ function Messages({ messages, currentUserId, state, setMessages }: I) {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(selectedMsgId),
+      body: JSON.stringify(menuState.id),
     });
 
     if (res.status === 204) {
@@ -79,12 +81,13 @@ function Messages({ messages, currentUserId, state, setMessages }: I) {
             {message.content}
           </p>
           {i === filteredMessages.length - 1 && <div ref={lastMessageRef} />}
-          {selectedMsgId === message._id && (
-            <MessageActions
-              isVisible={areMenuActionsShown}
-              handleDelete={handleDelete}
-            />
-          )}
+          {message.sender === currentUserId?.username &&
+            menuState.id === message._id && (
+              <MessageActions
+                isVisible={menuState.visible}
+                handleDelete={handleDelete}
+              />
+            )}
         </div>
       ))}
     </div>
