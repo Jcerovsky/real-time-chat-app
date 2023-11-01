@@ -33,12 +33,20 @@ function Messages({ messages, currentUserId, state, setMessages }: I) {
 
   const lastMessageRef = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
+  const messageActionsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (formRef.current && !formRef.current.contains(event.target as Node)) {
         console.log("clicked outside");
         setEditedMsg(null);
+      }
+      if (
+        messageActionsRef.current &&
+        !messageActionsRef.current.contains(event.target as Node)
+      ) {
+        console.log("clicked outside");
+        setMenuState({ id: "", visible: false });
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
@@ -172,6 +180,7 @@ function Messages({ messages, currentUserId, state, setMessages }: I) {
                 handleDelete={handleDelete}
                 setEditedMsg={setEditedMsg}
                 currentMessage={message}
+                messageActionsRef={messageActionsRef}
               />
             )}
         </div>

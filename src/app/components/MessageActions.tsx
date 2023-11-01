@@ -7,6 +7,7 @@ interface I {
   handleCopyText: () => void;
   setEditedMsg: React.Dispatch<React.SetStateAction<EditedMessageProps | null>>;
   currentMessage: MessageProps;
+  messageActionsRef: React.RefObject<HTMLDivElement>;
 }
 
 function MessageActions({
@@ -14,6 +15,7 @@ function MessageActions({
   handleCopyText,
   setEditedMsg,
   currentMessage,
+  messageActionsRef,
 }: I) {
   const handleEditClick = (e: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
     e.stopPropagation();
@@ -27,6 +29,7 @@ function MessageActions({
     <div
       className={`absolute top-8 right-0 z-50 p-2 rounded-lg bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 
       text-white shadow-md w-36 text-center`}
+      ref={messageActionsRef}
     >
       <ul className="space-y-2">
         <li
