@@ -69,6 +69,14 @@ function Homepage() {
   }, [messages]);
 
   useEffect(() => {
+    Notification.requestPermission().then((permission) => {
+      if (permission === "granted") {
+        console.log("permission granted");
+      }
+    });
+  }, []);
+
+  useEffect(() => {
     if (recentChats.length > 0 && !state.selectedUser) {
       const mostRecentChat = recentChats[0];
       const mostRecentUsername =
@@ -132,6 +140,12 @@ function Homepage() {
       };
 
       setMessages((prevState) => [...prevState, newMessage]);
+
+      if (currentUserId && currentUserId.username !== msg.sender) {
+        new Notification(`New message from ${msg.sender}`, {
+          body: msg.content,
+        });
+      }
     });
 
     return () => void socket.off("receive_message");
