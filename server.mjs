@@ -16,18 +16,17 @@ app.prepare().then(() => {
     cors: { origin: "*" },
   });
 
-  const userToSocketMap = new Map()
+  const userToSocketMap = new Map();
 
   io.on("connection", (socket) => {
-
-    socket.on('register', (userId) => {
-      userToSocketMap.set(userId, socket.id)
-    })
+    socket.on("register", (userId) => {
+      userToSocketMap.set(userId, socket.id);
+    });
 
     socket.on("message", async (message) => {
-      const recipientSocketId = userToSocketMap.get(message.to)
+      const recipientSocketId = userToSocketMap.get(message.to);
       if (recipientSocketId) {
-        io.to(recipientSocketId).emit('receive_message', message)
+        io.to(recipientSocketId).emit("receive_message", message);
       }
     });
   });
