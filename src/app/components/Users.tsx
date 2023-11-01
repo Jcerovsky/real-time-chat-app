@@ -104,7 +104,7 @@ function Users({ userList, handleSelectUser, recentChats }: I) {
               <p className="truncate opacity-50">{chat.content}</p>
             </div>
             {chat.sender !== currentUser && (
-              <div className="w-4 h-4 bg-white rounded-full self-center" />
+              <div className="w-4 h-4 dark:bg-white bg-blue-600 rounded-full self-center" />
             )}
           </div>
         ))}
