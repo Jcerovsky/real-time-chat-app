@@ -90,8 +90,8 @@ function Users({ userList, handleSelectUser, recentChats }: I) {
         {recentChats.map((chat, i) => (
           <div
             key={`${chat.to}-${i}-${chat.sender}`}
-            className="flex mb-2 p-1 rounded-r-xl items-center gap-2 dark:text-zinc-50 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600
-             duration-300 "
+            className="flex mb-2 p-1 rounded-r-xl items-center gap-2 dark:text-zinc-50 cursor-pointer hover:bg-gray-100
+            dark:hover:bg-gray-600 duration-300 "
             onClick={() =>
               selectUser(currentUser === chat.sender ? chat.to : chat.sender)
             }
@@ -104,7 +104,7 @@ function Users({ userList, handleSelectUser, recentChats }: I) {
               <p className="truncate opacity-50">{chat.content}</p>
             </div>
             {chat.sender !== currentUser && (
-              <div className="w-4 h-4 dark:bg-white bg-blue-600 rounded-full self-center" />
+              <div className="w-3 h-3 dark:bg-white bg-blue-600 rounded-full self-center shrink-0 " />
             )}
           </div>
         ))}
