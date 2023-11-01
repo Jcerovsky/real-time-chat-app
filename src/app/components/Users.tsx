@@ -45,8 +45,6 @@ function Users({ userList, handleSelectUser, recentChats }: I) {
     }
   };
 
-  console.log("recent chats", recentChats);
-
   return (
     <div ref={dropdownRef} className="relative">
       <div className="relative">
@@ -105,6 +103,9 @@ function Users({ userList, handleSelectUser, recentChats }: I) {
               <p>{currentUser === chat.sender ? chat.to : chat.sender}</p>
               <p className="truncate opacity-50">{chat.content}</p>
             </div>
+            {chat.sender !== currentUser && (
+              <div className="w-4 h-4 bg-white rounded-full self-center" />
+            )}
           </div>
         ))}
       </div>
