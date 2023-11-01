@@ -98,6 +98,7 @@ function Messages({ messages, currentUserId, state, setMessages }: I) {
       return {
         ...editedMessage,
         content: e.target.value,
+        isEdited: editedMsg?.isEdited ?? false,
       };
     });
   };
@@ -146,7 +147,9 @@ function Messages({ messages, currentUserId, state, setMessages }: I) {
               <MessageActions
                 handleCopyText={() => handleCopyText(message.content)}
                 handleDelete={handleDelete}
-                setEditedMsg={() => setEditedMsg(message)}
+                setEditedMsg={setEditedMsg}
+                currentMessage={message}
+                editedMsg={editedMsg}
               />
             )}
         </div>
