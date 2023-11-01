@@ -17,6 +17,13 @@ function MessageActions({
   currentMessage,
   editedMsg,
 }: I) {
+  const handleEditClick = () => {
+    setEditedMsg({
+      ...currentMessage,
+      isEdited: !currentMessage.isEdited,
+    });
+  };
+
   return (
     <div
       className={`absolute top-8 right-0 z-50 p-2 rounded-lg bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 
@@ -31,21 +38,7 @@ function MessageActions({
         </li>
         <li
           className="cursor-pointer hover:bg-blue-700 p-1 rounded-md transition-colors duration-300 border-b-2"
-          onClick={() =>
-            setEditedMsg((prevState) => {
-              if (!prevState.isEdited) {
-                return {
-                  ...prevState,
-                  isEdited: false,
-                };
-              } else {
-                return {
-                  ...prevState,
-                  isEdited: !prevState.isEdited,
-                };
-              }
-            })
-          }
+          onClick={handleEditClick}
         >
           Edit
         </li>

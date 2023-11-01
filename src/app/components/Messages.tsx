@@ -67,6 +67,7 @@ function Messages({ messages, currentUserId, state, setMessages }: I) {
   };
 
   const handleSendEditedMessage = async () => {
+    e.preventDefault();
     const API_URL = process.env.API_URL || "http://localhost:3000";
     const res = await fetch(`${API_URL}/api/messages`, {
       method: "PUT",
@@ -120,7 +121,7 @@ function Messages({ messages, currentUserId, state, setMessages }: I) {
               : "justify-start"
           }`}
         >
-          <p
+          <div
             className={`rounded-lg py-1 px-2 cursor-pointer ${
               message.sender === currentUserId?.username
                 ? "bg-blue-400"
@@ -139,7 +140,7 @@ function Messages({ messages, currentUserId, state, setMessages }: I) {
             ) : (
               message.content
             )}
-          </p>
+          </div>
           {i === filteredMessages.length - 1 && <div ref={lastMessageRef} />}
           {message.sender === currentUserId?.username &&
             menuState.id === message._id &&

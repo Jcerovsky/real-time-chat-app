@@ -8,6 +8,7 @@ export interface MessageProps {
   content: string;
   to: string;
   _id?: string;
+  isEdited?: boolean;
 }
 
 export interface HomepageProps {

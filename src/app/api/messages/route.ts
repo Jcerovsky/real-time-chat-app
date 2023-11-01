@@ -84,4 +84,4 @@ const handler = async (req: NextRequest, res: NextResponse) => {
   }
 };
 
-export { handler as POST, handler as GET, handler as DELETE };
+export { handler as POST, handler as GET, handler as DELETE, handler as PUT };
