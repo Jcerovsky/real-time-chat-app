@@ -32,6 +32,20 @@ function Messages({ messages, currentUserId, state, setMessages }: I) {
   const [editedMsg, setEditedMsg] = useState<EditedMessageProps | null>(null);
 
   const lastMessageRef = useRef<HTMLDivElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (formRef.current && !formRef.current.contains(event.target as Node)) {
+        console.log("clicked outside");
+        setEditedMsg(null);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   const filteredMessages = messages.filter(
     (msg) =>
       (msg.to === state.selectedUser?.username &&
@@ -66,7 +80,7 @@ function Messages({ messages, currentUserId, state, setMessages }: I) {
     }
   };
 
-  const handleSendEditedMessage = async () => {
+  const handleSendEditedMessage = async (e: React.FormEvent) => {
     e.preventDefault();
     const API_URL = process.env.API_URL || "http://localhost:3000";
     const res = await fetch(`${API_URL}/api/messages`, {
@@ -76,7 +90,7 @@ function Messages({ messages, currentUserId, state, setMessages }: I) {
       },
       body: JSON.stringify(editedMsg),
     });
-    if (res.ok) {
+    if (res.status === 200) {
       const editedMessage = messages.find((msg) => msg._id === editedMsg?._id);
       setMessages((prevState) => {
         return prevState.map((msg) => {
@@ -90,7 +104,7 @@ function Messages({ messages, currentUserId, state, setMessages }: I) {
           }
         });
       });
-      console.log("successfully edited");
+      setEditedMsg(null);
     }
   };
 
@@ -137,10 +151,11 @@ function Messages({ messages, currentUserId, state, setMessages }: I) {
             onClick={() => handleSelectMessage(message)}
           >
             {editedMsg?.isEdited && editedMsg?._id === message._id ? (
-              <form onSubmit={handleSendEditedMessage}>
+              <form onSubmit={handleSendEditedMessage} ref={formRef}>
                 <input
                   type="text"
                   value={editedMsg?.content}
+                  className="rounded-md dark:text-neutral-800"
                   onChange={(e) => handleEditChange(e, message)}
                 />
               </form>

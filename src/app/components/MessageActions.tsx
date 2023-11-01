@@ -15,7 +15,8 @@ function MessageActions({
   setEditedMsg,
   currentMessage,
 }: I) {
-  const handleEditClick = () => {
+  const handleEditClick = (e: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
+    e.stopPropagation();
     setEditedMsg({
       ...currentMessage,
       isEdited: !currentMessage.isEdited,
@@ -36,7 +37,7 @@ function MessageActions({
         </li>
         <li
           className="cursor-pointer hover:bg-blue-700 p-1 rounded-md transition-colors duration-300 border-b-2"
-          onClick={handleEditClick}
+          onClick={(e) => handleEditClick(e)}
         >
           Edit
         </li>

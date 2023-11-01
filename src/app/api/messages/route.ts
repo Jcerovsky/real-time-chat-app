@@ -66,7 +66,7 @@ const handler = async (req: NextRequest, res: NextResponse) => {
 
   if (req.method === "PUT") {
     try {
-      const message: IMessage = await res.json();
+      const message: IMessage = await req.json();
       await Message.updateOne(
         { _id: message._id },
         { content: message.content },
