@@ -179,6 +179,8 @@ function Messages({ messages, currentUserId, state, setMessages }: I) {
                 setEditedMsg={setEditedMsg}
                 currentMessage={message}
                 messageActionsRef={messageActionsRef}
+                filteredMessages={filteredMessages}
+                index={i}
               />
             )}
         </div>

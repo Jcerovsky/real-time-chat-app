@@ -8,6 +8,8 @@ interface I {
   setEditedMsg: React.Dispatch<React.SetStateAction<EditedMessageProps | null>>;
   currentMessage: MessageProps;
   messageActionsRef: React.RefObject<HTMLDivElement>;
+  filteredMessages: MessageProps[];
+  index: number;
 }
 
 function MessageActions({
@@ -16,14 +18,23 @@ function MessageActions({
   setEditedMsg,
   currentMessage,
   messageActionsRef,
+  filteredMessages,
+  index,
 }: I) {
   const handleEditClick = (e: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
     e.stopPropagation();
-    setEditedMsg({
-      ...currentMessage,
-      isEdited: !currentMessage.isEdited,
-    });
+    if (filteredMessages.length - 1 === index) {
+      setEditedMsg({
+        ...currentMessage,
+        isEdited: !currentMessage.isEdited,
+      });
+    }
   };
+
+  const lastMessageStyle =
+    filteredMessages.length - 1 === index
+      ? "cursor-pointer hover:bg-blue-700 transition-colors duration-300"
+      : "opacity-50";
 
   return (
     <div
@@ -39,7 +50,7 @@ function MessageActions({
           Delete
         </li>
         <li
-          className="cursor-pointer hover:bg-blue-700 p-1 rounded-md transition-colors duration-300 border-b-2"
+          className={`${lastMessageStyle} p-1 rounded-md  border-b-2`}
           onClick={(e) => handleEditClick(e)}
         >
           Edit
