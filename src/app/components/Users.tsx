@@ -92,11 +92,15 @@ function Users({ userList, handleSelectUser, recentChats }: I) {
             key={chat.to}
             className="flex mb-2 p-1 rounded-r-xl items-center gap-2 dark:text-zinc-50 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600
              duration-300 "
-            onClick={() => selectUser(chat.to)}
+            onClick={() =>
+              selectUser(currentUser === chat.sender ? chat.to : chat.sender)
+            }
           >
-            <UserLogo user={chat.to} />
+            <UserLogo
+              user={currentUser === chat.sender ? chat.to : chat.sender}
+            />
             <div className="flex flex-col text-sm  w-3/4">
-              <p>{chat.to}</p>
+              <p>{currentUser === chat.sender ? chat.to : chat.sender}</p>
               <p className="truncate opacity-50">{chat.content}</p>
             </div>
           </div>

@@ -51,7 +51,8 @@ function Homepage() {
       .filter(
         (msg) =>
           msg.sender === currentUserId?.username ||
-          msg.to === state.selectedUser?.username,
+          msg.to === state.selectedUser?.username ||
+          msg.to === currentUserId?.username,
       )
       .reverse();
 
