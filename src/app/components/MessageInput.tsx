@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import Button from "@/app/components/Button";
 import { HomepageProps, MessageProps } from "@/app/interfaces/interfaces";
 

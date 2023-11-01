@@ -38,14 +38,12 @@ function Messages({ messages, currentUserId, state, setMessages }: I) {
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (formRef.current && !formRef.current.contains(event.target as Node)) {
-        console.log("clicked outside");
         setEditedMsg(null);
       }
       if (
         messageActionsRef.current &&
         !messageActionsRef.current.contains(event.target as Node)
       ) {
-        console.log("clicked outside");
         setMenuState({ id: "", visible: false });
       }
     };
