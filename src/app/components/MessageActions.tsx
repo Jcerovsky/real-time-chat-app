@@ -7,7 +7,6 @@ interface I {
   handleCopyText: () => void;
   setEditedMsg: React.Dispatch<React.SetStateAction<EditedMessageProps | null>>;
   currentMessage: MessageProps;
-  editedMsg: EditedMessageProps | null;
 }
 
 function MessageActions({
@@ -15,7 +14,6 @@ function MessageActions({
   handleCopyText,
   setEditedMsg,
   currentMessage,
-  editedMsg,
 }: I) {
   const handleEditClick = () => {
     setEditedMsg({

@@ -77,11 +77,19 @@ function Messages({ messages, currentUserId, state, setMessages }: I) {
       body: JSON.stringify(editedMsg),
     });
     if (res.ok) {
-      const editedMessage = messages.filter(
-        (msg) => msg._id === editedMsg?._id,
-      );
-      editedMessage[0].content = editedMsg!.content;
-      setMessages(editedMessage);
+      const editedMessage = messages.find((msg) => msg._id === editedMsg?._id);
+      setMessages((prevState) => {
+        return prevState.map((msg) => {
+          if (msg._id === editedMessage?._id) {
+            return {
+              ...msg,
+              content: editedMsg!.content,
+            };
+          } else {
+            return msg;
+          }
+        });
+      });
       console.log("successfully edited");
     }
   };
@@ -99,11 +107,10 @@ function Messages({ messages, currentUserId, state, setMessages }: I) {
       return {
         ...editedMessage,
         content: e.target.value,
-        isEdited: editedMsg?.isEdited ?? false,
+        isEdited: editedMsg?.isEdited ?? true,
       };
     });
   };
-  console.log("edited msg", editedMsg);
 
   const handleCopyText = (msg: string) => {
     navigator.clipboard.writeText(msg);
@@ -150,7 +157,6 @@ function Messages({ messages, currentUserId, state, setMessages }: I) {
                 handleDelete={handleDelete}
                 setEditedMsg={setEditedMsg}
                 currentMessage={message}
-                editedMsg={editedMsg}
               />
             )}
         </div>
