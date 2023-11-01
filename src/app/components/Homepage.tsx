@@ -38,8 +38,6 @@ function Homepage() {
   const [messages, setMessages] = useState<MessageProps[]>([]);
   const [recentChats, setRecentChats] = useState<MessageProps[]>([]);
 
-  console.log("messages", messages);
-
   const currentUserId = state.userList.find(
     (user) => user.username === currentUser,
   );
@@ -51,7 +49,6 @@ function Homepage() {
       .filter(
         (msg) =>
           msg.sender === currentUserId?.username ||
-          msg.to === state.selectedUser?.username ||
           msg.to === currentUserId?.username,
       )
       .reverse();

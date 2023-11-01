@@ -45,6 +45,8 @@ function Users({ userList, handleSelectUser, recentChats }: I) {
     }
   };
 
+  console.log("recent chats", recentChats);
+
   return (
     <div ref={dropdownRef} className="relative">
       <div className="relative">
@@ -87,9 +89,9 @@ function Users({ userList, handleSelectUser, recentChats }: I) {
         </div>
       )}
       <div>
-        {recentChats.map((chat) => (
+        {recentChats.map((chat, i) => (
           <div
-            key={chat.to}
+            key={`${chat.to}-${i}-${chat.sender}`}
             className="flex mb-2 p-1 rounded-r-xl items-center gap-2 dark:text-zinc-50 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600
              duration-300 "
             onClick={() =>
