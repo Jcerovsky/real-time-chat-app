@@ -43,6 +43,7 @@ function Messages({
   const lastMessageRef = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
   const messageActionsRef = useRef<HTMLDivElement>(null);
+  const messageRefs = useRef<(HTMLParagraphElement | null)[]>([]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -60,6 +61,17 @@ function Messages({
 
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  useEffect(() => {
+    if (
+      searchedResultIndex.length > 0 &&
+      messageRefs.current[searchedResultIndex[0]]
+    ) {
+      messageRefs.current[searchedResultIndex[0]]?.scrollIntoView({
+        behavior: "smooth",
+      });
+    }
+  }, [searchedResultIndex]);
 
   const handleSelectMessage = (msg: MessageProps) => {
     setMenuState((prevState) => ({
@@ -168,6 +180,11 @@ function Messages({
               </form>
             ) : (
               <p
+                ref={(el) => {
+                  if (messageRefs.current) {
+                    messageRefs.current[i] = el;
+                  }
+                }}
                 className={`${
                   searchedResultIndex.includes(i) &&
                   state.searchedText.length > 0
