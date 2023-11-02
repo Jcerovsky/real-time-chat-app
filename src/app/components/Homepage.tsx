@@ -139,9 +139,12 @@ function Homepage() {
         to: msg.to,
       };
 
+      console.log("current user id", currentUser);
+
       setMessages((prevState) => [...prevState, newMessage]);
 
-      if (currentUserId && currentUserId.username !== msg.sender) {
+      if (currentUser !== msg.sender) {
+        console.log("sent notification");
         new Notification(`New message from ${msg.sender}`, {
           body: msg.content,
         });
