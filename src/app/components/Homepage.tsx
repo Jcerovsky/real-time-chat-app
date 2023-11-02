@@ -30,7 +30,9 @@ function Homepage() {
     isLoading: false,
     isSending: false,
     isSmallScreen: false,
-    searchedText: '',
+    searchedIndex: 0,
+    searchedResultsIndexes: [],
+    searchedText: "",
     selectedUser: null,
     sentMessage: "",
     userList: [],
@@ -100,6 +102,30 @@ function Homepage() {
       setState({ userList: data });
     }
   };
+
+  const handleSearch = (searchedText: string) => {
+    const results = messages
+      .map((msg, index) =>
+        msg.content.toLowerCase().includes(searchedText.toLowerCase())
+          ? index
+          : -1,
+      )
+      .filter((index) => index !== -1);
+    setState({ searchedResultsIndexes: results, searchedIndex: 0 });
+  };
+
+  const goToNextResult = () => {
+    setState({
+      searchedIndex:
+        state.searchedIndex < state.searchedResultsIndexes.length - 1
+          ? state.searchedIndex + 1
+          : 0,
+    });
+  };
+
+  useEffect(() => {
+    handleSearch(state.searchedText);
+  }, [state.searchedText, messages]);
 
   useEffect(() => {
     fetchUsers();
@@ -254,13 +280,27 @@ function Homepage() {
                     style={`${showGoBack && "ml-auto"} mr-2`}
                   />
                   <p>{state.selectedUser.username}</p>
-                  <input type="text" placeholer='Search in conversation...' value={searchedText} onChange={() => s}/>
+                  <div>
+                    <input
+                      type="text"
+                      placeholder="Search in conversation..."
+                      value={state.searchedText}
+                      onChange={(e) =>
+                        setState({ searchedText: e.target.value })
+                      }
+                    />
+                    <button onClick={goToNextResult}>Next</button>
+                  </div>
                 </div>
               )}
               <NoRecentChats />
               <Messages
                 currentUserId={currentUserId}
-                messages={messages}
+                messages={
+                  state.searchedMessages.length > 0
+                    ? state.searchedMessages
+                    : messages
+                }
                 state={state}
                 setMessages={setMessages}
               />

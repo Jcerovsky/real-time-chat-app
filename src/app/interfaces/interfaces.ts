@@ -19,6 +19,8 @@ export interface HomepageProps {
   isSmallScreen: boolean;
   searchedText: string;
   selectedUser: UserProps | null;
+  searchedIndex: number;
+  searchedResultsIndexes: number[];
   sentMessage: string;
   userList: UserProps[];
 }
