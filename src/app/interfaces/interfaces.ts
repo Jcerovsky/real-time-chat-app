@@ -12,12 +12,13 @@ export interface MessageProps {
 }
 
 export interface HomepageProps {
-  isLoading: boolean;
-  sentMessage: string;
-  isSmallScreen: boolean;
   currentChatUsers: string[];
-  selectedUser: UserProps | null;
-  userList: UserProps[];
-  isSending: boolean;
   isChatShownOnSmallScreen: boolean;
+  isLoading: boolean;
+  isSending: boolean;
+  isSmallScreen: boolean;
+  searchedText: string;
+  selectedUser: UserProps | null;
+  sentMessage: string;
+  userList: UserProps[];
 }

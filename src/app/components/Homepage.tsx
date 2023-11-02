@@ -25,13 +25,14 @@ function Homepage() {
 
   const { isAuthenticated, currentUser } = useContext(Context)!;
   const [state, setState] = useObjectState<HomepageProps>({
-    isLoading: false,
-    sentMessage: "",
-    selectedUser: null,
-    isSmallScreen: false,
     currentChatUsers: [],
-    isSending: false,
     isChatShownOnSmallScreen: false,
+    isLoading: false,
+    isSending: false,
+    isSmallScreen: false,
+    searchedText: '',
+    selectedUser: null,
+    sentMessage: "",
     userList: [],
   });
 
@@ -253,6 +254,7 @@ function Homepage() {
                     style={`${showGoBack && "ml-auto"} mr-2`}
                   />
                   <p>{state.selectedUser.username}</p>
+                  <input type="text" placeholer='Search in conversation...' value={searchedText} onChange={() => s}/>
                 </div>
               )}
               <NoRecentChats />
