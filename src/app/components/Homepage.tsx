@@ -306,6 +306,7 @@ function Homepage() {
                 searchedResultIndex={state.searchedResultsIndexes}
                 filteredMessages={filteredMessages}
                 setMessages={setMessages}
+                state={state}
               />
             </div>
           </div>

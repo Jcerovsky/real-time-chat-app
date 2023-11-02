@@ -1,5 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
-import { MessageProps, UserProps } from "@/app/interfaces/interfaces";
+import {
+  HomepageProps,
+  MessageProps,
+  UserProps,
+} from "@/app/interfaces/interfaces";
 import MessageActions from "@/app/components/MessageActions";
 
 interface I {
@@ -7,6 +11,7 @@ interface I {
   currentUserId: UserProps | undefined;
   filteredMessages: MessageProps[];
   searchedResultIndex: number[];
+  state: HomepageProps;
   setMessages: React.Dispatch<React.SetStateAction<MessageProps[]>>;
 }
 
@@ -19,6 +24,7 @@ function Messages({
   currentUserId,
   setMessages,
   filteredMessages,
+  state,
   searchedResultIndex,
 }: I) {
   useEffect(() => {
@@ -163,7 +169,10 @@ function Messages({
             ) : (
               <p
                 className={`${
-                  searchedResultIndex.includes(i) ? "text-yellow-500" : ""
+                  searchedResultIndex.includes(i) &&
+                  state.searchedText.length > 0
+                    ? "text-yellow-500"
+                    : ""
                 }`}
               >
                 {message.content}
