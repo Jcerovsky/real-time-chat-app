@@ -104,7 +104,7 @@ function Homepage() {
   };
 
   const handleSearch = (searchedText: string) => {
-    const results = messages
+    const results = filteredMessages
       .map((msg, index) =>
         msg.content.toLowerCase().includes(searchedText.toLowerCase())
           ? index
@@ -166,8 +166,6 @@ function Homepage() {
         to: msg.to,
       };
 
-      console.log("current user id", currentUser);
-
       setMessages((prevState) => [...prevState, newMessage]);
 
       if (currentUser !== msg.sender) {
@@ -222,6 +220,14 @@ function Homepage() {
     >
       <img src="/assets/arrow-back.png" alt="go-back-arrow" className="w-6" />
     </div>
+  );
+
+  const filteredMessages = messages.filter(
+    (msg) =>
+      (msg.to === state.selectedUser?.username &&
+        msg.sender === currentUserId?.username) ||
+      (msg.sender === state.selectedUser?.username &&
+        msg.to === currentUserId?.username),
   );
 
   const NoRecentChats = () => {
@@ -296,12 +302,9 @@ function Homepage() {
               <NoRecentChats />
               <Messages
                 currentUserId={currentUserId}
-                messages={
-                  state.searchedMessages.length > 0
-                    ? state.searchedMessages
-                    : messages
-                }
-                state={state}
+                messages={messages}
+                searchedResultIndex={state.searchedResultsIndexes}
+                filteredMessages={filteredMessages}
                 setMessages={setMessages}
               />
             </div>

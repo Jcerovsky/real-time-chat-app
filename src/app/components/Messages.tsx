@@ -1,15 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
-import {
-  HomepageProps,
-  MessageProps,
-  UserProps,
-} from "@/app/interfaces/interfaces";
+import { MessageProps, UserProps } from "@/app/interfaces/interfaces";
 import MessageActions from "@/app/components/MessageActions";
 
 interface I {
   messages: MessageProps[];
   currentUserId: UserProps | undefined;
-  state: HomepageProps;
+  filteredMessages: MessageProps[];
+  searchedResultIndex: number[];
   setMessages: React.Dispatch<React.SetStateAction<MessageProps[]>>;
 }
 
@@ -17,7 +14,13 @@ export interface EditedMessageProps extends MessageProps {
   isEdited: boolean;
 }
 
-function Messages({ messages, currentUserId, state, setMessages }: I) {
+function Messages({
+  messages,
+  currentUserId,
+  setMessages,
+  filteredMessages,
+  searchedResultIndex,
+}: I) {
   useEffect(() => {
     if (lastMessageRef.current) {
       lastMessageRef.current.scrollIntoView({ behavior: "smooth" });
@@ -51,14 +54,6 @@ function Messages({ messages, currentUserId, state, setMessages }: I) {
 
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
-
-  const filteredMessages = messages.filter(
-    (msg) =>
-      (msg.to === state.selectedUser?.username &&
-        msg.sender === currentUserId?.username) ||
-      (msg.sender === state.selectedUser?.username &&
-        msg.to === currentUserId?.username),
-  );
 
   const handleSelectMessage = (msg: MessageProps) => {
     setMenuState((prevState) => ({
@@ -166,7 +161,13 @@ function Messages({ messages, currentUserId, state, setMessages }: I) {
                 />
               </form>
             ) : (
-              message.content
+              <p
+                className={`${
+                  searchedResultIndex.includes(i) ? "text-yellow-500" : ""
+                }`}
+              >
+                {message.content}
+              </p>
             )}
           </div>
           {i === filteredMessages.length - 1 && <div ref={lastMessageRef} />}
