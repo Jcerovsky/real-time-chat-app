@@ -142,7 +142,7 @@ function Messages({
   };
 
   const handleCopyText = async (msg: string) => {
-    await navigator.clipboard.writeText(msg)
+    await navigator.clipboard.writeText(msg);
     setMenuState({ id: "", visible: false });
   };
 

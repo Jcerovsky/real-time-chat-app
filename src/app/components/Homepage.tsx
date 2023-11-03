@@ -23,8 +23,8 @@ const socket = io("http://localhost:3000", { path: "/socket.io" });
 function Homepage() {
   const router = useRouter();
 
-  const { isAuthenticated, currentUser } = useContext(Context)!;
-  const [state, setState] = useObjectState<HomepageProps>({
+  const { isAuthenticated, currentUser, setState } = useContext(Context)!;
+  const [state, updateHomepageState] = useObjectState<HomepageProps>({
     currentChatUsers: [],
     isChatShownOnSmallScreen: false,
     isLoading: false,
@@ -72,11 +72,7 @@ function Homepage() {
   }, [messages]);
 
   useEffect(() => {
-    Notification.requestPermission().then((permission) => {
-      if (permission === "granted") {
-        console.log("permission granted");
-      }
-    });
+    Notification.requestPermission().catch(err => setState({errorMessage: err}))
   }, []);
 
   useEffect(() => {
@@ -89,7 +85,7 @@ function Homepage() {
       const chatUser = state.userList.find(
         (user) => user.username === mostRecentUsername,
       );
-      setState({ selectedUser: chatUser });
+      updateHomepageState({ selectedUser: chatUser });
     }
   }, [recentChats]);
 
@@ -99,7 +95,7 @@ function Homepage() {
 
     if (res.ok) {
       const data = await res.json();
-      setState({ userList: data });
+      updateHomepageState({ userList: data });
     }
   };
 
@@ -111,33 +107,31 @@ function Homepage() {
           : -1,
       )
       .filter((index) => index !== -1);
-    setState({ searchedResultsIndexes: results, searchedIndex: 0 });
+    updateHomepageState({ searchedResultsIndexes: results, searchedIndex: 0 });
   };
 
   const goToNextResult = () => {
-    if (state.searchedIndex < state.searchedResultsIndexes.length - 1) {
-      setState({ searchedIndex: state.searchedIndex + 1 });
-    } else {
-      setState({ searchedIndex: 0 });
-    }
-  }
+    const nextIndex =
+      (state.searchedIndex + 1) % state.searchedResultsIndexes.length ;
+    updateHomepageState({ searchedIndex: nextIndex });
+  };
 
   useEffect(() => {
     handleSearch(state.searchedText);
   }, [state.searchedText, messages]);
 
   useEffect(() => {
-    fetchUsers();
-    fetchFromDatabase("messages", setMessages);
+    fetchUsers().catch(err => setState({errorMessage: err}))
+    fetchFromDatabase("messages", setMessages).catch(err => setState({errorMessage: err}))
   }, []);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       const handleResize = () => {
         if (window.innerWidth < 400) {
-          setState({ isSmallScreen: true });
+          updateHomepageState({ isSmallScreen: true });
         } else {
-          setState({ isSmallScreen: false, isChatShownOnSmallScreen: false });
+          updateHomepageState({ isSmallScreen: false, isChatShownOnSmallScreen: false });
         }
       };
 
@@ -154,7 +148,7 @@ function Homepage() {
       router.push("/login");
     }
     socket.emit("register", currentUserId?.username);
-    setState({ isLoading: false });
+    updateHomepageState({ isLoading: false });
   }, [isAuthenticated, currentUserId]);
 
   useEffect(() => {
@@ -168,7 +162,6 @@ function Homepage() {
       setMessages((prevState) => [...prevState, newMessage]);
 
       if (currentUser !== msg.sender) {
-        console.log("sent notification");
         new Notification(`New message from ${msg.sender}`, {
           body: msg.content,
         });
@@ -189,7 +182,7 @@ function Homepage() {
       try {
         await saveMessageToDatabase(payload);
 
-        setState({
+        updateHomepageState({
           sentMessage: "",
           isSending: false,
         });
@@ -203,18 +196,18 @@ function Homepage() {
   };
 
   const handleSelectUser = (user: UserProps) => {
-    setState({
+    updateHomepageState({
       selectedUser: user,
       isChatShownOnSmallScreen: state.isSmallScreen
         ? true
         : state.isChatShownOnSmallScreen,
     });
-    fetchFromDatabase("messages", setMessages);
+    fetchFromDatabase("messages", setMessages).catch(err => setState({errorMessage: err}))
   };
 
   const showGoBack = state.isSmallScreen && state.isChatShownOnSmallScreen && (
     <div
-      onClick={() => setState({ isChatShownOnSmallScreen: false })}
+      onClick={() => updateHomepageState({ isChatShownOnSmallScreen: false })}
       className="cursor-pointer hover:scale-95 duration-300"
     >
       <img src="/assets/arrow-back.png" alt="go-back-arrow" className="w-6" />
@@ -291,7 +284,7 @@ function Homepage() {
                       placeholder="Search in conversation..."
                       value={state.searchedText}
                       onChange={(e) =>
-                        setState({ searchedText: e.target.value })
+                        updateHomepageState({ searchedText: e.target.value })
                       }
                     />
                     <button onClick={goToNextResult}>Next</button>
@@ -310,7 +303,7 @@ function Homepage() {
             </div>
           </div>
           <MessageInput
-            setState={setState}
+            setState={updateHomepageState}
             state={state}
             sendMessage={sendMessage}
             recentChats={recentChats}
