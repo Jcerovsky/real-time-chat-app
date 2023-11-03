@@ -115,13 +115,15 @@ function Homepage() {
   };
 
   const goToNextResult = () => {
-    setState({
-      searchedIndex:
-        state.searchedIndex < state.searchedResultsIndexes.length - 1
-          ? state.searchedIndex + 1
-          : 0,
-    });
+    if (state.searchedIndex < state.searchedResultsIndexes.length - 1) {
+      setState({ searchedIndex: state.searchedIndex + 1 });
+    } else {
+      setState({ searchedIndex: 0 });
+    }
   };
+
+  console.log("results found", state.searchedResultsIndexes);
+  console.log("current index", state.searchedIndex);
 
   useEffect(() => {
     handleSearch(state.searchedText);
@@ -303,7 +305,8 @@ function Homepage() {
               <Messages
                 currentUserId={currentUserId}
                 messages={messages}
-                searchedResultIndex={state.searchedResultsIndexes}
+                searchedResultIndexes={state.searchedResultsIndexes}
+                searchedResultIndex={state.searchedIndex}
                 filteredMessages={filteredMessages}
                 setMessages={setMessages}
                 state={state}

@@ -10,9 +10,10 @@ interface I {
   messages: MessageProps[];
   currentUserId: UserProps | undefined;
   filteredMessages: MessageProps[];
-  searchedResultIndex: number[];
+  searchedResultIndexes: number[];
   state: HomepageProps;
   setMessages: React.Dispatch<React.SetStateAction<MessageProps[]>>;
+  setState: (newState: Partial<HomepageProps>) => void;
 }
 
 export interface EditedMessageProps extends MessageProps {
@@ -25,7 +26,7 @@ function Messages({
   setMessages,
   filteredMessages,
   state,
-  searchedResultIndex,
+  searchedResultIndexes,
 }: I) {
   useEffect(() => {
     if (lastMessageRef.current) {
@@ -63,15 +64,11 @@ function Messages({
   }, []);
 
   useEffect(() => {
-    if (
-      searchedResultIndex.length > 0 &&
-      messageRefs.current[searchedResultIndex[0]]
-    ) {
-      messageRefs.current[searchedResultIndex[0]]?.scrollIntoView({
-        behavior: "smooth",
-      });
+    const index = searchedResultIndexes[state.searchedIndex];
+    if (index !== undefined && messageRefs.current[index]) {
+      messageRefs.current[index]?.scrollIntoView({ behavior: "smooth" });
     }
-  }, [searchedResultIndex]);
+  }, [searchedResultIndexes, state.searchedIndex]);
 
   const handleSelectMessage = (msg: MessageProps) => {
     setMenuState((prevState) => ({
@@ -186,7 +183,7 @@ function Messages({
                   }
                 }}
                 className={`${
-                  searchedResultIndex.includes(i) &&
+                  searchedResultIndexes.includes(i) &&
                   state.searchedText.length > 0
                     ? "text-yellow-500"
                     : ""
