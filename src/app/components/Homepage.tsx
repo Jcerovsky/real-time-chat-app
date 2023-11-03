@@ -17,6 +17,7 @@ import {
 } from "@/app/interfaces/interfaces";
 import { saveMessageToDatabase } from "@/app/utils/saveMessageToDatabase";
 import { fetchFromDatabase } from "@/app/utils/fetchFromDatabase";
+import Image from "next/image";
 
 const socket = io("http://localhost:3000", { path: "/socket.io" });
 
@@ -225,7 +226,12 @@ function Homepage() {
       onClick={() => updateHomepageState({ isChatShownOnSmallScreen: false })}
       className="cursor-pointer hover:scale-95 duration-300"
     >
-      <img src="/assets/arrow-back.png" alt="go-back-arrow" className="w-6" />
+      <Image
+        src="/assets/arrow-back.png"
+        alt="go-back-arrow"
+        width={24}
+        height={24}
+      />
     </div>
   );
 
@@ -241,10 +247,12 @@ function Homepage() {
     if (recentChats.length === 0 && !state.selectedUser) {
       return (
         <div className="flex flex-col items-center justify-center h-full p-10 text-center">
-          <img
+          <Image
             src="/assets/empty-chat-icon.png"
             alt="No Chats"
-            className="w-24 h-24 mb-5"
+            width={96}
+            height={96}
+            className="mb-5"
           />
           <h2 className="text-2xl font-bold text-gray-700 dark:text-gray-300">
             No Recent Chats
