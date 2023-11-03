@@ -75,7 +75,7 @@ function Homepage() {
     Notification.requestPermission().catch((err) =>
       setState({ errorMessage: err }),
     );
-  }, []);
+  }, [setState]);
 
   useEffect(() => {
     if (recentChats.length > 0 && !state.selectedUser) {
@@ -89,7 +89,13 @@ function Homepage() {
       );
       updateHomepageState({ selectedUser: chatUser });
     }
-  }, [recentChats]);
+  }, [
+    recentChats,
+    state.selectedUser,
+    currentUserId?.username,
+    updateHomepageState,
+    state.userList,
+  ]);
 
   const fetchUsers = async () => {
     const API_URL = process.env.API_URL || "http://localhost:3000";

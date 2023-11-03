@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef, useContext } from "react";
 import { Context } from "@/app/context/Context";
 import { MessageProps, UserProps } from "@/app/interfaces/interfaces";
 import UserLogo from "@/app/components/UserLogo";
+import Image from "next/image";
 
 interface I {
   userList: UserProps[];
@@ -57,10 +58,12 @@ function Users({ userList, handleSelectUser, recentChats }: I) {
           value={searchedUser}
           onChange={(e) => setSearchedUser(e.target.value)}
         />
-        <img
+        <Image
           src="/assets/chat.png"
           alt="users-chat-img"
-          className="absolute right-2 top-1 w-6"
+          className="absolute right-2 top-1"
+          width={25}
+          height={25}
         />
       </div>
       {searchedUser && userToShow.length > 0 && (
