@@ -5,6 +5,7 @@ import { Context } from "@/app/context/Context";
 import { useRouter } from "next/navigation";
 import Toggle from "@/app/components/Toggle";
 import UserLogo from "@/app/components/UserLogo";
+import Image from "next/image";
 
 function Navbar() {
   const router = useRouter();
@@ -67,17 +68,21 @@ function Navbar() {
         <h2 className="text-3xl text-white font-extrabold tracking-tight">
           ChitChat
         </h2>
-        <img
+        <Image
           src="/assets/chat-bubble.png"
           alt="chat-bubble-img"
-          className="w-12 duration-300 hover:rotate-12"
+          width={40}
+          height={40}
+          className=" duration-300 hover:rotate-12"
         />
       </div>
       {isSmallerScreen ? (
-        <img
+        <Image
           src="/assets/menu-bar.png"
           alt="menu-bar"
-          className="w-8 cursor-pointer hover:scale-95"
+          width={30}
+          height={30}
+          className=" cursor-pointer hover:scale-95"
           onClick={() => setIsMenuShown((prevState) => !prevState)}
         />
       ) : (
