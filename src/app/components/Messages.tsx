@@ -13,7 +13,6 @@ interface I {
   searchedResultIndexes: number[];
   state: HomepageProps;
   setMessages: React.Dispatch<React.SetStateAction<MessageProps[]>>;
-  setState: (newState: Partial<HomepageProps>) => void;
 }
 
 export interface EditedMessageProps extends MessageProps {
@@ -142,8 +141,8 @@ function Messages({
     });
   };
 
-  const handleCopyText = (msg: string) => {
-    navigator.clipboard.writeText(msg);
+  const handleCopyText = async (msg: string) => {
+    await navigator.clipboard.writeText(msg)
     setMenuState({ id: "", visible: false });
   };
 
