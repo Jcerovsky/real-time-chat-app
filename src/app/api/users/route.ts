@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 import User from "@/app/models/User";
 
-async function handler(req: NextRequest, res: NextResponse) {
+async function handler(req: NextRequest) {
   await connectDb();
   const incomingUrl = req.headers.get("X-Custom-Referer");
 

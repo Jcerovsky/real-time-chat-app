@@ -9,7 +9,7 @@ interface IMessage {
   _id?: string;
 }
 
-const handler = async (req: NextRequest, res: NextResponse) => {
+const handler = async (req: NextRequest) => {
   try {
     await connectDb();
   } catch (err) {
