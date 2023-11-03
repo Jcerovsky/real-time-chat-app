@@ -17,6 +17,7 @@ import {
 } from "@/app/interfaces/interfaces";
 import { saveMessageToDatabase } from "@/app/utils/saveMessageToDatabase";
 import { fetchFromDatabase } from "@/app/utils/fetchFromDatabase";
+import Image from "next/image";
 
 const socket = io("http://localhost:3000", { path: "/socket.io" });
 
@@ -107,26 +108,40 @@ function Homepage() {
     }
   };
 
-  const handleSearch = (searchedText: string) => {
-    const results = filteredMessages
-      .map((msg, index) =>
-        msg.content.toLowerCase().includes(searchedText.toLowerCase())
-          ? index
-          : -1,
-      )
-      .filter((index) => index !== -1);
-    updateHomepageState({ searchedResultsIndexes: results, searchedIndex: 0 });
-  };
+  const filteredMessages = messages.filter(
+    (msg) =>
+      (msg.to === state.selectedUser?.username &&
+        msg.sender === currentUserId?.username) ||
+      (msg.sender === state.selectedUser?.username &&
+        msg.to === currentUserId?.username),
+  );
+
+  const handleSearch = useCallback(
+    (searchedText: string) => {
+      const results = filteredMessages
+        .map((msg, index) =>
+          msg.content.toLowerCase().includes(searchedText.toLowerCase())
+            ? index
+            : -1,
+        )
+        .filter((index) => index !== -1);
+      updateHomepageState({
+        searchedResultsIndexes: results,
+        searchedIndex: 0,
+      });
+    },
+    [filteredMessages, updateHomepageState],
+  );
+
+  useEffect(() => {
+    handleSearch(state.searchedText);
+  }, [state.searchedText, messages, handleSearch]);
 
   const goToNextResult = () => {
     const nextIndex =
       (state.searchedIndex + 1) % state.searchedResultsIndexes.length;
     updateHomepageState({ searchedIndex: nextIndex });
   };
-
-  useEffect(() => {
-    handleSearch(state.searchedText);
-  }, [state.searchedText, messages]);
 
   useEffect(() => {
     fetchUsers().catch((err) => setState({ errorMessage: err }));
@@ -154,7 +169,7 @@ function Homepage() {
         window.removeEventListener("resize", handleResize);
       };
     }
-  }, []);
+  }, [updateHomepageState]);
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -203,7 +218,7 @@ function Homepage() {
         socket.emit("message", payload);
         await fetchFromDatabase("messages", setMessages);
       } catch (err) {
-        console.log("Could not save to database:", err);
+        setState({ errorMessage: err as string });
       }
     }
   };
@@ -225,26 +240,25 @@ function Homepage() {
       onClick={() => updateHomepageState({ isChatShownOnSmallScreen: false })}
       className="cursor-pointer hover:scale-95 duration-300"
     >
-      <img src="/assets/arrow-back.png" alt="go-back-arrow" className="w-6" />
+      <Image
+        src="/assets/arrow-back.png"
+        alt="go-back-arrow"
+        width={24}
+        height={24}
+      />
     </div>
-  );
-
-  const filteredMessages = messages.filter(
-    (msg) =>
-      (msg.to === state.selectedUser?.username &&
-        msg.sender === currentUserId?.username) ||
-      (msg.sender === state.selectedUser?.username &&
-        msg.to === currentUserId?.username),
   );
 
   const NoRecentChats = () => {
     if (recentChats.length === 0 && !state.selectedUser) {
       return (
         <div className="flex flex-col items-center justify-center h-full p-10 text-center">
-          <img
+          <Image
             src="/assets/empty-chat-icon.png"
             alt="No Chats"
-            className="w-24 h-24 mb-5"
+            width={96}
+            height={96}
+            className=" mb-5"
           />
           <h2 className="text-2xl font-bold text-gray-700 dark:text-gray-300">
             No Recent Chats
