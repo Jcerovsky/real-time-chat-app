@@ -98,7 +98,7 @@ function Homepage() {
     state.userList,
   ]);
 
-  const fetchUsers = async () => {
+  const fetchUsers = useCallback(async () => {
     const API_URL = process.env.API_URL || "http://localhost:3000";
     const res = await fetch(`${API_URL}/api/users`);
 
@@ -106,7 +106,7 @@ function Homepage() {
       const data = await res.json();
       updateHomepageState({ userList: data });
     }
-  };
+  }, [updateHomepageState]);
 
   const filteredMessages = messages.filter(
     (msg) =>
@@ -148,7 +148,7 @@ function Homepage() {
     fetchFromDatabase("messages", setMessages).catch((err) =>
       setState({ errorMessage: err }),
     );
-  }, []);
+  }, [fetchUsers, setState]);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -177,7 +177,7 @@ function Homepage() {
     }
     socket.emit("register", currentUserId?.username);
     updateHomepageState({ isLoading: false });
-  }, [isAuthenticated, currentUserId]);
+  }, [isAuthenticated, currentUserId, updateHomepageState, router]);
 
   useEffect(() => {
     socket.on("receive_message", (msg) => {
@@ -197,7 +197,7 @@ function Homepage() {
     });
 
     return () => void socket.off("receive_message");
-  }, [socket]);
+  }, [currentUser]);
 
   const sendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
