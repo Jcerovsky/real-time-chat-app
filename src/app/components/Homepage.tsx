@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { Context } from "@/app/context/Context";
 import { useRouter } from "next/navigation";
 import Loading from "@/app/loading";
@@ -45,7 +45,7 @@ function Homepage() {
     (user) => user.username === currentUser,
   );
 
-  const createRecentConversations = () => {
+  const createRecentConversations = useCallback(() => {
     let uniqueConversations: MessageProps[] = [];
     let uniqueUser: { [key: string]: boolean } = {};
     const sortedRecentMessages = messages
@@ -65,14 +65,16 @@ function Homepage() {
       }
     });
     setRecentChats(uniqueConversations);
-  };
+  }, [currentUserId, messages]);
 
   useEffect(() => {
     createRecentConversations();
-  }, [messages]);
+  }, [createRecentConversations]);
 
   useEffect(() => {
-    Notification.requestPermission().catch(err => setState({errorMessage: err}))
+    Notification.requestPermission().catch((err) =>
+      setState({ errorMessage: err }),
+    );
   }, []);
 
   useEffect(() => {
@@ -112,7 +114,7 @@ function Homepage() {
 
   const goToNextResult = () => {
     const nextIndex =
-      (state.searchedIndex + 1) % state.searchedResultsIndexes.length ;
+      (state.searchedIndex + 1) % state.searchedResultsIndexes.length;
     updateHomepageState({ searchedIndex: nextIndex });
   };
 
@@ -121,8 +123,10 @@ function Homepage() {
   }, [state.searchedText, messages]);
 
   useEffect(() => {
-    fetchUsers().catch(err => setState({errorMessage: err}))
-    fetchFromDatabase("messages", setMessages).catch(err => setState({errorMessage: err}))
+    fetchUsers().catch((err) => setState({ errorMessage: err }));
+    fetchFromDatabase("messages", setMessages).catch((err) =>
+      setState({ errorMessage: err }),
+    );
   }, []);
 
   useEffect(() => {
@@ -131,7 +135,10 @@ function Homepage() {
         if (window.innerWidth < 400) {
           updateHomepageState({ isSmallScreen: true });
         } else {
-          updateHomepageState({ isSmallScreen: false, isChatShownOnSmallScreen: false });
+          updateHomepageState({
+            isSmallScreen: false,
+            isChatShownOnSmallScreen: false,
+          });
         }
       };
 
@@ -202,7 +209,9 @@ function Homepage() {
         ? true
         : state.isChatShownOnSmallScreen,
     });
-    fetchFromDatabase("messages", setMessages).catch(err => setState({errorMessage: err}))
+    fetchFromDatabase("messages", setMessages).catch((err) =>
+      setState({ errorMessage: err }),
+    );
   };
 
   const showGoBack = state.isSmallScreen && state.isChatShownOnSmallScreen && (
