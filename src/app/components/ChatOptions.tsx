@@ -2,11 +2,19 @@ import React, { useState } from "react";
 import Image from "next/image";
 
 interface I {
-  value: string;
+  currentSearchIndex: number;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleClick: () => void;
+  handleClick: (direction: string) => void;
+  totalSearchedResults: number[];
+  value: string;
 }
-function ChatOptions({ value, handleChange, handleClick }: I) {
+function ChatOptions({
+  value,
+  handleChange,
+  handleClick,
+  currentSearchIndex,
+  totalSearchedResults,
+}: I) {
   const [isMenuShown, setIsMenuShown] = useState<boolean>(false);
 
   return (
@@ -21,17 +29,35 @@ function ChatOptions({ value, handleChange, handleClick }: I) {
       />
       {isMenuShown && (
         <form
-          className="absolute top-4 right-6 shadow rounded-md p-4 bg-white dark:bg-gray-900"
+          className="absolute top-4 right-6 shadow rounded-md p-4 bg-white dark:bg-gray-900 flex items-center gap-2"
           onSubmit={(e) => e.preventDefault()}
         >
           <input
             placeholder="Search in conversation..."
             className="text-xs placeholder:ml-2 py-2 px-4 bg-zinc-50 hover:bg-gray-100 dark:bg-gray-800
-          dark:hover:bg-gray-600 rounded-md truncate w-60 duration-300"
+          dark:hover:bg-gray-600 rounded-md truncate w-60 duration-300 "
             value={value}
             onChange={handleChange}
           />
-          <button onClick={handleClick}>Next</button>
+          <div className="flex self-center items-center">
+            <p>{currentSearchIndex}/</p>
+            <p>{totalSearchedResults.length}</p>
+          </div>
+
+          <button
+            onClick={() => handleClick("previous")}
+            className={`-rotate-90 text-xl ${
+              currentSearchIndex === 0 && "opacity-50"
+            }`}
+          >
+            {">"}
+          </button>
+          <button
+            onClick={() => handleClick("next")}
+            className="text-xl rotate-90"
+          >
+            {">"}
+          </button>
         </form>
       )}
     </div>

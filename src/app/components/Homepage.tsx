@@ -132,9 +132,11 @@ function Homepage() {
     handleSearch(state.searchedText);
   }, [state.searchedText]);
 
-  const goToNextResult = () => {
+  const goToNextResult = (value: string) => {
+    if (state.searchedIndex === 0 && value === "previous") return;
+    const upOrDown = value === "next" ? 1 : -1;
     const nextIndex =
-      (state.searchedIndex + 1) % state.searchedResultsIndexes.length;
+      (state.searchedIndex + upOrDown) % state.searchedResultsIndexes.length;
     updateHomepageState({ searchedIndex: nextIndex });
   };
 
@@ -309,6 +311,8 @@ function Homepage() {
                       updateHomepageState({ searchedText: e.target.value })
                     }
                     handleClick={goToNextResult}
+                    currentSearchIndex={state.searchedIndex}
+                    totalSearchedResults={state.searchedResultsIndexes}
                   />
                 </div>
               )}
