@@ -1,25 +1,25 @@
 import React from "react";
 
 interface InputProps {
-  placeholder: string;
-  value: string;
   name: string;
+  placeholder: string;
   type?: string;
+  value: string;
 
   setFormData?: (
     newState: Partial<{
-      username: string;
-      password: string;
       confirmPassword?: string;
+      password: string;
+      username: string;
     }>,
   ) => void;
 }
 
 function Input({
-  placeholder,
-  value,
   name,
+  placeholder,
   setFormData,
+  value,
   type = "text",
 }: InputProps) {
   const handleInputChange = (dataToBeChanged: string, value: string) => {

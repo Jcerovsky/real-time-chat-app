@@ -1,14 +1,14 @@
 export interface UserProps {
-  username: string;
   _id: string;
+  username: string;
 }
 
 export interface MessageProps {
-  sender: string;
-  content: string;
-  to: string;
   _id?: string;
+  content: string;
   isEdited?: boolean;
+  sender: string;
+  to: string;
 }
 
 export interface HomepageProps {
@@ -17,10 +17,10 @@ export interface HomepageProps {
   isLoading: boolean;
   isSending: boolean;
   isSmallScreen: boolean;
-  searchedText: string;
-  selectedUser: UserProps | null;
   searchedIndex: number;
   searchedResultsIndexes: number[];
+  searchedText: string;
+  selectedUser: UserProps | null;
   sentMessage: string;
   userList: UserProps[];
 }

@@ -9,7 +9,7 @@ const handle = app.getRequestHandler();
 
 app.prepare().then(() => {
   const server = express();
-  const httpServer = createServer(server);
+  const httpServer = createServer(server)
 
   const io = new Server(httpServer, {
     path: "/socket.io",

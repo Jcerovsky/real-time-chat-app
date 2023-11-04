@@ -3,11 +3,11 @@ import Button from "@/app/components/Button";
 import { HomepageProps, MessageProps } from "@/app/interfaces/interfaces";
 
 interface I {
-  sendMessage: (e: React.FormEvent) => void;
-  state: HomepageProps;
-  setState: (newState: Partial<HomepageProps>) => void;
-  recentChats: MessageProps[];
   isSending: boolean;
+  recentChats: MessageProps[];
+  sendMessage: (e: React.FormEvent) => void;
+  setState: (newState: Partial<HomepageProps>) => void;
+  state: HomepageProps;
 }
 
 function MessageInput({

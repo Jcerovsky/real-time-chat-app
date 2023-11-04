@@ -5,35 +5,35 @@ import useObjectState from "@/app/hooks/useObjectState";
 import getThemeFromLocalStorage from "@/app/utils/getThemeFromLocalStorage";
 
 interface ContextProps {
-  theme: string;
+  currentUser: string;
   errorMessage: string;
   isAuthenticated: boolean;
-  successMessage: string;
-  currentUser: string;
   setState: (state: Partial<ContextProps>) => void;
+  successMessage: string;
+  theme: string;
 }
 
 export const Context = createContext<ContextProps | null>(null);
 
 function ContextProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useObjectState<ContextProps>({
-    theme: getThemeFromLocalStorage("theme"),
-    errorMessage: "",
-    successMessage: "",
     currentUser: "",
+    errorMessage: "",
     isAuthenticated: false,
+    successMessage: "",
+    theme: getThemeFromLocalStorage("theme"),
     setState: () => {},
   });
 
   return (
     <Context.Provider
       value={{
+        currentUser: state.currentUser,
+        errorMessage: state.errorMessage,
+        isAuthenticated: state.isAuthenticated,
+        successMessage: state.successMessage,
         theme: state.theme,
         setState,
-        errorMessage: state.errorMessage,
-        successMessage: state.successMessage,
-        isAuthenticated: state.isAuthenticated,
-        currentUser: state.currentUser,
       }}
     >
       {children}

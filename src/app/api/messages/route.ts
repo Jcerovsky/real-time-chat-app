@@ -3,10 +3,10 @@ import Message from "@/app/models/Message";
 import { NextRequest, NextResponse } from "next/server";
 
 interface IMessage {
-  sender: string;
-  content: string;
-  to: string;
   _id?: string;
+  content: string;
+  sender: string;
+  to: string;
 }
 
 const handler = async (req: NextRequest) => {

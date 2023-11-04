@@ -5,9 +5,9 @@ import UserLogo from "@/app/components/UserLogo";
 import Image from "next/image";
 
 interface I {
-  userList: UserProps[];
   handleSelectUser: (user: UserProps) => void;
   recentChats: MessageProps[];
+  userList: UserProps[];
 }
 
 function Users({ userList, handleSelectUser, recentChats }: I) {

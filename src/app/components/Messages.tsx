@@ -7,12 +7,12 @@ import {
 import MessageActions from "@/app/components/MessageActions";
 
 interface I {
-  messages: MessageProps[];
   currentUserId: UserProps | undefined;
   filteredMessages: MessageProps[];
+  messages: MessageProps[];
   searchedResultIndexes: number[];
-  state: HomepageProps;
   setMessages: React.Dispatch<React.SetStateAction<MessageProps[]>>;
+  state: HomepageProps;
 }
 
 export interface EditedMessageProps extends MessageProps {
