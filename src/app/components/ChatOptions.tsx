@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Image from "next/image";
+import { UserProps } from "@/app/interfaces/interfaces";
+import { Context } from "@/app/context/Context";
 
 interface I {
   currentSearchIndex: number;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleClick: (direction: string) => void;
+  selectedUser: UserProps;
   totalSearchedResults: number[];
   value: string;
 }
@@ -13,10 +16,21 @@ function ChatOptions({
   currentSearchIndex,
   handleChange,
   handleClick,
+  selectedUser,
   totalSearchedResults,
   value,
 }: I) {
   const [isMenuShown, setIsMenuShown] = useState<boolean>(false);
+  const { currentUser } = useContext(Context)!;
+
+  const handleDeleteChat = async () => {
+    const API_URL = process.env.API_URL || "http://localhost:300";
+    const deletedChatUsers = { currentUser, selectedUser };
+    const res = await fetch(`${API_URL}/chat/delete/`, {
+      method: "DELETE",
+      body: JSON.stringify(deletedChatUsers),
+    });
+  };
 
   return (
     <div className="relative ml-auto">
@@ -60,6 +74,12 @@ function ChatOptions({
           </button>
         </form>
       )}
+      <button
+        className="bg-red-500 hover:bg-red-400"
+        onClick={handleDeleteChat}
+      >
+        Delete chat
+      </button>
     </div>
   );
 }

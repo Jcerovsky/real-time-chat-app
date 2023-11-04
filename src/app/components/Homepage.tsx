@@ -313,6 +313,7 @@ function Homepage() {
                     handleClick={goToNextResult}
                     currentSearchIndex={state.searchedIndex}
                     totalSearchedResults={state.searchedResultsIndexes}
+                    selectedUser={state.selectedUser}
                   />
                 </div>
               )}
