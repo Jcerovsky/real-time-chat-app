@@ -184,7 +184,7 @@ function Messages({
                 className={`${
                   searchedResultIndexes.includes(i) &&
                   state.searchedText.length > 0
-                    ? "text-yellow-500"
+                    ? "bg-yellow-200"
                     : ""
                 }`}
               >

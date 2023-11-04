@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Image from "next/image";
-import { MessageProps } from "@/app/interfaces/interfaces";
 
 interface I {
   currentSearchIndex: number;
@@ -9,6 +8,7 @@ interface I {
   totalSearchedResults: number[];
   value: string;
 }
+
 function ChatOptions({
   currentSearchIndex,
   handleChange,
@@ -35,29 +35,28 @@ function ChatOptions({
         >
           <input
             placeholder="Search in conversation..."
-            className="text-xs placeholder:ml-2 py-2 px-4 bg-zinc-50 hover:bg-gray-100 dark:bg-gray-800
-          dark:hover:bg-gray-600 rounded-md truncate w-60 duration-300 "
+            className="text-xs placeholder:ml-2 py-2 px-4 bg-zinc-50 hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-600 rounded-l-md truncate w-60 duration-300 "
             value={value}
             onChange={handleChange}
           />
-          <div className="flex self-center items-center">
-            <p>{currentSearchIndex}/</p>
-            <p>{value.length === 0 ? 0 : totalSearchedResults.length}</p>
+          <div className="flex items-center border-l border-r px-2">
+            <p className="text-xs">{currentSearchIndex}</p>
+            <p className="text-xs">/</p>
+            <p className="text-xs">
+              {value.length === 0 ? 0 : totalSearchedResults.length}
+            </p>
           </div>
-
           <button
             onClick={() => handleClick("previous")}
-            className={`-rotate-90 text-xl ${
-              currentSearchIndex === 0 && "opacity-50"
+            className={`text-xs ${
+              currentSearchIndex === 0 ? "cursor-not-allowed opacity-50" : ""
             }`}
+            disabled={currentSearchIndex === 0}
           >
-            {">"}
+            &#9650;
           </button>
-          <button
-            onClick={() => handleClick("next")}
-            className="text-xl rotate-90"
-          >
-            {">"}
+          <button onClick={() => handleClick("next")} className="text-xs">
+            &#9660;
           </button>
         </form>
       )}
