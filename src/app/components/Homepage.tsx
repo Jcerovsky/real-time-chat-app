@@ -267,7 +267,6 @@ function Homepage() {
   };
 
   if (state.isLoading) return <Loading />;
-  console.log("searhced", state.searchedText);
 
   return (
     <div
