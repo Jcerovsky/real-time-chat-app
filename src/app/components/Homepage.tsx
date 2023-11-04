@@ -111,19 +111,22 @@ function Homepage() {
         msg.to === currentUserId?.username),
   );
 
-  const handleSearch = (searchedText: string) => {
-    const results = filteredMessages
-      .map((msg, index) =>
-        msg.content.toLowerCase().includes(searchedText.toLowerCase())
-          ? index
-          : -1,
-      )
-      .filter((index) => index !== -1);
-    updateHomepageState({
-      searchedResultsIndexes: results,
-      searchedIndex: 0,
-    });
-  };
+  const handleSearch = useCallback(
+    (searchedText: string) => {
+      const results = filteredMessages
+        .map((msg, index) =>
+          msg.content.toLowerCase().includes(searchedText.toLowerCase())
+            ? index
+            : -1,
+        )
+        .filter((index) => index !== -1);
+      updateHomepageState({
+        searchedResultsIndexes: results,
+        searchedIndex: 0,
+      });
+    },
+    [filteredMessages],
+  );
 
   useEffect(() => {
     handleSearch(state.searchedText);
