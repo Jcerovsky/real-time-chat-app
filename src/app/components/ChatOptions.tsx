@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Image from "next/image";
+import { MessageProps } from "@/app/interfaces/interfaces";
 
 interface I {
   currentSearchIndex: number;
@@ -9,11 +10,11 @@ interface I {
   value: string;
 }
 function ChatOptions({
-  value,
+  currentSearchIndex,
   handleChange,
   handleClick,
-  currentSearchIndex,
   totalSearchedResults,
+  value,
 }: I) {
   const [isMenuShown, setIsMenuShown] = useState<boolean>(false);
 
@@ -41,7 +42,7 @@ function ChatOptions({
           />
           <div className="flex self-center items-center">
             <p>{currentSearchIndex}/</p>
-            <p>{totalSearchedResults.length}</p>
+            <p>{value.length === 0 ? 0 : totalSearchedResults.length}</p>
           </div>
 
           <button
