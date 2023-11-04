@@ -65,7 +65,9 @@ function Messages({
   useEffect(() => {
     const index = searchedResultIndexes[state.searchedIndex];
     if (index !== undefined && messageRefs.current[index]) {
-      messageRefs.current[index]?.scrollIntoView({ behavior: "smooth" });
+      messageRefs.current[index]?.scrollIntoView({
+        behavior: "smooth",
+      });
     }
   }, [searchedResultIndexes, state.searchedIndex]);
 

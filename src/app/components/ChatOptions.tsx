@@ -83,14 +83,14 @@ function ChatOptions({
           <button onClick={() => handleClick("next")} className="text-xs">
             &#9660;
           </button>
+          <button
+            className="bg-red-500 hover:bg-red-400 text-sm py-2 px-4 rounded-md w-full"
+            onClick={handleDeleteChat}
+          >
+            Delete chat
+          </button>
         </form>
       )}
-      <button
-        className="bg-red-500 hover:bg-red-400"
-        onClick={handleDeleteChat}
-      >
-        Delete chat
-      </button>
     </div>
   );
 }

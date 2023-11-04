@@ -135,9 +135,16 @@ function Homepage() {
   const goToNextResult = (value: string) => {
     if (state.searchedIndex === 0 && value === "previous") return;
     const upOrDown = value === "next" ? 1 : -1;
-    const nextIndex =
-      (state.searchedIndex + upOrDown) % state.searchedResultsIndexes.length;
-    updateHomepageState({ searchedIndex: nextIndex });
+    if (
+      state.searchedIndex + upOrDown ===
+      state.searchedResultsIndexes.length
+    ) {
+      updateHomepageState({ searchedIndex: state.searchedIndex + upOrDown });
+    } else {
+      const nextIndex =
+        (state.searchedIndex + upOrDown) % state.searchedResultsIndexes.length;
+      updateHomepageState({ searchedIndex: nextIndex });
+    }
   };
 
   useEffect(() => {
