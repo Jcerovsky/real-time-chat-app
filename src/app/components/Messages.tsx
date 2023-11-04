@@ -49,10 +49,11 @@ function Messages({
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
-        messageActionsRef.current &&
-        !messageActionsRef.current.contains(event.target as Node) &&
-        editMsgRef.current &&
-        !editMsgRef.current.contains(event.target as Node)
+        (messageActionsRef.current &&
+          !messageActionsRef.current.contains(event.target as Node) &&
+          editMsgRef.current &&
+          !editMsgRef.current.contains(event.target as Node)) ||
+        (formRef.current && !formRef.current.contains(event.target as Node))
       ) {
         setMenuState({ id: "", visible: false });
         setEditedMsg(null);
@@ -126,24 +127,20 @@ function Messages({
     }
   };
 
-  console.log("edited msg", editedMsg);
-
   const handleEditChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     msg: MessageProps,
   ) => {
-    setEditedMsg((prevState) => {
-      const editedMessage = filteredMessages.find(
-        (message) => message._id === msg._id,
-      );
-      if (!editedMessage) return null;
-      if (!prevState) return null;
-      return {
-        ...editedMessage,
+    const editedMessage = filteredMessages.find(
+      (message) => message._id === msg._id,
+    );
+    if (e.target.value.length > 0) {
+      setEditedMsg({
+        ...editedMessage!,
         content: e.target.value,
         isEdited: true,
-      };
-    });
+      });
+    }
   };
 
   const handleCopyText = async (msg: string) => {
