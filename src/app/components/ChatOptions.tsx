@@ -50,6 +50,7 @@ function ChatOptions({
     if (decision === "confirm") {
       await handleDeleteChat();
     }
+    setIsConfirmingDeletion(false);
   };
 
   return (
