@@ -3,6 +3,7 @@ import Image from "next/image";
 import { MessageProps, UserProps } from "@/app/interfaces/interfaces";
 import { Context } from "@/app/context/Context";
 import { fetchFromDatabase } from "@/app/utils/fetchFromDatabase";
+import DeleteConfirmation from "@/app/components/DeleteConfirmation";
 
 interface I {
   currentSearchIndex: number;
@@ -25,6 +26,8 @@ function ChatOptions({
 }: I) {
   const [isMenuShown, setIsMenuShown] = useState<boolean>(false);
   const { currentUser, setState } = useContext(Context)!;
+  const [isConfirmingDeletion, setIsConfirmingDeletion] =
+    useState<boolean>(false);
 
   const handleDeleteChat = async () => {
     const API_URL = process.env.API_URL || "http://localhost:3000";
@@ -43,6 +46,12 @@ function ChatOptions({
     }
   };
 
+  const confirmDeletion = async (decision: string) => {
+    if (decision === "confirm") {
+      await handleDeleteChat();
+    }
+  };
+
   return (
     <div className="relative ml-auto">
       <Image
@@ -53,6 +62,12 @@ function ChatOptions({
         height={20}
         onClick={() => setIsMenuShown((prevState) => !prevState)}
       />
+      {isConfirmingDeletion && (
+        <DeleteConfirmation
+          user={selectedUser.username}
+          confirmDeletion={confirmDeletion}
+        />
+      )}
       {isMenuShown && (
         <form
           className="absolute top-4 right-6 shadow rounded-md p-4 bg-white dark:bg-gray-900 flex flex-col items-center gap-2"
@@ -88,7 +103,7 @@ function ChatOptions({
           </div>
           <button
             className="bg-red-500 hover:bg-red-400 text-sm py-2 px-4 rounded-md w-full "
-            onClick={handleDeleteChat}
+            onClick={() => setIsConfirmingDeletion((prevState) => !prevState)}
           >
             Delete chat
           </button>
