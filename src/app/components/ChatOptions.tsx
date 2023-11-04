@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { MessageProps, UserProps } from "@/app/interfaces/interfaces";
 import { Context } from "@/app/context/Context";
@@ -28,6 +28,20 @@ function ChatOptions({
   const { currentUser, setState } = useContext(Context)!;
   const [isConfirmingDeletion, setIsConfirmingDeletion] =
     useState<boolean>(false);
+  const confirmDeletionRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (
+        confirmDeletionRef.current &&
+        !confirmDeletionRef.current.contains(e.target as Node)
+      ) {
+        setIsMenuShown(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   const handleDeleteChat = async () => {
     const API_URL = process.env.API_URL || "http://localhost:3000";
@@ -49,6 +63,7 @@ function ChatOptions({
   const confirmDeletion = async (decision: string) => {
     if (decision === "confirm") {
       await handleDeleteChat();
+      setIsMenuShown(false);
     }
     setIsConfirmingDeletion(false);
   };
@@ -73,6 +88,7 @@ function ChatOptions({
         <form
           className="absolute top-4 right-6 shadow rounded-md p-4 bg-white dark:bg-gray-900 flex flex-col items-center gap-2"
           onSubmit={(e) => e.preventDefault()}
+          ref={confirmDeletionRef}
         >
           <div className="flex gap-2 items-center">
             <input
