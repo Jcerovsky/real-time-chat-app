@@ -18,6 +18,7 @@ import {
 import { saveMessageToDatabase } from "@/app/utils/saveMessageToDatabase";
 import { fetchFromDatabase } from "@/app/utils/fetchFromDatabase";
 import Image from "next/image";
+import ChatOptions from "@/app/components/ChatOptions";
 
 const socket = io("http://localhost:3000", { path: "/socket.io" });
 
@@ -110,26 +111,23 @@ function Homepage() {
         msg.to === currentUserId?.username),
   );
 
-  const handleSearch = useCallback(
-    (searchedText: string) => {
-      const results = filteredMessages
-        .map((msg, index) =>
-          msg.content.toLowerCase().includes(searchedText.toLowerCase())
-            ? index
-            : -1,
-        )
-        .filter((index) => index !== -1);
-      updateHomepageState({
-        searchedResultsIndexes: results,
-        searchedIndex: 0,
-      });
-    },
-    [filteredMessages],
-  );
+  const handleSearch = (searchedText: string) => {
+    const results = filteredMessages
+      .map((msg, index) =>
+        msg.content.toLowerCase().includes(searchedText.toLowerCase())
+          ? index
+          : -1,
+      )
+      .filter((index) => index !== -1);
+    updateHomepageState({
+      searchedResultsIndexes: results,
+      searchedIndex: 0,
+    });
+  };
 
   useEffect(() => {
     handleSearch(state.searchedText);
-  }, [messages]);
+  }, [state.searchedText]);
 
   const goToNextResult = () => {
     const nextIndex =
@@ -266,6 +264,7 @@ function Homepage() {
   };
 
   if (state.isLoading) return <Loading />;
+  console.log("searhced", state.searchedText);
 
   return (
     <div
@@ -301,17 +300,14 @@ function Homepage() {
                     style={`${showGoBack && "ml-auto"} mr-2`}
                   />
                   <p>{state.selectedUser.username}</p>
-                  <div>
-                    <input
-                      type="text"
-                      placeholder="Search in conversation..."
-                      value={state.searchedText}
-                      onChange={(e) =>
-                        updateHomepageState({ searchedText: e.target.value })
-                      }
-                    />
-                    <button onClick={goToNextResult}>Next</button>
-                  </div>
+
+                  <ChatOptions
+                    value={state.searchedText}
+                    handleChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      updateHomepageState({ searchedText: e.target.value })
+                    }
+                    handleClick={goToNextResult}
+                  />
                 </div>
               )}
               <NoRecentChats />
