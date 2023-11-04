@@ -258,7 +258,7 @@ function Homepage() {
             alt="No Chats"
             width={96}
             height={96}
-            className=" mb-5"
+            className="mb-5"
           />
           <h2 className="text-2xl font-bold text-gray-700 dark:text-gray-300">
             No Recent Chats
