@@ -5,7 +5,7 @@ import { MessageProps } from "@/app/interfaces/interfaces";
 interface I {
   currentMessage: MessageProps;
   editedMsg: EditedMessageProps;
-  editMsgRef: React.MutableRefObject<HTMLLIElement>;
+  editMsgRef: React.RefObject<HTMLLIElement>;
   filteredMessages: MessageProps[];
   handleCopyText: () => void;
   handleDelete: () => void;

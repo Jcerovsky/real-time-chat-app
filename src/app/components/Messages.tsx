@@ -49,14 +49,29 @@ function Messages({
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
-        (messageActionsRef.current &&
-          !messageActionsRef.current.contains(event.target as Node) &&
-          editMsgRef.current &&
-          !editMsgRef.current.contains(event.target as Node)) ||
-        (formRef.current && !formRef.current.contains(event.target as Node))
+        messageActionsRef.current &&
+        !messageActionsRef.current.contains(event.target as Node) &&
+        editMsgRef.current &&
+        !editMsgRef.current.contains(event.target as Node) &&
+        formRef.current &&
+        !formRef.current.contains(event.target as Node)
+      ) {
+        setEditedMsg(null);
+      }
+      if (
+        editMsgRef.current &&
+        !editMsgRef.current.contains(event.target as Node) &&
+        formRef.current &&
+        !formRef.current.contains(event.target as Node)
       ) {
         setMenuState({ id: "", visible: false });
         setEditedMsg(null);
+      }
+      if (
+        messageActionsRef.current &&
+        !messageActionsRef.current.contains(event.target as Node)
+      ) {
+        setMenuState({ id: "", visible: false });
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
@@ -199,7 +214,7 @@ function Messages({
             menuState.id === message._id &&
             menuState.visible && (
               <MessageActions
-                editedMsg={editedMsg}
+                editedMsg={editedMsg!}
                 editMsgRef={editMsgRef}
                 handleCopyText={() => handleCopyText(message.content)}
                 handleDelete={handleDelete}

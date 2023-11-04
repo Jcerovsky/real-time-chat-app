@@ -41,7 +41,7 @@ function ChatOptions({
       }
       if (
         deleteConfirmationRef.current &&
-        !deleteConfirmationRef.current.contains(e.target as node)
+        !deleteConfirmationRef.current.contains(e.target as Node)
       ) {
         setIsConfirmingDeletion(false);
       }
