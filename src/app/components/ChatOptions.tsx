@@ -1,13 +1,15 @@
 import React, { useContext, useState } from "react";
 import Image from "next/image";
-import { UserProps } from "@/app/interfaces/interfaces";
+import { MessageProps, UserProps } from "@/app/interfaces/interfaces";
 import { Context } from "@/app/context/Context";
 
 interface I {
   currentSearchIndex: number;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleClick: (direction: string) => void;
+  messages: MessageProps[];
   selectedUser: UserProps;
+  setMessages: React.Dispatch<React.SetStateAction<MessageProps[]>>;
   totalSearchedResults: number[];
   value: string;
 }
@@ -16,7 +18,9 @@ function ChatOptions({
   currentSearchIndex,
   handleChange,
   handleClick,
+  messages,
   selectedUser,
+  setMessages,
   totalSearchedResults,
   value,
 }: I) {
@@ -24,12 +28,26 @@ function ChatOptions({
   const { currentUser } = useContext(Context)!;
 
   const handleDeleteChat = async () => {
-    const API_URL = process.env.API_URL || "http://localhost:300";
-    const deletedChatUsers = { currentUser, selectedUser };
-    const res = await fetch(`${API_URL}/chat/delete/`, {
+    const API_URL = process.env.API_URL || "http://localhost:3000";
+    const deletedChatUsers = {
+      currentUser: currentUser,
+      selectedUser: selectedUser,
+    };
+    const res = await fetch(`${API_URL}/api/chat/delete/`, {
       method: "DELETE",
       body: JSON.stringify(deletedChatUsers),
     });
+    if (res.ok) {
+      console.log("successfully deleted");
+      const updatedMessages = messages.filter(
+        (msg) =>
+          msg.sender !== currentUser &&
+          msg.to !== selectedUser.username &&
+          msg.sender !== selectedUser.username &&
+          msg.to !== currentUser,
+      );
+      setMessages(updatedMessages);
+    }
   };
 
   return (

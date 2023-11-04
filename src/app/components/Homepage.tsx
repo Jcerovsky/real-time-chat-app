@@ -310,10 +310,12 @@ function Homepage() {
                     handleChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                       updateHomepageState({ searchedText: e.target.value })
                     }
-                    handleClick={goToNextResult}
                     currentSearchIndex={state.searchedIndex}
-                    totalSearchedResults={state.searchedResultsIndexes}
+                    handleClick={goToNextResult}
+                    messages={messages}
                     selectedUser={state.selectedUser}
+                    setMessages={setMessages}
+                    totalSearchedResults={state.searchedResultsIndexes}
                   />
                 </div>
               )}
