@@ -76,7 +76,7 @@ function Homepage() {
     Notification.requestPermission().catch((err) =>
       setState({ errorMessage: err }),
     );
-  }, [setState]);
+  }, []);
 
   useEffect(() => {
     if (recentChats.length > 0 && !state.selectedUser) {
@@ -90,13 +90,7 @@ function Homepage() {
       );
       updateHomepageState({ selectedUser: chatUser });
     }
-  }, [
-    recentChats,
-    state.selectedUser,
-    currentUserId?.username,
-    updateHomepageState,
-    state.userList,
-  ]);
+  }, [recentChats, currentUserId?.username, state.userList]);
 
   const fetchUsers = async () => {
     const API_URL = process.env.API_URL || "http://localhost:3000";
@@ -130,12 +124,12 @@ function Homepage() {
         searchedIndex: 0,
       });
     },
-    [filteredMessages, updateHomepageState],
+    [filteredMessages],
   );
 
   useEffect(() => {
     handleSearch(state.searchedText);
-  }, [state.searchedText, messages, handleSearch]);
+  }, [messages]);
 
   const goToNextResult = () => {
     const nextIndex =
@@ -169,7 +163,7 @@ function Homepage() {
         window.removeEventListener("resize", handleResize);
       };
     }
-  }, [updateHomepageState]);
+  }, []);
 
   useEffect(() => {
     if (!isAuthenticated) {
