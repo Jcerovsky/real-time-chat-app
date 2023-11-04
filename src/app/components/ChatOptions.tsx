@@ -55,36 +55,39 @@ function ChatOptions({
       />
       {isMenuShown && (
         <form
-          className="absolute top-4 right-6 shadow rounded-md p-4 bg-white dark:bg-gray-900 flex items-center gap-2"
+          className="absolute top-4 right-6 shadow rounded-md p-4 bg-white dark:bg-gray-900 flex flex-col items-center gap-2"
           onSubmit={(e) => e.preventDefault()}
         >
-          <input
-            placeholder="Search in conversation..."
-            className="text-xs placeholder:ml-2 py-2 px-4 bg-zinc-50 hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-600 rounded-l-md truncate w-60 duration-300 "
-            value={value}
-            onChange={handleChange}
-          />
-          <div className="flex items-center border-l border-r px-2">
-            <p className="text-xs">{currentSearchIndex}</p>
-            <p className="text-xs">/</p>
-            <p className="text-xs">
-              {value.length === 0 ? 0 : totalSearchedResults.length}
-            </p>
+          <div className="flex gap-2 items-center">
+            <input
+              placeholder="Search in conversation..."
+              className="text-xs placeholder:ml-2 py-2 px-4 bg-zinc-50 hover:bg-gray-100 dark:bg-gray-800
+              dark:hover:bg-gray-600 rounded-l-md truncate w-60 duration-300 "
+              value={value}
+              onChange={handleChange}
+            />
+            <div className="flex items-center border-l border-r px-2">
+              <p className="text-xs">{currentSearchIndex}</p>
+              <p className="text-xs">/</p>
+              <p className="text-xs">
+                {value.length === 0 ? 0 : totalSearchedResults.length}
+              </p>
+            </div>
+            <button
+              onClick={() => handleClick("previous")}
+              className={`text-xs ${
+                currentSearchIndex === 0 ? "cursor-not-allowed opacity-50" : ""
+              }`}
+              disabled={currentSearchIndex === 0}
+            >
+              &#9650;
+            </button>
+            <button onClick={() => handleClick("next")} className="text-xs">
+              &#9660;
+            </button>
           </div>
           <button
-            onClick={() => handleClick("previous")}
-            className={`text-xs ${
-              currentSearchIndex === 0 ? "cursor-not-allowed opacity-50" : ""
-            }`}
-            disabled={currentSearchIndex === 0}
-          >
-            &#9650;
-          </button>
-          <button onClick={() => handleClick("next")} className="text-xs">
-            &#9660;
-          </button>
-          <button
-            className="bg-red-500 hover:bg-red-400 text-sm py-2 px-4 rounded-md w-full"
+            className="bg-red-500 hover:bg-red-400 text-sm py-2 px-4 rounded-md w-full "
             onClick={handleDeleteChat}
           >
             Delete chat
