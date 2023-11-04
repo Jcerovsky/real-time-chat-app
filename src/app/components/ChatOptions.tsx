@@ -28,7 +28,8 @@ function ChatOptions({
   const { currentUser, setState } = useContext(Context)!;
   const [isConfirmingDeletion, setIsConfirmingDeletion] =
     useState<boolean>(false);
-  const confirmDeletionRef = useRef(null);
+  const confirmDeletionRef = useRef<HTMLFormElement>(null);
+  const deleteConfirmationRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -37,6 +38,12 @@ function ChatOptions({
         !confirmDeletionRef.current.contains(e.target as Node)
       ) {
         setIsMenuShown(false);
+      }
+      if (
+        deleteConfirmationRef.current &&
+        !deleteConfirmationRef.current.contains(e.target as node)
+      ) {
+        setIsConfirmingDeletion(false);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
@@ -82,6 +89,7 @@ function ChatOptions({
         <DeleteConfirmation
           user={selectedUser.username}
           confirmDeletion={confirmDeletion}
+          deleteConfirmationRef={deleteConfirmationRef}
         />
       )}
       {isMenuShown && (

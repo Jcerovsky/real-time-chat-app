@@ -1,13 +1,21 @@
 import React from "react";
 
 interface I {
-  user: string;
+  deleteConfirmationRef: React.RefObject<HTMLDivElement>;
   confirmDeletion: (decision: string) => void;
+  user: string;
 }
 
-function DeleteConfirmation({ user, confirmDeletion }: I) {
+function DeleteConfirmation({
+  confirmDeletion,
+  deleteConfirmationRef,
+  user,
+}: I) {
   return (
-    <div className=" absolute rounded-md p-6 bg-zinc-50 dark:bg-gray-800 flex flex-col right-10 w-[20rem] top-36">
+    <div
+      className=" absolute rounded-md p-6 bg-zinc-50 dark:bg-gray-800 flex flex-col right-10 w-[20rem] top-36"
+      ref={deleteConfirmationRef}
+    >
       <p>
         Are you sure you want to delete your chat with {user}? This action is
         permanent and can not be reversed.
