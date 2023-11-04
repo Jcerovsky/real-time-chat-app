@@ -30,7 +30,7 @@ function ChatOptions({ value, handleChange, handleClick }: I) {
       <Image
         src="/assets/settings-img.png"
         alt="settings-wheel"
-        className="cursor-pointer hover:rotate-90 duration-300"
+        className="cursor-pointer hover:rotate-45 duration-300"
         width={20}
         height={20}
         onClick={() => setIsMenuShown((prevState) => !prevState)}

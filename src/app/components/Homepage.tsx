@@ -101,7 +101,7 @@ function Homepage() {
       const data = await res.json();
       updateHomepageState({ userList: data });
     }
-  }, [updateHomepageState]);
+  }, []);
 
   const filteredMessages = messages.filter(
     (msg) =>
@@ -143,7 +143,7 @@ function Homepage() {
     fetchFromDatabase("messages", setMessages).catch((err) =>
       setState({ errorMessage: err }),
     );
-  }, [fetchUsers, setState]);
+  }, []);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -172,7 +172,7 @@ function Homepage() {
     }
     socket.emit("register", currentUserId?.username);
     updateHomepageState({ isLoading: false });
-  }, [isAuthenticated, currentUserId, updateHomepageState, router]);
+  }, [isAuthenticated, currentUserId, router]);
 
   useEffect(() => {
     socket.on("receive_message", (msg) => {
