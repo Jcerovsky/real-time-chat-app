@@ -312,7 +312,6 @@ function Homepage() {
                     }
                     currentSearchIndex={state.searchedIndex}
                     handleClick={goToNextResult}
-                    messages={messages}
                     selectedUser={state.selectedUser}
                     setMessages={setMessages}
                     totalSearchedResults={state.searchedResultsIndexes}

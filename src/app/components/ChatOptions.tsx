@@ -2,12 +2,12 @@ import React, { useContext, useState } from "react";
 import Image from "next/image";
 import { MessageProps, UserProps } from "@/app/interfaces/interfaces";
 import { Context } from "@/app/context/Context";
+import { fetchFromDatabase } from "@/app/utils/fetchFromDatabase";
 
 interface I {
   currentSearchIndex: number;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleClick: (direction: string) => void;
-  messages: MessageProps[];
   selectedUser: UserProps;
   setMessages: React.Dispatch<React.SetStateAction<MessageProps[]>>;
   totalSearchedResults: number[];
@@ -18,14 +18,13 @@ function ChatOptions({
   currentSearchIndex,
   handleChange,
   handleClick,
-  messages,
   selectedUser,
   setMessages,
   totalSearchedResults,
   value,
 }: I) {
   const [isMenuShown, setIsMenuShown] = useState<boolean>(false);
-  const { currentUser } = useContext(Context)!;
+  const { currentUser, setState } = useContext(Context)!;
 
   const handleDeleteChat = async () => {
     const API_URL = process.env.API_URL || "http://localhost:3000";
@@ -38,15 +37,9 @@ function ChatOptions({
       body: JSON.stringify(deletedChatUsers),
     });
     if (res.ok) {
-      console.log("successfully deleted");
-      const updatedMessages = messages.filter(
-        (msg) =>
-          msg.sender !== currentUser &&
-          msg.to !== selectedUser.username &&
-          msg.sender !== selectedUser.username &&
-          msg.to !== currentUser,
+      fetchFromDatabase("messages", setMessages).catch((err) =>
+        setState({ errorMessage: err }),
       );
-      setMessages(updatedMessages);
     }
   };
 
