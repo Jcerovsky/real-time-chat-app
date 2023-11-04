@@ -4,24 +4,26 @@ import { MessageProps } from "@/app/interfaces/interfaces";
 
 interface I {
   currentMessage: MessageProps;
+  editedMsg: EditedMessageProps;
+  editMsgRef: React.MutableRefObject<HTMLLIElement>;
   filteredMessages: MessageProps[];
   handleCopyText: () => void;
   handleDelete: () => void;
   index: number;
   messageActionsRef: React.RefObject<HTMLDivElement>;
   setEditedMsg: React.Dispatch<React.SetStateAction<EditedMessageProps | null>>;
-  editedMsg: EditedMessageProps;
 }
 
 function MessageActions({
   currentMessage,
+  editedMsg,
+  editMsgRef,
   filteredMessages,
   handleCopyText,
   handleDelete,
   index,
   messageActionsRef,
   setEditedMsg,
-  editedMsg,
 }: I) {
   const lastMessageStyle =
     filteredMessages.length - 1 === index
@@ -58,6 +60,7 @@ function MessageActions({
         <li
           className={`${lastMessageStyle} p-1 rounded-md  border-b-2`}
           onClick={handleEdit}
+          ref={editMsgRef}
         >
           Edit
         </li>

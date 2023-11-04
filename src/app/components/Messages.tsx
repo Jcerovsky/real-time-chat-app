@@ -44,18 +44,18 @@ function Messages({
   const formRef = useRef<HTMLFormElement>(null);
   const messageActionsRef = useRef<HTMLDivElement>(null);
   const messageRefs = useRef<(HTMLParagraphElement | null)[]>([]);
+  const editMsgRef = useRef<HTMLLIElement>(null);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      // if (formRef.current && !formRef.current.contains(event.target as Node)) {
-      //   setEditedMsg(null);
-      // }   this is the issue
       if (
         messageActionsRef.current &&
-        formRef.current &&
-        !messageActionsRef.current.contains(event.target as Node)
+        !messageActionsRef.current.contains(event.target as Node) &&
+        editMsgRef.current &&
+        !editMsgRef.current.contains(event.target as Node)
       ) {
         setMenuState({ id: "", visible: false });
+        setEditedMsg(null);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
@@ -203,6 +203,7 @@ function Messages({
             menuState.visible && (
               <MessageActions
                 editedMsg={editedMsg}
+                editMsgRef={editMsgRef}
                 handleCopyText={() => handleCopyText(message.content)}
                 handleDelete={handleDelete}
                 setEditedMsg={setEditedMsg}
