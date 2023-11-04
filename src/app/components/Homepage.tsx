@@ -18,6 +18,7 @@ import {
 import { saveMessageToDatabase } from "@/app/utils/saveMessageToDatabase";
 import { fetchFromDatabase } from "@/app/utils/fetchFromDatabase";
 import Image from "next/image";
+import ChatOptions from "@/app/components/ChatOptions";
 
 const socket = io("http://localhost:3000", { path: "/socket.io" });
 
@@ -76,7 +77,7 @@ function Homepage() {
     Notification.requestPermission().catch((err) =>
       setState({ errorMessage: err }),
     );
-  }, [setState]);
+  }, []);
 
   useEffect(() => {
     if (recentChats.length > 0 && !state.selectedUser) {
@@ -90,13 +91,7 @@ function Homepage() {
       );
       updateHomepageState({ selectedUser: chatUser });
     }
-  }, [
-    recentChats,
-    state.selectedUser,
-    currentUserId?.username,
-    updateHomepageState,
-    state.userList,
-  ]);
+  }, [recentChats, currentUserId?.username, state.userList]);
 
   const fetchUsers = useCallback(async () => {
     const API_URL = process.env.API_URL || "http://localhost:3000";
@@ -130,12 +125,12 @@ function Homepage() {
         searchedIndex: 0,
       });
     },
-    [filteredMessages, updateHomepageState],
+    [filteredMessages],
   );
 
   useEffect(() => {
     handleSearch(state.searchedText);
-  }, [state.searchedText, messages, handleSearch]);
+  }, [state.searchedText]);
 
   const goToNextResult = () => {
     const nextIndex =
@@ -169,7 +164,7 @@ function Homepage() {
         window.removeEventListener("resize", handleResize);
       };
     }
-  }, [updateHomepageState]);
+  }, []);
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -272,6 +267,7 @@ function Homepage() {
   };
 
   if (state.isLoading) return <Loading />;
+  console.log("searhced", state.searchedText);
 
   return (
     <div
@@ -307,17 +303,14 @@ function Homepage() {
                     style={`${showGoBack && "ml-auto"} mr-2`}
                   />
                   <p>{state.selectedUser.username}</p>
-                  <div>
-                    <input
-                      type="text"
-                      placeholder="Search in conversation..."
-                      value={state.searchedText}
-                      onChange={(e) =>
-                        updateHomepageState({ searchedText: e.target.value })
-                      }
-                    />
-                    <button onClick={goToNextResult}>Next</button>
-                  </div>
+
+                  <ChatOptions
+                    value={state.searchedText}
+                    handleChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      updateHomepageState({ searchedText: e.target.value })
+                    }
+                    handleClick={goToNextResult}
+                  />
                 </div>
               )}
               <NoRecentChats />

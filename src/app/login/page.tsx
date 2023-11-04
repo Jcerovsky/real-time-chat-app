@@ -11,8 +11,8 @@ import ErrorMessage from "@/app/components/ErrorMessage";
 import { Context } from "@/app/context/Context";
 function Page() {
   const [formData, setFormData] = useObjectState<FormProps>({
-    username: "",
     password: "",
+    username: "",
   });
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
 
@@ -37,9 +37,9 @@ function Page() {
       setIsSubmitted(true);
       router.push("/");
       setState({
+        currentUser: formData.username,
         errorMessage: "",
         isAuthenticated: true,
-        currentUser: formData.username,
       });
     }
   };

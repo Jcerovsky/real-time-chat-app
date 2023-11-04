@@ -3,23 +3,23 @@ import { EditedMessageProps } from "@/app/components/Messages";
 import { MessageProps } from "@/app/interfaces/interfaces";
 
 interface I {
-  handleDelete: () => void;
-  handleCopyText: () => void;
-  setEditedMsg: React.Dispatch<React.SetStateAction<EditedMessageProps | null>>;
   currentMessage: MessageProps;
-  messageActionsRef: React.RefObject<HTMLDivElement>;
   filteredMessages: MessageProps[];
+  handleCopyText: () => void;
+  handleDelete: () => void;
   index: number;
+  messageActionsRef: React.RefObject<HTMLDivElement>;
+  setEditedMsg: React.Dispatch<React.SetStateAction<EditedMessageProps | null>>;
 }
 
 function MessageActions({
-  handleDelete,
-  handleCopyText,
-  setEditedMsg,
   currentMessage,
-  messageActionsRef,
   filteredMessages,
+  handleCopyText,
+  handleDelete,
   index,
+  messageActionsRef,
+  setEditedMsg,
 }: I) {
   const handleEditClick = (e: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
     e.stopPropagation();
