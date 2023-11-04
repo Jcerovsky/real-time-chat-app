@@ -47,11 +47,12 @@ function Messages({
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (formRef.current && !formRef.current.contains(event.target as Node)) {
-        setEditedMsg(null);
-      }
+      // if (formRef.current && !formRef.current.contains(event.target as Node)) {
+      //   setEditedMsg(null);
+      // }   this is the issue
       if (
         messageActionsRef.current &&
+        formRef.current &&
         !messageActionsRef.current.contains(event.target as Node)
       ) {
         setMenuState({ id: "", visible: false });
@@ -125,6 +126,8 @@ function Messages({
     }
   };
 
+  console.log("edited msg", editedMsg);
+
   const handleEditChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     msg: MessageProps,
@@ -138,7 +141,7 @@ function Messages({
       return {
         ...editedMessage,
         content: e.target.value,
-        isEdited: editedMsg?.isEdited ?? true,
+        isEdited: true,
       };
     });
   };
@@ -199,6 +202,7 @@ function Messages({
             menuState.id === message._id &&
             menuState.visible && (
               <MessageActions
+                editedMsg={editedMsg}
                 handleCopyText={() => handleCopyText(message.content)}
                 handleDelete={handleDelete}
                 setEditedMsg={setEditedMsg}

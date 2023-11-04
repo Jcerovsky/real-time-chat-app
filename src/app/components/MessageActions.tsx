@@ -10,6 +10,7 @@ interface I {
   index: number;
   messageActionsRef: React.RefObject<HTMLDivElement>;
   setEditedMsg: React.Dispatch<React.SetStateAction<EditedMessageProps | null>>;
+  editedMsg: EditedMessageProps;
 }
 
 function MessageActions({
@@ -20,21 +21,26 @@ function MessageActions({
   index,
   messageActionsRef,
   setEditedMsg,
+  editedMsg,
 }: I) {
-  const handleEditClick = (e: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
-    e.stopPropagation();
-    if (filteredMessages.length - 1 === index) {
-      setEditedMsg({
-        ...currentMessage,
-        isEdited: !currentMessage.isEdited,
-      });
-    }
-  };
-
   const lastMessageStyle =
     filteredMessages.length - 1 === index
       ? "cursor-pointer hover:bg-blue-700 transition-colors duration-300"
       : "opacity-50";
+
+  const handleEdit = () => {
+    if (editedMsg === null) {
+      setEditedMsg({
+        ...currentMessage,
+        isEdited: currentMessage.isEdited !== true,
+      });
+    } else {
+      setEditedMsg({
+        ...currentMessage,
+        isEdited: !editedMsg.isEdited,
+      });
+    }
+  };
 
   return (
     <div
@@ -51,7 +57,7 @@ function MessageActions({
         </li>
         <li
           className={`${lastMessageStyle} p-1 rounded-md  border-b-2`}
-          onClick={(e) => handleEditClick(e)}
+          onClick={handleEdit}
         >
           Edit
         </li>
