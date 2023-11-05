@@ -39,6 +39,11 @@ function Messages({
     visible: false,
   });
 
+  const [isMsgInfoVisible, setIsMsgInfoVisible] = useState<{
+    id: string;
+    visible: boolean;
+  } | null>(null);
+
   const [editedMsg, setEditedMsg] = useState<EditedMessageProps | null>(null);
 
   const lastMessageRef = useRef<HTMLDivElement>(null);
@@ -217,18 +222,27 @@ function Messages({
                       ? "bg-yellow-300 text-black"
                       : ""
                   }`}
+                  onMouseEnter={() =>
+                    setIsMsgInfoVisible({ id: message._id!, visible: true })
+                  }
+                  onMouseLeave={() =>
+                    setIsMsgInfoVisible({ id: message._id!, visible: false })
+                  }
                 >
                   {message.content}
                 </p>
-                <p
-                  className={`text-xs opacity-50 absolute top-8 ${
-                    message.sender === currentUserId?.username
-                      ? "right-0"
-                      : "left-0"
-                  }`}
-                >
-                  {calculateWhenMessageSent(message.createdAt!)}
-                </p>
+                {isMsgInfoVisible?.id === message._id &&
+                  isMsgInfoVisible?.visible && (
+                    <p
+                      className={`text-xs opacity-50 absolute top-8 ${
+                        message.sender === currentUserId?.username
+                          ? "right-0"
+                          : "left-0"
+                      }`}
+                    >
+                      {calculateWhenMessageSent(message.createdAt!)}
+                    </p>
+                  )}
               </>
             )}
           </div>
