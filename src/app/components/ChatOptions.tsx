@@ -80,7 +80,7 @@ function ChatOptions({
       <Image
         src="/assets/settings-img.png"
         alt="settings-wheel"
-        className="cursor-pointer hover:rotate-45 duration-300"
+        className="cursor-pointer hover:rotate-45 duration-300 bg-zinc-50 rounded-full"
         width={20}
         height={20}
         onClick={() => setIsMenuShown((prevState) => !prevState)}
