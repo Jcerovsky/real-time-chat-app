@@ -4,6 +4,7 @@ import React, { useContext, useState } from "react";
 import Input from "@/app/components/Input";
 import Button from "@/app/components/Button";
 import Link from "next/link";
+import Image from "next/image";
 import useObjectState from "@/app/hooks/useObjectState";
 import { FormProps } from "@/app/signup/page";
 import { usePathname, useRouter } from "next/navigation";
@@ -15,6 +16,7 @@ function Page() {
     username: "",
   });
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
+  const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
 
   const path = usePathname();
   const router = useRouter();
@@ -47,7 +49,7 @@ function Page() {
   return (
     <form
       className="w-full sm:w-3/4 sm:ml-auto sm:mr-auto px-6 py-10 rounded-md bg-white dark:bg-primary-dark
-    max-w-[38rem] sm:mt-10 dark:text-zinc-50 shadow-large"
+    max-w-[38rem] sm:mt-10 dark:text-zinc-50 shadow-large "
       onSubmit={handleSubmit}
     >
       <h1 className="text-2xl text-center">
@@ -65,13 +67,24 @@ function Page() {
         name="username"
         setFormData={setFormData}
       />
-      <Input
-        placeholder="Password "
-        value={formData.password.trim()}
-        name="password"
-        setFormData={setFormData}
-        type={"password"}
-      />
+      <div className="relative">
+        <Input
+          placeholder="Password "
+          value={formData.password.trim()}
+          name="password"
+          setFormData={setFormData}
+          type={isPasswordVisible ? "text" : "password"}
+        />
+        <Image
+          className="absolute top-4 right-6 cursor-pointer"
+          onMouseDown={() => setIsPasswordVisible(true)}
+          onMouseUp={() => setIsPasswordVisible(false)}
+          width={24}
+          height={24}
+          src={`/assets/${isPasswordVisible ? "crossed-" : ""}eye-icon.png`}
+          alt="eye-icon"
+        />
+      </div>
       <Button customStyle="mt-5 w-full py-3 px-4" isDisabled={isSubmitted}>
         Log in
       </Button>
