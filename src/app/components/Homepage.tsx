@@ -183,6 +183,7 @@ function Homepage() {
   }, [isAuthenticated, currentUserId, router]);
 
   useEffect(() => {
+    console.log("socke receive messaget");
     socket.on("receive_message", (msg) => {
       const newMessage = {
         sender: msg.sender,
@@ -198,11 +199,13 @@ function Homepage() {
         });
       }
     });
-
+    ``;
     return () => void socket.off("receive_message");
   }, [currentUser]);
 
   const sendMessage = async (e: React.FormEvent) => {
+    console.log("socke send messaget");
+
     e.preventDefault();
     if (currentUserId && state.selectedUser?.username) {
       const payload = {

@@ -21,7 +21,7 @@ export default function RootLayout({
     <html lang="en">
       <ContextProvider>
         <body
-          className={`${roboto.className} bg-zinc-50 dark:bg-[#0F242D] duration-300`}
+          className={`${roboto.className} bg-zinc-50 dark:bg-[#0F242D] duration-300 min-w-[15rem]`}
         >
           <Navbar />
           {children}
