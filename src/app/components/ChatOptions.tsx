@@ -94,15 +94,16 @@ function ChatOptions({
       )}
       {isMenuShown && (
         <form
-          className="absolute top-0 right-14 shadow rounded-md p-4 bg-white dark:bg-gray-900 flex flex-col flex-shrink items-center gap-2"
+          className="absolute top-0 right-14 shadow rounded-md p-4 bg-white dark:bg-gray-900 flex flex-col flex-shrink
+          items-center gap-2 w-[10rem] sm:w-[20rem]"
           onSubmit={(e) => e.preventDefault()}
           ref={confirmDeletionRef}
         >
-          <div className="flex gap-2 items-center">
+          <div className="flex flex-col sm:flex-row gap-2 items-center justify-center w-full">
             <input
               placeholder="Search in conversation..."
               className="text-xs placeholder:ml-2 py-2 px-4 bg-zinc-50 hover:bg-gray-100 dark:bg-gray-800
-              dark:hover:bg-gray-600 rounded-l-md truncate w-60 duration-300 "
+              dark:hover:bg-gray-600 rounded-md truncate duration-300 w-full "
               value={value}
               onChange={handleChange}
             />

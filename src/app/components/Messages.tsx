@@ -96,7 +96,7 @@ function Messages({
         if (grandparent && grandparent.parentElement) {
           grandparent.parentElement.scrollTop += 100;
         }
-      }, 200);
+      }, 2000);
     }
   }, [searchedResultIndexes, state.searchedIndex]);
 
