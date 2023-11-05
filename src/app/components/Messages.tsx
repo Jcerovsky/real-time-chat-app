@@ -5,7 +5,7 @@ import {
   UserProps,
 } from "@/app/interfaces/interfaces";
 import MessageActions from "@/app/components/MessageActions";
-import { element } from "prop-types";
+import calculateWhenMessageSent from "@/app/utils/calculateWhenMessageSent";
 
 interface I {
   currentUserId: UserProps | undefined;
@@ -180,7 +180,7 @@ function Messages({
       {filteredMessages.map((message, i) => (
         <div
           key={i}
-          className={`flex mb-2 font-medium relative ${
+          className={`flex mb-6 font-medium relative ${
             message.sender === currentUserId?.username
               ? "justify-end"
               : "justify-start"
@@ -204,21 +204,32 @@ function Messages({
                 />
               </form>
             ) : (
-              <p
-                ref={(el) => {
-                  if (messageRefs.current) {
-                    messageRefs.current[i] = el;
-                  }
-                }}
-                className={`${
-                  searchedResultIndexes.includes(i) &&
-                  state.searchedText.length > 0
-                    ? "bg-yellow-300 text-black"
-                    : ""
-                }`}
-              >
-                {message.content}
-              </p>
+              <>
+                <p
+                  ref={(el) => {
+                    if (messageRefs.current) {
+                      messageRefs.current[i] = el;
+                    }
+                  }}
+                  className={`${
+                    searchedResultIndexes.includes(i) &&
+                    state.searchedText.length > 0
+                      ? "bg-yellow-300 text-black"
+                      : ""
+                  }`}
+                >
+                  {message.content}
+                </p>
+                <p
+                  className={`text-xs opacity-50 absolute top-8 ${
+                    message.sender === currentUserId?.username
+                      ? "right-0"
+                      : "left-0"
+                  }`}
+                >
+                  {calculateWhenMessageSent(message.createdAt!)}
+                </p>
+              </>
             )}
           </div>
           {i === filteredMessages.length - 1 && <div ref={lastMessageRef} />}

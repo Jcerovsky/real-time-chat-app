@@ -6,6 +6,7 @@ export interface UserProps {
 export interface MessageProps {
   _id?: string;
   content: string;
+  createdAt?: Date;
   isEdited?: boolean;
   sender: string;
   to: string;
