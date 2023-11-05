@@ -10,14 +10,7 @@ interface IMessage {
 }
 
 const handler = async (req: NextRequest) => {
-  try {
-    await connectDb();
-  } catch (err) {
-    return NextResponse.json(
-      { error: "Could not connect to database" },
-      { status: 500 },
-    );
-  }
+  await connectDb();
 
   if (req.method === "POST") {
     try {

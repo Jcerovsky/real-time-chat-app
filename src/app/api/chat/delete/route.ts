@@ -3,18 +3,12 @@ import { NextRequest, NextResponse } from "next/server";
 import Message from "@/app/models/Message";
 
 export async function DELETE(req: NextRequest) {
-  try {
-    await connectDb();
-  } catch (error) {
-    return NextResponse.json(
-      { error: "Could not connect to database" },
-      { status: 500 },
-    );
-  }
+  await connectDb();
+
   try {
     const userData = await req.json();
 
-    await Message.deleteMany({
+    await Message.deleteOne({
       $or: [
         {
           sender: userData.currentUser,
@@ -30,7 +24,7 @@ export async function DELETE(req: NextRequest) {
   } catch (error) {
     return NextResponse.json(
       { message: "Could not delete chat:", error },
-      { status: 500 },
+      { status: 400 },
     );
   }
 }

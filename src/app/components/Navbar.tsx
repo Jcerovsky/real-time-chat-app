@@ -78,6 +78,9 @@ function Navbar() {
         )}
         <Toggle />
         <UserLogo user={currentUser} />
+        <div>
+          <p>Delete account</p>
+        </div>
       </div>
     );
   };
