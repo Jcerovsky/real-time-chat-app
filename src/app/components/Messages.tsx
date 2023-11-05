@@ -195,7 +195,7 @@ function Messages({
             className={`rounded-lg py-1 px-2 cursor-pointer ${
               message.sender === currentUserId?.username
                 ? "bg-blue-400"
-                : "bg-gray-300"
+                : "bg-gray-400"
             }`}
             onClick={() => handleSelectMessage(message)}
           >
