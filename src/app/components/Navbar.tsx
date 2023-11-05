@@ -41,13 +41,15 @@ function Navbar() {
     return (
       <div
         className={`${
-          !isMenuShown ? " items-center" : "flex-col-reverse gap-2 items-end "
+          !isMenuShown
+            ? " items-center"
+            : "flex-col-reverse gap-3 items-center "
         } flex space-x-4 md:space-x-6 transition-all duration-500 ease-in-out `}
       >
         {isAuthenticated && (
           <p
             className={`
-              cursor-pointer  hover:text-gray-300 transition-colors duration-300 ${
+              cursor-pointer  hover:text-gray-300 transition-colors duration-300  ${
                 isMenuShown ? "text-gray-800" : "text-white"
               }
             `}
@@ -63,7 +65,7 @@ function Navbar() {
   };
 
   return (
-    <nav className="px-10 py-4 bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 flex justify-between items-center shadow-lg">
+    <nav className=" px-5 py-4 bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 flex justify-between items-center shadow-lg">
       <div className="flex items-center space-x-4 relative">
         <h2 className="text-3xl text-white font-extrabold tracking-tight">
           ChitChat
@@ -89,7 +91,7 @@ function Navbar() {
         <NavbarItems />
       )}
       {isMenuShown && isSmallerScreen && (
-        <div className=" absolute right-5 top-16 z-30 p-5 rounded-lg bg-blue-100 dark:bg-blue-300 text-white w-32 shadow">
+        <div className=" absolute right-5 top-16 z-30 p-5 rounded-lg bg-blue-100 dark:bg-blue-300 text-white w-42 shadow">
           <NavbarItems />
         </div>
       )}

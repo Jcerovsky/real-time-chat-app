@@ -2,6 +2,7 @@
 
 import React, { useContext, useEffect } from "react";
 import { Context } from "@/app/context/Context";
+import Image from "next/image";
 
 function Toggle() {
   const { theme, setState } = useContext(Context)!;
@@ -19,8 +20,8 @@ function Toggle() {
   }, [theme]);
 
   return (
-    <label className="flex items-center cursor-pointer gap-2">
-      <img src="/assets/theme-img.png" alt="sun/moon icon" className="w-6" />
+    <label className="flex items-center cursor-pointer gap-2 ">
+      <Image src="/assets/sun-icon.png" alt="sun icon" width={24} height={24} />
       <div className="relative">
         <input
           type="checkbox"
@@ -42,6 +43,12 @@ function Toggle() {
           }`}
         ></div>
       </div>
+      <Image
+        src="/assets/moon-icon.png"
+        alt="moon icon"
+        width={24}
+        height={24}
+      />
     </label>
   );
 }
