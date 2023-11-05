@@ -109,7 +109,7 @@ function ChatOptions({
             />
             <div className="flex items-center border-l border-r px-2">
               <p className="text-xs">
-                {totalSearchedResults.length === 0 ? 0 : currentSearchIndex + 1}
+                {value.length !== 0 ? currentSearchIndex + 1 : 0}
               </p>
               <p className="text-xs">/</p>
               <p className="text-xs">
@@ -125,7 +125,12 @@ function ChatOptions({
             >
               &#9650;
             </button>
-            <button onClick={() => handleClick("next")} className="text-xs">
+            <button
+              onClick={() => handleClick("next")}
+              className={`text-xs ${
+                value.length === 0 ? "cursor-not-allowed opacity-50" : ""
+              }`}
+            >
               &#9660;
             </button>
           </div>
