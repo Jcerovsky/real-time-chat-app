@@ -135,7 +135,7 @@ function ChatOptions({
             </button>
           </div>
           <button
-            className="bg-red-500 hover:bg-red-400 text-sm py-2 px-4 rounded-md w-full "
+            className="bg-red-500 hover:bg-red-400 text-sm py-2 px-4 rounded-md w-full duration-300 text-zinc-50"
             onClick={() => setIsConfirmingDeletion((prevState) => !prevState)}
           >
             Delete chat
