@@ -4,13 +4,13 @@ import React, { useContext, useState } from "react";
 import Input from "@/app/components/Input";
 import Button from "@/app/components/Button";
 import Link from "next/link";
+import Image from "next/image";
 import useObjectState from "@/app/hooks/useObjectState";
 import { usePathname, useRouter } from "next/navigation";
 import { Context } from "@/app/context/Context";
 import ErrorMessage from "@/app/components/ErrorMessage";
 import { comparePassword } from "@/app/utils/comparePassword";
 import Success from "@/app/components/Success";
-import Image from "next/image";
 
 export interface FormProps {
   username: string;

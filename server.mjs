@@ -1,6 +1,6 @@
 import express from "express";
 import next from "next";
-import { createServer } from "http";
+import {createServer} from "http";
 import { Server } from "socket.io";
 
 const dev = process.env.NODE_ENV !== "production";
