@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Context } from "@/app/context/Context";
 import { useRouter } from "next/navigation";
 import Toggle from "@/app/components/Toggle";
@@ -12,6 +12,8 @@ function Navbar() {
   const { isAuthenticated, setState, currentUser } = useContext(Context)!;
   const [isSmallerScreen, setIsSmallerScreen] = useState<boolean>(false);
   const [isMenuShown, setIsMenuShown] = useState<boolean>(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+  const imgRef = useRef<HTMLImageElement>(null);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -36,6 +38,22 @@ function Navbar() {
     setState({ isAuthenticated: !isAuthenticated, currentUser: "" });
     router.push("/login");
   };
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        menuRef.current &&
+        !menuRef.current.contains(event.target as Node) &&
+        imgRef.current &&
+        !imgRef.current.contains(event.target as Node)
+      ) {
+        setIsMenuShown(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  });
 
   const NavbarItems = () => {
     return (
@@ -84,6 +102,7 @@ function Navbar() {
           alt="menu-bar"
           width={30}
           height={30}
+          ref={imgRef}
           className=" cursor-pointer hover:scale-95"
           onClick={() => setIsMenuShown((prevState) => !prevState)}
         />
@@ -91,7 +110,10 @@ function Navbar() {
         <NavbarItems />
       )}
       {isMenuShown && isSmallerScreen && (
-        <div className=" absolute right-5 top-16 z-30 p-5 rounded-lg bg-blue-100 dark:bg-blue-300 text-white w-42 shadow">
+        <div
+          className=" absolute right-5 top-16 z-30 p-5 rounded-lg bg-blue-100 dark:bg-blue-300 text-white w-42 shadow"
+          ref={menuRef}
+        >
           <NavbarItems />
         </div>
       )}
