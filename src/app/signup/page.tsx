@@ -10,6 +10,7 @@ import { Context } from "@/app/context/Context";
 import ErrorMessage from "@/app/components/ErrorMessage";
 import { comparePassword } from "@/app/utils/comparePassword";
 import Success from "@/app/components/Success";
+import Image from "next/image";
 
 export interface FormProps {
   username: string;
@@ -28,6 +29,8 @@ function Page() {
   const router = useRouter();
   const { setState } = useContext(Context)!;
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
+  const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
+  const [isPasswordVisible1, setIsPasswordVisible1] = useState<boolean>(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -92,20 +95,42 @@ function Page() {
         setFormData={setFormData}
         name={"username"}
       />
-      <Input
-        placeholder="Password"
-        value={formData.password}
-        setFormData={setFormData}
-        name="password"
-        type={"password"}
-      />
-      <Input
-        placeholder="Confirm your password"
-        name="confirmPassword"
-        value={formData.confirmPassword!}
-        setFormData={setFormData}
-        type={"password"}
-      />
+      <div className="relative">
+        <Input
+          placeholder="Password "
+          value={formData.password.trim()}
+          name="password"
+          setFormData={setFormData}
+          type={isPasswordVisible ? "text" : "password"}
+        />
+        <Image
+          className="absolute top-4 right-6 cursor-pointer"
+          onMouseDown={() => setIsPasswordVisible(true)}
+          onMouseUp={() => setIsPasswordVisible(false)}
+          width={24}
+          height={24}
+          src={`/assets/${isPasswordVisible ? "crossed-" : ""}eye-icon.png`}
+          alt="eye-icon"
+        />
+      </div>
+      <div className="relative ">
+        <Input
+          placeholder="Confirm your password"
+          name="confirmPassword"
+          value={formData.confirmPassword!}
+          setFormData={setFormData}
+          type={isPasswordVisible1 ? "text" : "password"}
+        />
+        <Image
+          className="absolute top-4 right-6 cursor-pointer"
+          onMouseDown={() => setIsPasswordVisible1(true)}
+          onMouseUp={() => setIsPasswordVisible1(false)}
+          width={24}
+          height={24}
+          src={`/assets/${isPasswordVisible1 ? "crossed-" : ""}eye-icon.png`}
+          alt="eye-icon"
+        />
+      </div>
       <Button customStyle="mt-5 w-full py-3 px-4" isDisabled={isSubmitted}>
         Sign up
       </Button>
