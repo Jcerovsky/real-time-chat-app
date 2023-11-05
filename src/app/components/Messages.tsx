@@ -5,6 +5,7 @@ import {
   UserProps,
 } from "@/app/interfaces/interfaces";
 import MessageActions from "@/app/components/MessageActions";
+import { element } from "prop-types";
 
 interface I {
   currentUserId: UserProps | undefined;
@@ -82,9 +83,20 @@ function Messages({
   useEffect(() => {
     const index = searchedResultIndexes[state.searchedIndex];
     if (index !== undefined && messageRefs.current[index]) {
+      const element = messageRefs.current[index] as HTMLParagraphElement;
+
       messageRefs.current[index]?.scrollIntoView({
         behavior: "smooth",
+        block: "start",
       });
+      const parent = element.parentElement;
+      const grandparent = parent!.parentElement;
+
+      setTimeout(() => {
+        if (grandparent && grandparent.parentElement) {
+          grandparent.parentElement.scrollTop += 100;
+        }
+      }, 200);
     }
   }, [searchedResultIndexes, state.searchedIndex]);
 
@@ -201,7 +213,7 @@ function Messages({
                 className={`${
                   searchedResultIndexes.includes(i) &&
                   state.searchedText.length > 0
-                    ? "bg-yellow-200"
+                    ? "bg-yellow-300 text-black"
                     : ""
                 }`}
               >

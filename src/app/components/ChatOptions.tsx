@@ -94,7 +94,7 @@ function ChatOptions({
       )}
       {isMenuShown && (
         <form
-          className="absolute top-4 right-6 shadow rounded-md p-4 bg-white dark:bg-gray-900 flex flex-col items-center gap-2"
+          className="absolute top-0 right-14 shadow rounded-md p-4 bg-white dark:bg-gray-900 flex flex-col flex-shrink items-center gap-2"
           onSubmit={(e) => e.preventDefault()}
           ref={confirmDeletionRef}
         >
@@ -107,7 +107,9 @@ function ChatOptions({
               onChange={handleChange}
             />
             <div className="flex items-center border-l border-r px-2">
-              <p className="text-xs">{currentSearchIndex}</p>
+              <p className="text-xs">
+                {totalSearchedResults.length === 0 ? 0 : currentSearchIndex + 1}
+              </p>
               <p className="text-xs">/</p>
               <p className="text-xs">
                 {value.length === 0 ? 0 : totalSearchedResults.length}
