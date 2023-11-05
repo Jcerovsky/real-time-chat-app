@@ -61,9 +61,9 @@ function Users({ userList, handleSelectUser, recentChats }: I) {
         <Image
           src="/assets/chat.png"
           alt="users-chat-img"
-          className="absolute right-2 top-1"
-          width={25}
-          height={25}
+          className="absolute right-2 top-1 bg-zinc-50 rounded-t-md"
+          width={20}
+          height={20}
         />
       </div>
       {searchedUser && userToShow.length > 0 && (
