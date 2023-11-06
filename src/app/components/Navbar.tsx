@@ -69,7 +69,13 @@ function Navbar() {
   const handleDeleteAccount = async () => {
     const API_URL = process.env.API_URL || "http://localhost:3000";
     try {
-      const res = await fetch(`${API_URL}/api/users/delete`);
+      const res = await fetch(`${API_URL}/api/users/delete`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(currentUser),
+      });
       if (res.ok) {
         console.log("user deleted");
       }
