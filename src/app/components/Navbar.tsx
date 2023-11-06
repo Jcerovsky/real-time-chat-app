@@ -115,7 +115,7 @@ function Navbar() {
           <UserLogo user={currentUser} />
           {isDeleteOptionVisible && (
             <div
-              className="absolute top-2 right-10 rounded-md py-2 px-4 cursor-pointer bg-red-500 hover:bg-red-600 text-sm text-white"
+              className="absolute top-0 right-8 w-32 rounded-md py-2 px-4 cursor-pointer bg-red-500 hover:bg-red-600 text-sm text-white"
               onClick={() => setConfirmDeletingUser((prevState) => !prevState)}
             >
               <p>Delete account</p>
