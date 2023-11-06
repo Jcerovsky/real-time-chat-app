@@ -30,12 +30,15 @@ function ChatOptions({
     useState<boolean>(false);
   const confirmDeletionRef = useRef<HTMLFormElement>(null);
   const deleteConfirmationRef = useRef<HTMLDivElement>(null);
+  const settingsWheelRef = useRef<HTMLImageElement>(null);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (
         confirmDeletionRef.current &&
-        !confirmDeletionRef.current.contains(e.target as Node)
+        !confirmDeletionRef.current.contains(e.target as Node) &&
+        settingsWheelRef.current &&
+        !settingsWheelRef.current.contains(e.target as Node)
       ) {
         setIsMenuShown(false);
       }
@@ -84,6 +87,7 @@ function ChatOptions({
         width={30}
         height={30}
         onClick={() => setIsMenuShown((prevState) => !prevState)}
+        ref={settingsWheelRef}
       />
       {isConfirmingDeletion && (
         <DeleteConfirmation
