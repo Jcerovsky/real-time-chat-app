@@ -18,6 +18,8 @@ function Navbar() {
   const deleteConfirmationRef = useRef<HTMLDivElement>(null);
   const [confirmDeletingUser, setConfirmDeletingUser] =
     useState<boolean>(false);
+  const [isDeleteOptionVisible, setIsDeleteOptionVisible] =
+    useState<boolean>(false);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -93,33 +95,42 @@ function Navbar() {
         } flex space-x-4 md:space-x-6 transition-all duration-500 ease-in-out `}
       >
         {isAuthenticated && (
-          <>
-            <div
-              className="rounded-md py-2 px-4 cursor-pointer bg-red-500 hover:bg-red-600 text-sm text-white"
-              onClick={() => setConfirmDeletingUser((prevState) => !prevState)}
-            >
-              <p>Delete account</p>
-            </div>
-            <p
-              className={`
+          <p
+            className={`
               cursor-pointer  hover:text-gray-300 transition-colors duration-300  ${
                 isMenuShown ? "text-gray-800" : "text-white"
               }
             `}
-              onClick={handleSignOut}
-            >
-              Sign out
-            </p>
-          </>
+            onClick={handleSignOut}
+          >
+            Sign out
+          </p>
         )}
         <Toggle />
-        <UserLogo user={currentUser} />
+        <div
+          className="relative"
+          onMouseEnter={() => setIsDeleteOptionVisible(true)}
+          onMouseLeave={() => setIsDeleteOptionVisible(false)}
+        >
+          <UserLogo user={currentUser} />
+          {isDeleteOptionVisible && (
+            <div
+              className="absolute top-2 right-10 rounded-md py-2 px-4 cursor-pointer bg-red-500 hover:bg-red-600 text-sm text-white"
+              onClick={() => setConfirmDeletingUser((prevState) => !prevState)}
+            >
+              <p>Delete account</p>
+            </div>
+          )}
+        </div>
       </div>
     );
   };
 
   return (
-    <nav className=" px-5 py-4 bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 flex justify-between items-center shadow-lg">
+    <nav
+      className=" px-5 py-4 bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 flex justify-between items-center
+    shadow-lg relative"
+    >
       <div className="flex items-center space-x-4 relative">
         <h2 className="text-3xl text-white font-extrabold tracking-tight">
           ChitChat
@@ -131,15 +142,6 @@ function Navbar() {
           height={40}
           className=" duration-300 hover:rotate-12"
         />
-        {confirmDeletingUser && (
-          <DeleteConfirmation
-            confirmDeletion={confirmDeletion}
-            content={
-              "Are you sure you want to delete your account? This action will also delete all messages you sent and it is not reversible."
-            }
-            deleteConfirmationRef={deleteConfirmationRef}
-          />
-        )}
       </div>
       {isSmallerScreen ? (
         <Image
@@ -161,6 +163,15 @@ function Navbar() {
         >
           <NavbarItems />
         </div>
+      )}
+      {confirmDeletingUser && (
+        <DeleteConfirmation
+          confirmDeletion={confirmDeletion}
+          content={
+            "Are you sure you want to delete your account? This action will also delete all messages you sent and it is not reversible."
+          }
+          deleteConfirmationRef={deleteConfirmationRef}
+        />
       )}
     </nav>
   );
