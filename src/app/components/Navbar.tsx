@@ -120,14 +120,14 @@ function Navbar() {
         )}
         <Toggle />
         <div
-          className="relative"
+          className="relative cursor-pointer"
           onMouseEnter={() => setNavbarState({ isDeleteOptionVisible: true })}
           onMouseLeave={() => setNavbarState({ isDeleteOptionVisible: false })}
         >
           <UserLogo user={currentUser} />
           {navbarState.isDeleteOptionVisible && (
             <div
-              className="absolute top-0 right-8 w-32 rounded-md py-2 px-4 cursor-pointer bg-red-500 hover:bg-red-600 text-sm text-white"
+              className="absolute top-8 -right-4 w-32 rounded-md py-2 px-4 cursor-pointer bg-red-500 hover:bg-red-600 text-sm text-white"
               onClick={() =>
                 setNavbarState({
                   confirmDeletingUser: !navbarState.confirmDeletingUser,
