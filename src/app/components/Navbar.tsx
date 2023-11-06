@@ -1,34 +1,35 @@
 "use client";
 
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import { Context } from "@/app/context/Context";
 import { useRouter } from "next/navigation";
 import Toggle from "@/app/components/Toggle";
 import UserLogo from "@/app/components/UserLogo";
 import Image from "next/image";
 import DeleteConfirmation from "@/app/components/DeleteConfirmation";
+import useObjectState from "@/app/hooks/useObjectState";
 
 function Navbar() {
   const router = useRouter();
   const { isAuthenticated, setState, currentUser } = useContext(Context)!;
-  const [isSmallerScreen, setIsSmallerScreen] = useState<boolean>(false);
-  const [isMenuShown, setIsMenuShown] = useState<boolean>(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const imgRef = useRef<HTMLImageElement>(null);
   const deleteConfirmationRef = useRef<HTMLDivElement>(null);
-  const [confirmDeletingUser, setConfirmDeletingUser] =
-    useState<boolean>(false);
-  const [isDeleteOptionVisible, setIsDeleteOptionVisible] =
-    useState<boolean>(false);
+
+  const [navbarState, setNavbarState] = useObjectState({
+    isSmallerScreen: false,
+    isMenuShown: false,
+    confirmDeletingUser: false,
+    isDeleteOptionVisible: false,
+  });
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       const handleResize = () => {
         if (window.innerWidth < 500) {
-          setIsSmallerScreen(true);
+          setNavbarState({ isSmallerScreen: true });
         } else {
-          setIsSmallerScreen(false);
-          setIsMenuShown(false);
+          setNavbarState({ isSmallerScreen: false, isMenuShown: false });
         }
       };
       handleResize();
@@ -47,7 +48,7 @@ function Navbar() {
         imgRef.current &&
         !imgRef.current.contains(event.target as Node)
       ) {
-        setIsMenuShown(false);
+        setNavbarState({ isMenuShown: false });
       }
       if (
         deleteConfirmationRef.current &&
@@ -93,14 +94,14 @@ function Navbar() {
     if (decision === "confirm") {
       await handleDeleteAccount();
     }
-    setConfirmDeletingUser(false);
+    setNavbarState({ confirmDeletingUser: false });
   };
 
   const NavbarItems = () => {
     return (
       <div
         className={`${
-          !isMenuShown
+          !navbarState.isMenuShown
             ? " items-center"
             : "flex-col-reverse gap-3 items-center "
         } flex space-x-4 md:space-x-6 transition-all duration-500 ease-in-out `}
@@ -109,7 +110,7 @@ function Navbar() {
           <p
             className={`
               cursor-pointer  hover:text-gray-300 transition-colors duration-300  ${
-                isMenuShown ? "text-gray-800" : "text-white"
+                navbarState.isMenuShown ? "text-gray-800" : "text-white"
               }
             `}
             onClick={handleSignOut}
@@ -120,14 +121,18 @@ function Navbar() {
         <Toggle />
         <div
           className="relative"
-          onMouseEnter={() => setIsDeleteOptionVisible(true)}
-          onMouseLeave={() => setIsDeleteOptionVisible(false)}
+          onMouseEnter={() => setNavbarState({ isDeleteOptionVisible: true })}
+          onMouseLeave={() => setNavbarState({ isDeleteOptionVisible: false })}
         >
           <UserLogo user={currentUser} />
-          {isDeleteOptionVisible && (
+          {navbarState.isDeleteOptionVisible && (
             <div
               className="absolute top-0 right-8 w-32 rounded-md py-2 px-4 cursor-pointer bg-red-500 hover:bg-red-600 text-sm text-white"
-              onClick={() => setConfirmDeletingUser((prevState) => !prevState)}
+              onClick={() =>
+                setNavbarState({
+                  confirmDeletingUser: !navbarState.confirmDeletingUser,
+                })
+              }
             >
               <p>Delete account</p>
             </div>
@@ -154,7 +159,7 @@ function Navbar() {
           className=" duration-300 hover:rotate-12"
         />
       </div>
-      {isSmallerScreen ? (
+      {navbarState.isSmallerScreen ? (
         <Image
           src="/assets/menu-bar.png"
           alt="menu-bar"
@@ -162,12 +167,14 @@ function Navbar() {
           height={30}
           ref={imgRef}
           className=" cursor-pointer hover:scale-95"
-          onClick={() => setIsMenuShown((prevState) => !prevState)}
+          onClick={() =>
+            setNavbarState({ isMenuShown: !navbarState.isMenuShown })
+          }
         />
       ) : (
         <NavbarItems />
       )}
-      {isMenuShown && isSmallerScreen && (
+      {navbarState.isMenuShown && navbarState.isSmallerScreen && (
         <div
           className=" absolute right-5 top-16 z-30 p-5 rounded-lg bg-blue-100 dark:bg-blue-300 text-white w-42 shadow"
           ref={menuRef}
@@ -175,7 +182,7 @@ function Navbar() {
           <NavbarItems />
         </div>
       )}
-      {confirmDeletingUser && (
+      {navbarState.confirmDeletingUser && (
         <DeleteConfirmation
           confirmDeletion={confirmDeletion}
           content={
