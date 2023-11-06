@@ -1,5 +1,9 @@
 import { NextResponse } from "next/server";
 
 export async function POST(res: NextResponse) {
-  return res.cookies.delete("token");
+  await res.cookies.delete("token");
+  return NextResponse.json(
+    { message: "Successfully signed out" },
+    { status: 200 },
+  );
 }
