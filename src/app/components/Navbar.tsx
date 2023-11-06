@@ -21,6 +21,7 @@ function Navbar() {
     isMenuShown: false,
     confirmDeletingUser: false,
     isDeleteOptionVisible: false,
+    isLoading: false,
   });
 
   useEffect(() => {
@@ -62,12 +63,15 @@ function Navbar() {
   });
 
   const handleSignOut = async () => {
+    setNavbarState({ isLoading: true });
     await fetch("../api/users/signout", { method: "POST" });
     setState({ isAuthenticated: !isAuthenticated, currentUser: "" });
+    setNavbarState({ isLoading: false });
     router.push("/login");
   };
 
   const handleDeleteAccount = async () => {
+    setNavbarState({ isLoading: true });
     const API_URL = process.env.API_URL || "http://localhost:3000";
     try {
       const res = await fetch(`${API_URL}/api/users/delete`, {
@@ -88,6 +92,7 @@ function Navbar() {
     } catch (err) {
       setState({ errorMessage: err as string });
     }
+    setNavbarState({ isLoading: false });
   };
 
   const confirmDeletion = async (decision: string) => {
@@ -108,10 +113,13 @@ function Navbar() {
       >
         {isAuthenticated && (
           <p
-            className={`
-              cursor-pointer  hover:text-gray-300 transition-colors duration-300  ${
-                navbarState.isMenuShown ? "text-gray-800" : "text-white"
-              }
+            className={` hover:text-gray-300 transition-colors duration-300  ${
+              navbarState.isMenuShown ? "text-gray-800" : "text-white"
+            } ${
+              navbarState.isLoading
+                ? "cursor-wait opacity-70"
+                : "cursor-pointer"
+            }
             `}
             onClick={handleSignOut}
           >
@@ -127,7 +135,12 @@ function Navbar() {
           <UserLogo user={currentUser} />
           {navbarState.isDeleteOptionVisible && (
             <div
-              className="absolute top-8 -right-4 w-32 rounded-md py-2 px-4 cursor-pointer bg-red-500 hover:bg-red-600 text-sm text-white"
+              className={`absolute top-8 -right-4 w-32 rounded-md py-2 px-4 bg-red-500 hover:bg-red-600 
+                text-sm text-white ${
+                  navbarState.isLoading
+                    ? "cursor-wait opacity-70"
+                    : "cursor-pointer"
+                } `}
               onClick={() =>
                 setNavbarState({
                   confirmDeletingUser: !navbarState.confirmDeletingUser,
