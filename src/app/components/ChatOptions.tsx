@@ -31,6 +31,7 @@ function ChatOptions({
   const confirmDeletionRef = useRef<HTMLFormElement>(null);
   const deleteConfirmationRef = useRef<HTMLDivElement>(null);
   const settingsWheelRef = useRef<HTMLImageElement>(null);
+  const deleteButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -44,7 +45,9 @@ function ChatOptions({
       }
       if (
         deleteConfirmationRef.current &&
-        !deleteConfirmationRef.current.contains(e.target as Node)
+        !deleteConfirmationRef.current.contains(e.target as Node) &&
+        deleteButtonRef.current &&
+        !deleteButtonRef.current.contains(e.target as Node)
       ) {
         setIsConfirmingDeletion(false);
       }
@@ -141,6 +144,7 @@ function ChatOptions({
           <button
             className="bg-red-500 hover:bg-red-400 text-sm py-2 px-4 rounded-md w-full duration-300 text-zinc-50"
             onClick={() => setIsConfirmingDeletion((prevState) => !prevState)}
+            ref={deleteButtonRef}
           >
             Delete chat
           </button>
