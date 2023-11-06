@@ -77,25 +77,27 @@ function Navbar() {
         } flex space-x-4 md:space-x-6 transition-all duration-500 ease-in-out `}
       >
         {isAuthenticated && (
-          <p
-            className={`
+          <>
+            <p
+              className={`
               cursor-pointer  hover:text-gray-300 transition-colors duration-300  ${
                 isMenuShown ? "text-gray-800" : "text-white"
               }
             `}
-            onClick={handleSignOut}
-          >
-            Sign out
-          </p>
+              onClick={handleSignOut}
+            >
+              Sign out
+            </p>
+            <div
+              className="rounded-md py-2 px-4 cursor-pointer bg-red-500 hover:bg-red-600 text-sm text-white"
+              onClick={handleDeleteAccount}
+            >
+              <p>Delete account</p>
+            </div>
+          </>
         )}
         <Toggle />
         <UserLogo user={currentUser} />
-        <div
-          className="rounded-md py-2 px-4 cursor-pointer bg-red-500 hover:bg-red-600 text-sm text-white"
-          onClick={handleDeleteAccount}
-        >
-          <p>Delete account</p>
-        </div>
       </div>
     );
   };

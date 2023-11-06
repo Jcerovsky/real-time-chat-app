@@ -87,7 +87,7 @@ function ChatOptions({
       />
       {isConfirmingDeletion && (
         <DeleteConfirmation
-          user={selectedUser.username}
+          content={`Are you sure you want to delete your chat with ${selectedUser?.username}? This action is permanent and can not be reversed.`}
           confirmDeletion={confirmDeletion}
           deleteConfirmationRef={deleteConfirmationRef}
         />

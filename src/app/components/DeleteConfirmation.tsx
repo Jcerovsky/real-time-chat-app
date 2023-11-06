@@ -1,15 +1,15 @@
 import React from "react";
 
 interface I {
-  deleteConfirmationRef: React.RefObject<HTMLDivElement>;
   confirmDeletion: (decision: string) => void;
-  user: string;
+  content: string;
+  deleteConfirmationRef: React.RefObject<HTMLDivElement>;
 }
 
 function DeleteConfirmation({
+  content,
   confirmDeletion,
   deleteConfirmationRef,
-  user,
 }: I) {
   return (
     <div
@@ -17,11 +17,7 @@ function DeleteConfirmation({
       flex-col w-[13rem] sm:w-[20rem]"
       ref={deleteConfirmationRef}
     >
-      <p className="text-xs sm:text-sm">
-        Are you sure you want to delete your chat with{" "}
-        <span className="font-bold">{user}</span>? This action is permanent and
-        can not be reversed.
-      </p>
+      <p className="text-xs sm:text-sm">{content}</p>
       <div className="flex justify-between gap-2 mt-4 text-sm">
         <button
           className="cursor-pointer bg-gray-500 hover:bg-gray-600 dark:hover:bg-gray-800 text-zinc-50 rounded-md py-2
