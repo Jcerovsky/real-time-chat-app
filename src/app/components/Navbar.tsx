@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import Toggle from "@/app/components/Toggle";
 import UserLogo from "@/app/components/UserLogo";
 import Image from "next/image";
+import DeleteConfirmation from "@/app/components/DeleteConfirmation";
 
 function Navbar() {
   const router = useRouter();
@@ -14,6 +15,9 @@ function Navbar() {
   const [isMenuShown, setIsMenuShown] = useState<boolean>(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const imgRef = useRef<HTMLImageElement>(null);
+  const deleteConfirmationRef = useRef<HTMLDivElement>(null);
+  const [confirmDeletingUser, setConfirmDeletingUser] =
+    useState<boolean>(false);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -43,6 +47,11 @@ function Navbar() {
       ) {
         setIsMenuShown(false);
       }
+      if (
+        deleteConfirmationRef.current &&
+        !deleteConfirmationRef.current.contains(event.target as Node)
+      ) {
+      }
     };
     document.addEventListener("mousedown", handleClickOutside);
 
@@ -67,6 +76,13 @@ function Navbar() {
     }
   };
 
+  const confirmDeletion = async (decision: string) => {
+    if (decision === "confirm") {
+      await handleDeleteAccount();
+    }
+    setConfirmDeletingUser(false);
+  };
+
   const NavbarItems = () => {
     return (
       <div
@@ -78,6 +94,12 @@ function Navbar() {
       >
         {isAuthenticated && (
           <>
+            <div
+              className="rounded-md py-2 px-4 cursor-pointer bg-red-500 hover:bg-red-600 text-sm text-white"
+              onClick={() => setConfirmDeletingUser((prevState) => !prevState)}
+            >
+              <p>Delete account</p>
+            </div>
             <p
               className={`
               cursor-pointer  hover:text-gray-300 transition-colors duration-300  ${
@@ -88,12 +110,6 @@ function Navbar() {
             >
               Sign out
             </p>
-            <div
-              className="rounded-md py-2 px-4 cursor-pointer bg-red-500 hover:bg-red-600 text-sm text-white"
-              onClick={handleDeleteAccount}
-            >
-              <p>Delete account</p>
-            </div>
           </>
         )}
         <Toggle />
@@ -115,6 +131,15 @@ function Navbar() {
           height={40}
           className=" duration-300 hover:rotate-12"
         />
+        {confirmDeletingUser && (
+          <DeleteConfirmation
+            confirmDeletion={confirmDeletion}
+            content={
+              "Are you sure you want to delete your account? This action will also delete all messages you sent and it is not reversible."
+            }
+            deleteConfirmationRef={deleteConfirmationRef}
+          />
+        )}
       </div>
       {isSmallerScreen ? (
         <Image
