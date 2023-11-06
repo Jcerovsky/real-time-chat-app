@@ -61,7 +61,7 @@ function Navbar() {
   });
 
   const handleSignOut = async () => {
-    await fetch("../api/chat/signout", { method: "POST" });
+    await fetch("../api/users/signout", { method: "POST" });
     setState({ isAuthenticated: !isAuthenticated, currentUser: "" });
     router.push("/login");
   };
@@ -77,7 +77,12 @@ function Navbar() {
         body: JSON.stringify(currentUser),
       });
       if (res.ok) {
-        console.log("user deleted");
+        setState({
+          successMessage: `Account deleted successfully. We're sorry to see you go.`,
+        });
+        setTimeout(() => {
+          handleSignOut();
+        }, 1000);
       }
     } catch (err) {
       setState({ errorMessage: err as string });
