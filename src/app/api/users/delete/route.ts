@@ -7,7 +7,7 @@ export async function POST(req: NextRequest) {
     await connectDb();
   } catch (err) {
     return NextResponse.json(
-      { error: "Could not connect to database:", error },
+      { error: "Could not connect to database:" },
       { status: 500 },
     );
   }

@@ -33,12 +33,6 @@ function Navbar() {
     }
   }, []);
 
-  const handleSignOut = async () => {
-    await fetch("../api/chat/signout", { method: "POST" });
-    setState({ isAuthenticated: !isAuthenticated, currentUser: "" });
-    router.push("/login");
-  };
-
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -54,6 +48,24 @@ function Navbar() {
 
     return () => document.removeEventListener("mousedown", handleClickOutside);
   });
+
+  const handleSignOut = async () => {
+    await fetch("../api/chat/signout", { method: "POST" });
+    setState({ isAuthenticated: !isAuthenticated, currentUser: "" });
+    router.push("/login");
+  };
+
+  const handleDeleteAccount = async () => {
+    const API_URL = process.env.API_URL || "http://localhost:3000";
+    try {
+      const res = await fetch(`${API_URL}/api/users/delete`);
+      if (res.ok) {
+        console.log("user deleted");
+      }
+    } catch (err) {
+      setState({ errorMessage: err as string });
+    }
+  };
 
   const NavbarItems = () => {
     return (
@@ -78,7 +90,10 @@ function Navbar() {
         )}
         <Toggle />
         <UserLogo user={currentUser} />
-        <div>
+        <div
+          className="rounded-md py-2 px-4 cursor-pointer bg-red-500 hover:bg-red-600 text-sm text-white"
+          onClick={handleDeleteAccount}
+        >
           <p>Delete account</p>
         </div>
       </div>
