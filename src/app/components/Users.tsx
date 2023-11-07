@@ -94,7 +94,7 @@ function Users({ userList, handleSelectUser, recentChats }: I) {
           <div
             key={`${chat.to}-${i}-${chat.sender}`}
             className="flex mb-2 p-1 rounded-r-xl items-center gap-2 dark:text-zinc-50 cursor-pointer hover:bg-gray-100
-            dark:hover:bg-gray-600 duration-300 "
+            dark:hover:bg-gray-600 duration-300 relative"
             onClick={() =>
               selectUser(currentUser === chat.sender ? chat.to : chat.sender)
             }
@@ -102,12 +102,12 @@ function Users({ userList, handleSelectUser, recentChats }: I) {
             <UserLogo
               user={currentUser === chat.sender ? chat.to : chat.sender}
             />
-            <div className="flex flex-col text-sm  w-3/4">
+            <div className="flex flex-col text-sm w-3/4">
               <p>{currentUser === chat.sender ? chat.to : chat.sender}</p>
               <p className="truncate opacity-50">{chat.content}</p>
             </div>
             {chat.sender !== currentUser && (
-              <div className="w-3 h-3 dark:bg-white bg-blue-600 rounded-full self-center shrink-0 " />
+              <div className="w-3 h-3 dark:bg-white bg-blue-600 rounded-full self-center shrink-0 absolute -right-3" />
             )}
           </div>
         ))}
