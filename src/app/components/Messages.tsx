@@ -113,8 +113,7 @@ function Messages({
   };
 
   const handleDelete = async () => {
-    const API_URL = process.env.API_URL || "http://localhost:3000";
-    const res = await fetch(`${API_URL}/api/messages`, {
+    const res = await fetch(`/api/messages`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -133,8 +132,7 @@ function Messages({
 
   const handleSendEditedMessage = async (e: React.FormEvent) => {
     e.preventDefault();
-    const API_URL = process.env.API_URL || "http://localhost:3000";
-    const res = await fetch(`${API_URL}/api/messages`, {
+    const res = await fetch(`/api/messages`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
