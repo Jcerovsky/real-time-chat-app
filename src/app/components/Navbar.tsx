@@ -138,8 +138,8 @@ function Navbar() {
           <UserLogo user={currentUser} />
           {navbarState.isDeleteOptionVisible && (
             <DeleteAccount
-              isLoading={navbarState.isLoading}
-              setState={setNavbarState}
+              navbarState={navbarState}
+              setNavbarState={setNavbarState}
             />
           )}
         </div>
