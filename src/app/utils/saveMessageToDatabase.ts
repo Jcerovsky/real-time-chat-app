@@ -1,8 +1,7 @@
 import { MessageProps } from "@/app/interfaces/interfaces";
 
 export const saveMessageToDatabase = async (messageData: MessageProps) => {
-  const API_URL = process.env.API_URL || "http://localhost:3000";
-  const res = await fetch(`${API_URL}/api/messages`, {
+  const res = await fetch(`/api/messages`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
