@@ -138,15 +138,25 @@ function Navbar() {
           </>
         )}
         <Toggle />
-        <div className="relative cursor-pointer">
+        {!navbarState.isSmallerScreen ? (
+          <div
+            className="relative cursor-pointer"
+            onMouseEnter={() => setNavbarState({ isDeleteOptionVisible: true })}
+            onMouseLeave={() =>
+              setNavbarState({ isDeleteOptionVisible: false })
+            }
+          >
+            <UserLogo user={currentUser} />
+            {navbarState.isDeleteOptionVisible && (
+              <DeleteAccount
+                navbarState={navbarState}
+                setNavbarState={setNavbarState}
+              />
+            )}
+          </div>
+        ) : (
           <UserLogo user={currentUser} />
-          {navbarState.isDeleteOptionVisible && (
-            <DeleteAccount
-              navbarState={navbarState}
-              setNavbarState={setNavbarState}
-            />
-          )}
-        </div>
+        )}
       </div>
     );
   };
