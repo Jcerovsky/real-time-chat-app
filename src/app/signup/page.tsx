@@ -46,9 +46,7 @@ function Page() {
         password: formData.password.trim(),
       };
 
-      const API_URL = process.env.API_URL || "http://localhost:3000";
-
-      const res = await fetch(`${API_URL}/api/users`, {
+      const res = await fetch(`/api/users`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -58,8 +56,9 @@ function Page() {
       });
 
       const responseBody = await res.json();
-      if (res.status === 409) {
+      if (!res.ok) {
         setState({ errorMessage: responseBody.error });
+        setIsSubmitted(false);
       } else {
         setState({
           successMessage:

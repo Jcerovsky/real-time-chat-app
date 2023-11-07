@@ -16,7 +16,7 @@ app.prepare().then(() => {
   server.use(cors({origin: '*'}))
 
   const limiter = rateLimit({
-    windowMs: 10*60*1000,
+    windowMs: 100*600*1000,
     max: 100
   })
 
