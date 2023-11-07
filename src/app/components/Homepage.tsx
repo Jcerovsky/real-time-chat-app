@@ -155,7 +155,7 @@ function Homepage() {
   useEffect(() => {
     if (typeof window !== "undefined") {
       const handleResize = () => {
-        if (window.innerWidth < 400) {
+        if (window.innerWidth < 500) {
           updateHomepageState({ isSmallScreen: true });
         } else {
           updateHomepageState({

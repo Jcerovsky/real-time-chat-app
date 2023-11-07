@@ -179,7 +179,7 @@ function Messages({
   };
 
   return (
-    <div className="mt-5 p-4 text-xs sm:text-sm">
+    <div className="mt-5 p-1 sm:p-4 text-xs sm:text-sm min-w-[17.35rem]">
       {filteredMessages.map((message, i) => (
         <div
           key={i}
@@ -232,7 +232,7 @@ function Messages({
                 {isMsgInfoVisible?.id === message._id &&
                   isMsgInfoVisible?.visible && (
                     <p
-                      className={`text-xs opacity-50 absolute top-8 ${
+                      className={`text-xs opacity-50 absolute top-6 sm:top-8 ${
                         message.sender === currentUserId?.username
                           ? "right-0"
                           : "left-0"
