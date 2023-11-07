@@ -64,7 +64,7 @@ function Navbar() {
 
   const handleSignOut = async () => {
     setNavbarState({ isLoading: true });
-    await fetch("../api/users/signout", { method: "POST" });
+    await fetch("/api/users/signout", { method: "POST" });
     setState({ isAuthenticated: !isAuthenticated, currentUser: "" });
     setNavbarState({ isLoading: false });
     router.push("/login");
@@ -72,9 +72,8 @@ function Navbar() {
 
   const handleDeleteAccount = async () => {
     setNavbarState({ isLoading: true });
-    const API_URL = process.env.API_URL || "http://localhost:3000";
     try {
-      const res = await fetch(`${API_URL}/api/users/delete`, {
+      const res = await fetch(`/api/users/delete`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
