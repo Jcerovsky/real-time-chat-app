@@ -25,3 +25,11 @@ export interface HomepageProps {
   sentMessage: string;
   userList: UserProps[];
 }
+
+export interface NavbarProps {
+  isSmallerScreen: boolean;
+  confirmDeletingUser: boolean;
+  isDeleteOptionVisible: boolean;
+  isLoading: boolean;
+  isMenuShown: boolean;
+}

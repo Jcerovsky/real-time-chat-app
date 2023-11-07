@@ -8,6 +8,8 @@ import UserLogo from "@/app/components/UserLogo";
 import Image from "next/image";
 import DeleteConfirmation from "@/app/components/DeleteConfirmation";
 import useObjectState from "@/app/hooks/useObjectState";
+import DeleteAccount from "@/app/components/DeleteAccount";
+import { NavbarProps } from "@/app/interfaces/interfaces";
 
 function Navbar() {
   const router = useRouter();
@@ -16,7 +18,7 @@ function Navbar() {
   const imgRef = useRef<HTMLImageElement>(null);
   const deleteConfirmationRef = useRef<HTMLDivElement>(null);
 
-  const [navbarState, setNavbarState] = useObjectState({
+  const [navbarState, setNavbarState] = useObjectState<NavbarProps>({
     isSmallerScreen: false,
     isMenuShown: false,
     confirmDeletingUser: false,
@@ -111,19 +113,21 @@ function Navbar() {
         } flex space-x-4 md:space-x-6 transition-all duration-500 ease-in-out `}
       >
         {isAuthenticated && (
-          <p
-            className={` hover:text-gray-300 transition-colors duration-300  ${
-              navbarState.isMenuShown ? "text-gray-800" : "text-white"
-            } ${
-              navbarState.isLoading
-                ? "cursor-wait opacity-70"
-                : "cursor-pointer"
-            }
+          <>
+            <p
+              className={` hover:text-gray-300 transition-colors duration-300  ${
+                navbarState.isMenuShown ? "text-gray-800" : "text-white"
+              } ${
+                navbarState.isLoading
+                  ? "cursor-wait opacity-70"
+                  : "cursor-pointer"
+              }
             `}
-            onClick={handleSignOut}
-          >
-            Sign out
-          </p>
+              onClick={handleSignOut}
+            >
+              Sign out
+            </p>
+          </>
         )}
         <Toggle />
         <div
@@ -133,21 +137,10 @@ function Navbar() {
         >
           <UserLogo user={currentUser} />
           {navbarState.isDeleteOptionVisible && (
-            <div
-              className={`absolute top-8 -right-4 w-32 rounded-md py-2 px-4 bg-red-500 hover:bg-red-600 
-                text-sm text-white ${
-                  navbarState.isLoading
-                    ? "cursor-wait opacity-70"
-                    : "cursor-pointer"
-                } `}
-              onClick={() =>
-                setNavbarState({
-                  confirmDeletingUser: !navbarState.confirmDeletingUser,
-                })
-              }
-            >
-              <p>Delete account</p>
-            </div>
+            <DeleteAccount
+              isLoading={navbarState.isLoading}
+              setState={setNavbarState}
+            />
           )}
         </div>
       </div>
@@ -192,6 +185,7 @@ function Navbar() {
           ref={menuRef}
         >
           <NavbarItems />
+          <button>test</button>
         </div>
       )}
       {navbarState.confirmDeletingUser && (
