@@ -9,7 +9,7 @@ interface I {
 function DeleteAccount({ navbarState, setNavbarState }: I) {
   return (
     <div
-      className={`absolute top-8 -right-4 w-32 rounded-md py-2 px-4 bg-red-500 hover:bg-red-600 
+      className={` rounded-md py-2 px-4 bg-red-500 hover:bg-red-600 
                 text-sm text-white ${
                   navbarState.isLoading
                     ? "cursor-wait opacity-70"

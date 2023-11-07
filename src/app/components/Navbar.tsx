@@ -109,11 +109,19 @@ function Navbar() {
         className={`${
           !navbarState.isMenuShown
             ? " items-center"
-            : "flex-col-reverse gap-3 items-center "
-        } flex space-x-4 md:space-x-6 transition-all duration-500 ease-in-out `}
+            : "flex-col-reverse items-center "
+        } flex ${
+          navbarState.isMenuShown ? "gap-3" : "gap-5"
+        } transition-all duration-500 ease-in-out `}
       >
         {isAuthenticated && (
           <>
+            {navbarState.isSmallerScreen && (
+              <DeleteAccount
+                navbarState={navbarState}
+                setNavbarState={setNavbarState}
+              />
+            )}
             <p
               className={` hover:text-gray-300 transition-colors duration-300  ${
                 navbarState.isMenuShown ? "text-gray-800" : "text-white"
@@ -130,11 +138,7 @@ function Navbar() {
           </>
         )}
         <Toggle />
-        <div
-          className="relative cursor-pointer"
-          onMouseEnter={() => setNavbarState({ isDeleteOptionVisible: true })}
-          onMouseLeave={() => setNavbarState({ isDeleteOptionVisible: false })}
-        >
+        <div className="relative cursor-pointer">
           <UserLogo user={currentUser} />
           {navbarState.isDeleteOptionVisible && (
             <DeleteAccount
@@ -185,7 +189,6 @@ function Navbar() {
           ref={menuRef}
         >
           <NavbarItems />
-          <button>test</button>
         </div>
       )}
       {navbarState.confirmDeletingUser && (
