@@ -11,6 +11,8 @@ function DeleteAccount({ navbarState, setNavbarState }: I) {
     <div
       className={` rounded-md py-2 px-4 bg-red-500 hover:bg-red-600 
                 text-sm text-white ${
+                  !navbarState.isSmallerScreen && "absolute top-8 right-4 w-36 "
+                } ${
                   navbarState.isLoading
                     ? "cursor-wait opacity-70"
                     : "cursor-pointer"
