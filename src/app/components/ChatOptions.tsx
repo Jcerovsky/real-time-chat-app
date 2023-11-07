@@ -57,12 +57,11 @@ function ChatOptions({
   }, []);
 
   const handleDeleteChat = async () => {
-    const API_URL = process.env.API_URL || "http://localhost:3000";
     const deletedChatUsers = {
       currentUser: currentUser,
       selectedUser: selectedUser,
     };
-    const res = await fetch(`${API_URL}/api/chat/delete/`, {
+    const res = await fetch(`/api/chat/delete/`, {
       method: "DELETE",
       body: JSON.stringify(deletedChatUsers),
     });

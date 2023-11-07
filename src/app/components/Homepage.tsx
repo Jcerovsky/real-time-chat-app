@@ -94,8 +94,7 @@ function Homepage() {
   }, [recentChats, currentUserId?.username, state.userList]);
 
   const fetchUsers = useCallback(async () => {
-    const API_URL = process.env.API_URL || "http://localhost:3000";
-    const res = await fetch(`${API_URL}/api/users`);
+    const res = await fetch(`/api/users`);
 
     if (res.ok) {
       const data = await res.json();
