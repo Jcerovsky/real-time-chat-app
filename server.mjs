@@ -3,6 +3,7 @@ import next from "next";
 import {createServer} from "http";
 import { Server } from "socket.io";
 import rateLimit from 'express-rate-limit'
+import cors from "cors";
 
 const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
@@ -11,6 +12,8 @@ const handle = app.getRequestHandler();
 app.prepare().then(() => {
   const server = express();
   const httpServer = createServer(server)
+
+  server.use(cors({origin: '*'}))
 
   const limiter = rateLimit({
     windowMs: 10*60*1000,
