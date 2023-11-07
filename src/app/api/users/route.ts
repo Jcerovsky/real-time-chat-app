@@ -71,15 +71,13 @@ async function handler(req: NextRequest) {
         { status: 201 },
       );
     } catch (error: any) {
-      console.error(error)
+      console.error(error);
       const status = error.code === 11000 ? 409 : 500;
-      const errorMessage = error.code === 11000 ? "User with this name already exists" : "An error occurred while creating the user";
+      const errorMessage =
+        error.code === 11000
+          ? "User with this name already exists"
+          : "An error occurred while creating the user";
       return NextResponse.json({ error: errorMessage }, { status });
-    }
-      return NextResponse.json(
-        { error: "An error occurred while creating the user" },
-        { status: 500 },
-      );
     }
   }
 }
