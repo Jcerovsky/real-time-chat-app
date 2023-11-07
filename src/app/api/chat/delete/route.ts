@@ -1,10 +1,7 @@
-import connectDb from "@/app/lib/mongoose";
 import { NextRequest, NextResponse } from "next/server";
 import Message from "@/app/models/Message";
 
 export async function DELETE(req: NextRequest) {
-  await connectDb();
-
   try {
     const userData = await req.json();
 

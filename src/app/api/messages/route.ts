@@ -1,4 +1,3 @@
-import connectDb from "@/app/lib/mongoose";
 import Message from "@/app/models/Message";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -10,8 +9,6 @@ interface IMessage {
 }
 
 const handler = async (req: NextRequest) => {
-  await connectDb();
-
   if (req.method === "POST") {
     try {
       const data: IMessage = await req.json();
