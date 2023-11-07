@@ -1,8 +1,8 @@
 import express from "express";
 import next from "next";
-import {createServer} from "http";
+import { createServer } from "http";
 import { Server } from "socket.io";
-import rateLimit from 'express-rate-limit'
+import rateLimit from "express-rate-limit";
 import cors from "cors";
 
 const dev = process.env.NODE_ENV !== "production";
@@ -11,16 +11,16 @@ const handle = app.getRequestHandler();
 
 app.prepare().then(() => {
   const server = express();
-  const httpServer = createServer(server)
+  const httpServer = createServer(server);
 
-  server.use(cors({origin: '*'}))
+  server.use(cors({ origin: "*" }));
 
   const limiter = rateLimit({
-    windowMs: 100*600*1000,
-    max: 100
-  })
+    windowMs: 100 * 600 * 1000,
+    max: 100,
+  });
 
-  server.use(limiter)
+  server.use(limiter);
 
   const io = new Server(httpServer, {
     path: "/socket.io",
