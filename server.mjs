@@ -14,7 +14,7 @@ app.prepare().then(() => {
 
   const limiter = rateLimit({
     windowMs: 10*60*1000,
-    max: 0
+    max: 100
   })
 
   server.use(limiter)
