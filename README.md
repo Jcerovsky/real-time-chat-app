@@ -26,10 +26,23 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ### Features
 
-- **CRUD operations**: Users can view, add, update and delete their invoices.
-- **Database**: Invoice-pro uses fast and reliable MongoDB database.
-- **Responsive Design**: The application is responsive and works well on both desktop and mobile devices.
-- **Theme**: Users can select between light mode and dark mode depending on their preferences.
+- **Real-Time Interaction**: Engage in conversations with immediate message updates.
+- **Secure Authentication**: Safeguarded login process ensuring user security.
+- **CRUD Operations**: Full control to create, read, update, and delete messages effortlessly.
+- **Account Management**: Easy account creation and deletion at the user's discretion.
+- **Message Management**: Options to copy, edit the last message, or delete messages individually.
+- **Advanced Search**: Quickly find messages within conversations with keyword highlighting.
+- **Conversation Controls**: Options to add users to chats, delete entire conversations, and manage chat privacy.
+- **Notifications**: Real-time alerts to keep users informed of new messages and activities.
+- **Timestamps**: Every message is marked with a precise timestamp for better context.
+- **User Profiles**: View and manage user profiles with ease.
+- **Dark Mode**: Toggle between light and dark themes for a customized visual experience.
+- **Responsive Design**: A fluid layout that adapts seamlessly to desktop and mobile devices.
+- **Database Integrity**: Utilizes a secure and efficient MongoDB database for storing data.
+- **Security Measures**: Enhanced with password hashing and a rate limiter to protect against brute force attacks.
+- **Interactive UI**: An intuitive and user-friendly interface that enhances the user journey.
+- **Minimalist Design**: A clutter-free design that focuses on functionality without compromising on aesthetics.
+
 
 ### Links
 
@@ -37,7 +50,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ### Screenshot
 
-![Screenshot](<./public/screenshots/responsive-messages.png>)
+![Screenshot](<./public/screenshots/responsive-delete-chat.png>)
 
 ### Built with    
 
