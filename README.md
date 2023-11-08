@@ -55,7 +55,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 ### Built with    
 
 - [Node](https://nodejs.org/en/) - JavaScript runtime environment
-- [SocketIo](https://socket.io/) - Real-time bi-directional library
+- [Socket.IO](https://socket.io/) - Real-time bi-directional library
 - [MongoDB](https://www.mongodb.com/) - The Cloud-Native Database
 - [Next.js](https://nextjs.org/) - React Framework
 - [React](https://reactjs.org/) - JS library
